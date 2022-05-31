@@ -7,12 +7,19 @@ $stm = $con->prepare($query);
 if ($stm->execute()) {
     $result = $stm->fetchAll(PDO::FETCH_OBJ);
     foreach ($result as $route) {
-        echo $route->routeId;
-        echo " ";
-        echo $route->routeName;
-        echo "<br/>";
-        echo $route->description;
-        echo "<br/>---------------------<br/>";
+?>
+        <a href="http://localhost/AvansApp/detailpage.php?id=<?php echo $route->routeId; ?>">
+            <?php
+            echo $route->routeId;
+            echo " ";
+            echo $route->routeName;
+            echo "<br/>";
+            echo $route->description;
+            echo "<br/>---------------------<br/>";
+
+            ?>
+        </a>
+<?php
     }
 }
 
