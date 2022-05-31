@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 30 mei 2022 om 16:44
--- Serverversie: 10.4.24-MariaDB
--- PHP-versie: 8.1.6
+-- Generation Time: May 31, 2022 at 12:28 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,80 +18,133 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `avansapp`
+-- Database: `avansapp2`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel ` educations`
+-- Table structure for table `course`
 --
 
-CREATE TABLE ` educations` (
-  `id` int(11) NOT NULL,
-  `name` varchar(65) NOT NULL
+CREATE TABLE `course` (
+  `courseId` int(11) NOT NULL,
+  `courseName` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Gegevens worden geëxporteerd voor tabel ` educations`
+-- Dumping data for table `course`
 --
 
-INSERT INTO ` educations` (`id`, `name`) VALUES
-(1, 'BiM'),
-(2, 'Ti'),
-(3, 'Informatica');
+INSERT INTO `course` (`courseId`, `courseName`) VALUES
+(4, 'Informatica'),
+(1, 'Technische Informatica');
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `routename`
+-- Table structure for table `question`
 --
 
-CREATE TABLE `routename` (
-  `id` int(11) NOT NULL,
+CREATE TABLE `question` (
+  `questionId` int(11) NOT NULL,
+  `question` text NOT NULL,
+  `correctAnswerId` int(11) DEFAULT NULL,
+  `routeId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `question`
+--
+
+INSERT INTO `question` (`questionId`, `question`, `correctAnswerId`, `routeId`) VALUES
+(1, 'Dit is de eerste vraag voor TI', NULL, 1),
+(2, 'Dit is de tweede vraag voor TI', NULL, 1),
+(3, 'Dit is de eerste vraag voor Informatica', NULL, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `route`
+--
+
+CREATE TABLE `route` (
+  `routeId` int(11) NOT NULL,
   `routeName` varchar(50) NOT NULL,
-  `education` varchar(65) NOT NULL
+  `description` text NOT NULL,
+  `courseId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Gegevens worden geëxporteerd voor tabel `routename`
+-- Dumping data for table `route`
 --
 
-INSERT INTO `routename` (`id`, `routeName`, `education`) VALUES
-(1, 'eerste test route', ''),
-(2, 'Tweede test route', '');
+INSERT INTO `route` (`routeId`, `routeName`, `description`, `courseId`) VALUES
+(1, 'Leuke tocht', 'Dit is een hele leuke tocht voor Technische informatica', 1),
+(3, 'Leuke tocht IT', 'Dit is een hele leuke tocht voor informatica', 4);
 
 --
--- Indexen voor geëxporteerde tabellen
---
-
---
--- Indexen voor tabel ` educations`
---
-ALTER TABLE ` educations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexen voor tabel `routename`
---
-ALTER TABLE `routename`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT voor geëxporteerde tabellen
+-- Indexes for dumped tables
 --
 
 --
--- AUTO_INCREMENT voor een tabel ` educations`
+-- Indexes for table `course`
 --
-ALTER TABLE ` educations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `course`
+  ADD PRIMARY KEY (`courseId`),
+  ADD UNIQUE KEY `UQ_course_name` (`courseName`);
 
 --
--- AUTO_INCREMENT voor een tabel `routename`
+-- Indexes for table `question`
 --
-ALTER TABLE `routename`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+ALTER TABLE `question`
+  ADD PRIMARY KEY (`questionId`),
+  ADD KEY `FK_question_routeId` (`routeId`);
+
+--
+-- Indexes for table `route`
+--
+ALTER TABLE `route`
+  ADD PRIMARY KEY (`routeId`),
+  ADD KEY `FK_route_courseId` (`courseId`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `course`
+--
+ALTER TABLE `course`
+  MODIFY `courseId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `question`
+--
+ALTER TABLE `question`
+  MODIFY `questionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `route`
+--
+ALTER TABLE `route`
+  MODIFY `routeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `question`
+--
+ALTER TABLE `question`
+  ADD CONSTRAINT `FK_question_routeId` FOREIGN KEY (`routeId`) REFERENCES `route` (`routeId`);
+
+--
+-- Constraints for table `route`
+--
+ALTER TABLE `route`
+  ADD CONSTRAINT `FK_route_courseId` FOREIGN KEY (`courseId`) REFERENCES `course` (`courseId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
