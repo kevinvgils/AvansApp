@@ -23,6 +23,7 @@ if ($stm->execute()) {
         }
         echo "<br/>";
         echo $route->description;
+        echo "<img src='data:image/jpeg;base64, " . base64_encode($route->picture) . "' alt='No film found' class='card-image'>";
         echo "<br/>---------------------<br/>";
     }
 }
