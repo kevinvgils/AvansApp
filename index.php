@@ -1,57 +1,43 @@
-<?php
-include("databaseconnection.php");
-
-
-$query = "SELECT * FROM `route`";
-$stm = $con->prepare($query);
-if ($stm->execute()) {
-    $result = $stm->fetchAll(PDO::FETCH_OBJ);
-    foreach ($result as $route) {
-        echo $route->routeId;
-        echo " ";
-        echo $route->routeName;
-        echo "<br/>";
-        echo $route->description;
-        echo "<br/>---------------------<br/>";
-    }
-}
-
-
+<?php 
+include("./dataaccess/databaseconnection.php");
+include("./dataaccess/routeData.php")
 ?>
-</br></br></br></br></br>
-<form method="POST">
-    <label>Route naam</label>
-    <input name="txtRouteName" type="text" placeholder="Route naam..." required>
-    </br>
-    <label>Route descriptie</label>
-    <input name="txtRouteDesc" type="text" placeholder="Route description..." required>
-    </br>
-    <label>Route opleiding</label>
-    <select name="dropdowneducation">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="style/style.css">
+    <title>AvansApp</title>
+</head>
+<body>
+    <?php include("templates/header.php"); ?>
+    <main>
+        <div class="wrap row">
         <?php
-        $query2 = "SELECT * FROM `course`";
-        $stm = $con->prepare($query2);
-        if ($stm->execute()) {
-            $result2 = $stm->fetchAll(PDO::FETCH_OBJ);
-            foreach ($result2 as $course) {
-                echo '<option value=" ' . $course->courseId . ' "> ' . $course->courseName . ' </option>';
-            }
-        }
-        ?>
+            foreach (getAllRoutes() as $route) { ?>
+                <div class="item col-12 col-lg-6">
+                    <div class="itemWrap">
+                        <div class="itemHeader">
+                            <h3><?php echo $route->routeName; ?></h3>
+                            <p><?php echo "TODO: aantal vragen" ?></p>
 
-        <select>
-            <br /><input type="submit" name="btnOpslaan" value="Verstuur">
-
-            <?php
-            if (isset($_POST["btnOpslaan"])) {
-                $routeName = $_POST["txtRouteName"];
-                $course = $_POST["dropdowneducation"];
-                $desc = $_POST["txtRouteDesc"];
-
-
-                $query = "INSERT INTO `route`(`routeName`, `description`, `courseId`)" .
-                    "VALUES ('$routeName', '$desc', '$course')";
-                $stm = $con->prepare($query);
-                $stm->execute();
-            }
-            ?>
+                        </div>
+                        <div class="itemContent">
+                            <p><?php echo "TODO: opleiding" ?></p>
+                            <p><?php echo $route->description ?> </p>
+                            <div class="buttonWrap">
+                                <a href="/" class="button">Scores</a>
+                                <a href="/" class="button">Bewerken</a>
+                                <a href="/" class="button">Verwijderen</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        <?php }?>
+        </div>
+    </main>
+</body>
+</html>

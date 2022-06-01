@@ -3,6 +3,8 @@ $host = "localhost";
 $dbname = "avansapp";
 $user = "root";
 $password = ""; 
+
+$con;
 try{
     
 	$con = new PDO("mysql:host=$host;dbname=$dbname",$user,$password);
