@@ -20,20 +20,22 @@ include("./dataaccess/routeData.php")
             foreach (getAllRoutes() as $route) { ?>
                 <div class="item col-12 col-lg-6">
                     <div class="itemWrap">
-                        <div class="itemHeader">
-                            <h3><?php echo $route->routeName; ?></h3>
-                            <p><?php echo "TODO: aantal vragen" ?></p>
-
-                        </div>
-                        <div class="itemContent">
-                            <p><?php echo "TODO: opleiding" ?></p>
-                            <p><?php echo $route->description ?> </p>
-                            <div class="buttonWrap">
-                                <a href="/" class="button">Scores</a>
-                                <a href="/" class="button">Bewerken</a>
-                                <a href="/" class="button">Verwijderen</a>
+                            <a href="detailpage.php?id=<?php echo $route->routeId; ?>" title>
+                                <div class="itemHeader">
+                                    <h3><?php echo $route->routeName; ?></h3>
+                                    <p><?php echo "TODO: aantal vragen" ?></p>
+                                </div>
+                            </a>
+                            <div class="itemContent">
+                                <p><?php echo "TODO: opleiding" ?></p>
+                                <p><?php echo $route->description ?> </p>
+                                <div class="buttonWrap">
+                                    <a href="/" class="button">Scores</a>
+                                    <a href="/" class="button">Bewerken</a>
+                                    <a href="/" class="button">Verwijderen</a>
+                                </div>
                             </div>
-                        </div>
+                        
                     </div>
                 </div>
         <?php }?>

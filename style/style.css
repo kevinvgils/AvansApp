@@ -66,9 +66,20 @@ header .wrap ul li{
   font-weight: bold;
 
 }
+
+.item{
+  margin-bottom: 50px;
+}
 .itemWrap{
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 7px;
+}
+.itemWrap a:hover{
+  color: #fff;
+  text-decoration: none;
+}
+.itemWrap a:hover h3{
+  text-decoration: underline;
 }
 .itemWrap .itemHeader{
   border-radius: 7px 7px 0px 0px;
@@ -81,6 +92,7 @@ header .wrap ul li{
   align-items: center;
 }
 .itemWrap .itemContent{
+  color: #000;
   padding: 15px;
   padding-bottom: 50px;
   position: relative;
