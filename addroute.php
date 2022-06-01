@@ -1,6 +1,7 @@
 <?php
 include("./dataaccess/databaseconnection.php");
 include("./dataaccess/routeData.php");
+include("./dataaccess/courseData.php");
 ?>
 <form method="POST" enctype="multipart/form-data">
     <label>Route naam</label>
@@ -14,14 +15,10 @@ include("./dataaccess/routeData.php");
     <label>Route opleiding</label>
     <select name="dropdowneducation">
         <?php
-        $query2 = "SELECT * FROM `course`";
-        $stm = $con->prepare($query2);
-        if ($stm->execute()) {
-            $result2 = $stm->fetchAll(PDO::FETCH_OBJ);
-            foreach ($result2 as $course) {
-                echo '<option value=" ' . $course->courseId . ' "> ' . $course->courseName . ' </option>';
-            }
+        foreach (getCourses() as $course) {
+            echo '<option value=" ' . $course->courseId . ' "> ' . $course->courseName . ' </option>';
         }
+
         ?>
 
         <select>
