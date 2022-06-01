@@ -1,5 +1,6 @@
 <?php 
-include("databaseconnection.php");
+include("./dataaccess/databaseconnection.php");
+include("./dataaccess/routeData.php")
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,11 +17,7 @@ include("databaseconnection.php");
     <main>
         <div class="wrap row">
         <?php
-        $query = "SELECT * FROM `route`";
-        $stm = $con->prepare($query);
-        if ($stm->execute()) {
-            $result = $stm->fetchAll(PDO::FETCH_OBJ);
-            foreach ($result as $route) { ?>
+            foreach ($allRoutes as $route) { ?>
                 <!-- echo $route->routeId;
                 echo " ";
                 echo $route->routeName;
@@ -45,7 +42,7 @@ include("databaseconnection.php");
                         </div>
                     </div>
                 </div>
-        <?php }}?>
+        <?php }?>
         </div>
     </main>
 </body>
