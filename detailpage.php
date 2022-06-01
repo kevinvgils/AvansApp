@@ -1,5 +1,5 @@
 <?php
-include("databaseconnection.php");
+include("./dataaccess/databaseconnection.php");
 // variable id ophalen uit url
 $somevar = $_GET["id"];
 // query op routeid gebaseert op id uit url
