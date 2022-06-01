@@ -47,14 +47,13 @@ include("./dataaccess/questionData.php");
                         </div>
                     </div>
                     <div class="col-12 questions">
-                        <div class="header">
-                            <p class="large">
-                                <?php echo count(getAllQuestionsForRoute($_GET['id'])); ?> vragen
-                            </p>
-                            <button type="button" onclick="on()" class="btn btn-danger">Voeg vraag toe</button>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                Launch demo modal
+                        <div class="header row">
+                            <button type="button" class="btn btn-danger btn-sm mb-1 col-2" data-toggle="modal" data-target="#myModal">
+                                Voeg vraag toe
                             </button>
+                            <p class="large col-10">
+                                Totaal: <?php echo count(getAllQuestionsForRoute($_GET['id'])); ?> vragen
+                            </p>
                         </div>
                     </div>
             <?php }} ?>
@@ -85,35 +84,8 @@ include("./dataaccess/questionData.php");
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form method="POST">
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Vraag</label>
-                            <input type="text" name="question" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            TODO: VOEG ANTWOORDEN TOE BIJ VRAAG
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" name="addQuestion" class="btn btn-danger">Submit</button>
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="overlayContainer">
-            <div id="overlayDiv">
-                <div class="card">
-                    <div class="card-header container-fluid bg-danger text-white border-danger">
-                        <div class="row">
-                            <p class="col-11">Voeg vraag toe</p>
-                            <button type="button" class="btn btn-danger btn-sm">close</button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST">
+                <form method="POST">
+                    <div class="modal-body">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Vraag</label>
                                 <input type="text" name="question" class="form-control">
@@ -121,10 +93,11 @@ include("./dataaccess/questionData.php");
                             <div class="mb-3">
                                 TODO: VOEG ANTWOORDEN TOE BIJ VRAAG
                             </div>
-                            <button type="submit" name="addQuestion" class="btn btn-danger">Submit</button>
-                        </form>
                     </div>
-                </div>
+                    <div class="modal-footer">
+                        <button type="submit" name="addQuestion" class="btn btn-danger">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
     </main>
@@ -144,15 +117,6 @@ include("./dataaccess/questionData.php");
 $('#myModal').on('shown.bs.modal', function () {
   $('#myInput').trigger('focus')
 })
-</script>
-<script>
-    function on() {
-  document.getElementById("overlayContainer").style.display = "flex";
-}
-
-function off() {
-  document.getElementById("overlayContainer").style.display = "none";
-}
 </script>
 <?php
     if (isset($_POST["addQuestion"])) {
