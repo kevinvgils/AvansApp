@@ -17,7 +17,7 @@ include("./dataaccess/routeData.php")
     <main>
         <div class="wrap row">
         <?php
-            foreach ($allRoutes as $route) { ?>
+            foreach (getAllRoutes() as $route) { ?>
                 <div class="item col-12 col-lg-6">
                     <div class="itemWrap">
                         <div class="itemHeader">
