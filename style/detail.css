@@ -1,0 +1,24 @@
+.large{
+  font-size: 18px;
+}
+.detailWrap .img{
+  width: 100%;
+  height: 350px;
+  background-position: center;
+  transform: translate(15px, 0px);
+}
+.details .header{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 20px;
+}
+.details .content p{
+  margin-bottom: 10px;
+}
+.questions{
+  margin-top: 30px;
+}
+.questions .header{
+  border-bottom: 1px solid #000;
+}

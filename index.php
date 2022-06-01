@@ -18,7 +18,7 @@ include("./dataaccess/routeData.php")
         <div class="wrap row">
         <?php
             foreach (getAllRoutes() as $route) { ?>
-                <div class="item col-12 col-lg-6">
+                <div class="item col-12 col-md-6">
                     <div class="itemWrap">
                             <a href="detailpage.php?id=<?php echo $route->routeId; ?>" title>
                                 <div class="itemHeader">
