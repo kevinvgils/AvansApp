@@ -110,3 +110,28 @@ header .wrap ul li{
 .itemWrap .itemContent .buttonWrap .button{
   margin-left: 10px;
 }
+.questions{
+  margin-bottom: 20px;
+}
+
+/* overlay box */
+
+#overlayContainer{
+  position: fixed;
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  justify-content: center;
+  z-index: 2;
+  cursor: default;
+}
+
+#overlayDiv{
+  position: absolute;
+  top: 30%;
+}

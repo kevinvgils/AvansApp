@@ -24,3 +24,14 @@ function getAllRoutes()
     }
     return $allRoutes;
 }
+
+function addQuestionToRoute($routeId, $question)
+{
+    include("databaseconnection.php");
+    $query = "INSERT INTO `question`(`routeId`, `question`) VALUES (:routeId, :question)";
+    $stm = $con->prepare($query);
+    $stm->bindValue(':routeId', $routeId);
+    $stm->bindValue(':question', $question);
+
+    $stm->execute();
+}
