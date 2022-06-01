@@ -18,12 +18,6 @@ include("./dataaccess/routeData.php")
         <div class="wrap row">
         <?php
             foreach ($allRoutes as $route) { ?>
-                <!-- echo $route->routeId;
-                echo " ";
-                echo $route->routeName;
-                echo "<br/>";
-                echo $route->description;
-                echo "<br/>---------------------<br/>"; -->
                 <div class="item col-12 col-lg-6">
                     <div class="itemWrap">
                         <div class="itemHeader">
