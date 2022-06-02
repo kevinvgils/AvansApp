@@ -1,6 +1,8 @@
 <?php 
 include("./dataaccess/databaseconnection.php");
-include("./dataaccess/routeData.php")
+include("./dataaccess/routeData.php");
+include("./dataaccess/courseData.php");
+include("./dataaccess/questionData.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,11 +30,13 @@ include("./dataaccess/routeData.php")
                             <a href="detailpage.php?id=<?php echo $route->routeId; ?>" title>
                                 <div class="itemHeader">
                                     <h3><?php echo $route->routeName; ?></h3>
-                                    <p><?php echo "TODO: aantal vragen" ?></p>
+                                    <p><?php echo count(getAllQuestionsForRoute($route->routeId)) . " vragen"; ?></p>
                                 </div>
                             </a>
                             <div class="itemContent">
-                                <p><?php echo "TODO: opleiding" ?></p>
+                                <?php foreach( getCourseById($route->courseId) as $course) {?>
+                                <p><?php echo $course->courseName; ?></p>
+                                <?php } ?>
                                 <p><?php echo $route->description ?> </p>
                                 <div class="buttonWrap">
                                     <a href="/" class="button">Scores</a>

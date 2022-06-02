@@ -2,6 +2,7 @@
 include("./dataaccess/databaseconnection.php");
 include("./dataaccess/routeData.php");
 include("./dataaccess/questionData.php");
+include("./dataaccess/coursedata.php")
 
 ?>
 <!DOCTYPE html>
@@ -39,11 +40,13 @@ include("./dataaccess/questionData.php");
                     <div class="details col-12 <?php if(!$route->picture == null){echo "col-md-8";}?>" style="<?php if(!$route->picture == null){echo "padding-left: 45px;";} ?>">
                         <div class="header">
                             <h1 class="black"><?php echo $route->routeName ?></h1>
-                            <p class="large">TODO: coursename</p>
+                            <?php foreach( getCourseById($route->courseId) as $course) {?>
+                                <p class="large"><?php echo $course->courseName; ?></p>
+                            <?php } ?>
                         </div>
                         <div class="content">
                             <p><?php echo $route->description ?></p>
-                            <p class="large">TODO: date</p>
+                            <!-- <p class="large">TODO: date</p> -->
                         </div>
                     </div>
                     <div class="col-12 questions">
