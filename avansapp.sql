@@ -73,7 +73,7 @@ CREATE TABLE `route` (
   `routeName` varchar(50) NOT NULL,
   `description` text NOT NULL,
   `courseId` int(11) NOT NULL,
-  `picture` blob NOT NULL
+  `picture` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
