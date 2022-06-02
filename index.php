@@ -16,9 +16,11 @@ include("./dataaccess/routeData.php")
     <?php include("templates/header.php"); ?>
     <main>
         <div class="wrap row">
-        <a class="col-12 mb-3" href="addroute.php">
-            <button class="btn btn-danger">Add route</button>
-        </a>
+            <div class="col-12 mb-3">
+                <a class="button px-3 py-1" href="addroute.php">
+                    Add route
+                </a>
+            </div>
         <?php
             foreach (getAllRoutes() as $route) { ?>
                 <div class="item col-12 col-md-6">
