@@ -60,7 +60,7 @@ include("./dataaccess/questionData.php");
             <?php
                 $i = 1;
                 foreach (getAllQuestionsForRoute($_GET['id']) as $question) { ?>
-                    <div class="container" style="border-bottom: solid black 1px; margin-bottom: 20px; padding-bottom: 20px;">
+                    <div class="fullwidth" style="border-bottom: solid black 1px; margin-bottom: 20px; padding-bottom: 20px;">
                         <div class="row">
                             <div class="col-12">
                                 <h6 class="font-weight-bold">Vraag <?php echo $i . ": " . $question->question; $i++; ?></h5>
