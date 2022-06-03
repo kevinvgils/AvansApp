@@ -23,4 +23,10 @@
 }
 .questions .header{
   border-bottom: 1px solid #000;
+  margin-left: 0px;
+}
+
+.fullwidth{
+  padding: 0 15px;
+  width: 100%;
 }

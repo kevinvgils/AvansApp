@@ -55,6 +55,7 @@ header .wrap{
   justify-content: space-between;
   align-items: center;
   height: 75px;
+  padding: 0 15px
 }
 header .wrap img{
   height: 60px;
