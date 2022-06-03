@@ -15,7 +15,6 @@ function addRoutes($routeName, $course, $desc, $picture)
 
 function getAllRoutes()
 {
-
     include("databaseconnection.php");
     $allRoutesQuery = "SELECT * FROM `route`";
     $stm = $con->prepare($allRoutesQuery);
