@@ -2,6 +2,7 @@
 include("./dataaccess/databaseconnection.php");
 include("./dataaccess/routeData.php");
 include("./dataaccess/courseData.php");
+include("./logic/adminRedirect.php");
 
 if (isset($_POST["btnOpslaan"])) {
     $routeName = $_POST["txtRouteName"];
