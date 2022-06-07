@@ -30,3 +30,15 @@
   padding: 0 15px;
   width: 100%;
 }
+
+.image{
+  display: none;
+}
+
+.videoUrl{
+  display: none;
+}
+
+#latLongDiv{
+  display: none;
+}
