@@ -24,6 +24,7 @@ include("./dataaccess/questionData.php");
             foreach (getAllRoutes() as $route) { ?>
                 <div class="item col-12 col-md-6">
                     <div class="itemWrap">
+                        <!-- Titel van de route is klikbaar en word de routeId megegeven -->
                         <a href="startroute.php?id=<?php echo $route->routeId; ?>" title>
                             <div class="itemHeader">
                                 <h3><?php echo $route->routeName; ?></h3>
@@ -35,6 +36,10 @@ include("./dataaccess/questionData.php");
                                 <p><?php echo $course->courseName; ?></p>
                             <?php } ?>
                             <p><?php echo $route->description ?> </p>
+                            <div class="buttonWrap">
+                                <!-- start knop waar routeId word megegeven -->
+                                <a href="startroute.php?id=<?php echo $route->routeId; ?>" class="button">Starten</a>
+                            </div>
                         </div>
 
                     </div>

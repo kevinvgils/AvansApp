@@ -40,7 +40,7 @@ if (isset($_POST["btnOpslaan"])) {
         ?>
                 <div class="wrap">
 
-                    <div class="item mobilecentered ">
+                    <div class="item mobilecentered">
                         <div class="itemWrap">
                             <div class="itemHeader">
                                 <h3>Route <?php echo $route->routeName ?> starten</h3>
@@ -55,7 +55,6 @@ if (isset($_POST["btnOpslaan"])) {
                                     <input type="submit" name="btnOpslaan" value="Route starten" class="button buttonWrap">
                                 </form>
                             </div>
-
                         </div>
                     </div>
 
