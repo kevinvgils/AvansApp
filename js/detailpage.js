@@ -37,13 +37,18 @@ function showSelected(elementValue) {
 }
 
 function validateForm() {
-    if(isFinite(document.getElementById("lat").value) && Math.abs(document.getElementById("lat").value) <= 90) {
-        alert("Breedtegraad geen geldige waarde. Gebruik comma ipv punt!");
+    const long = document.getElementById("long").value
+    const longReplaced = long.replaceAll('.', ',');
+    const lat = document.getElementById("lat").value
+    const latReplaced = lat.replaceAll('.', ',');
+
+    if(isFinite(latReplaced) && Math.abs(latReplaced) <= 90) {
+        alert("Breedtegraad geen geldige waarde.");
         return false;
     }
 
-    if(isFinite(document.getElementById("long").value) && Math.abs(document.getElementById("long").value) <= 180) {
-        alert("Lengtegraad geen geldige waarde. Gebruik comma ipv punt!");
+    if(isFinite(long) && Math.abs(longReplaced) <= 180) {
+        alert("Lengtegraad geen geldige waarde.");
         return false;
     }
 }
