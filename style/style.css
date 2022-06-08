@@ -114,3 +114,19 @@ header .wrap ul li{
 .questions{
   margin-bottom: 20px;
 }
+/* =====FORM==== */
+form .button{
+  border: none;
+  width: 140px;
+  padding: 5px 0px; 
+  font-weight: bold;
+  justify-content: center !important;
+}
+
+form input:nth-last-child(2){
+  margin-bottom: 15px;
+}
+
+.error{
+  color: #C3222A;
+}
