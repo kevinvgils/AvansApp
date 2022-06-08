@@ -1,37 +1,47 @@
-*{
+* {
   margin: 0px;
   padding: 0px;
 }
-body{
-  font-family: "Helvetica Neue",Helvetica,Arial;
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial;
 }
-h1,h2,h3,h4,h5,h6,p,ul{
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul {
   margin: 0px;
   padding: 0px;
 }
-h1,h2,h3{
+
+h1,
+h2,
+h3 {
   color: #fff;
   font-weight: bold;
 }
-h1{
 
-}
-h2{
+h1 {}
 
-}
-h3{
+h2 {}
 
-}
-.black{
+h3 {}
+
+.black {
   color: #000;
 }
 
-.wrap{
+.wrap {
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.button{
+.button {
   width: 100px;
   text-align: center;
   color: #fff;
@@ -40,52 +50,61 @@ h3{
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   padding: 2px 0px;
 }
-.button:hover{
+
+.button:hover {
   text-decoration: none;
-  color : #fff;
+  color: #fff;
   background-color: #78161b;
 }
 
-header{
+header {
   background-color: #C3222A;
   margin-bottom: 50px;
 }
-header .wrap{
+
+header .wrap {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 75px;
   padding: 0 15px
 }
-header .wrap img{
+
+header .wrap img {
   height: 60px;
   width: auto;
 }
-header .wrap ul{
+
+header .wrap ul {
   list-style: none;
 }
-header .wrap ul li{
+
+header .wrap ul li {
   font-size: 30px;
   color: #fff;
   font-weight: bold;
 
 }
 
-.item{
+.item {
   margin-bottom: 50px;
 }
-.itemWrap{
+
+.itemWrap {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 7px;
 }
-.itemWrap a:hover{
+
+.itemWrap a:hover {
   color: #fff;
   text-decoration: none;
 }
-.itemWrap a:hover h3{
+
+.itemWrap a:hover h3 {
   text-decoration: underline;
 }
-.itemWrap .itemHeader{
+
+.itemWrap .itemHeader {
   border-radius: 7px 7px 0px 0px;
   padding: 5px 15px;
   background-color: #C3222A;
@@ -95,7 +114,6 @@ header .wrap ul li{
   justify-content: space-between;
   align-items: center;
 }
-
 .flexitem{
   display: flex;
   /* align-items: center; */
@@ -114,32 +132,47 @@ header .wrap ul li{
   padding-bottom: 50px;
   position: relative;
 }
-.itemWrap .itemContent .buttonWrap{
+
+.itemWrap .itemContent .buttonWrap {
   position: absolute;
   bottom: 15px;
   right: 15px;
   display: flex;
   justify-content: space-between;
 }
-.itemWrap .itemContent .buttonWrap .button{
+
+.itemWrap .itemContent .buttonWrap .button {
   margin-left: 10px;
 }
-.questions{
+
+.questions {
   margin-bottom: 20px;
 }
+
+@media screen and (max-width: 480px) {
+  .mobilecentered {
+    position: fixed;
+    width: 100%;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
 /* =====FORM==== */
-form .button{
+form .button {
   border: none;
   width: 140px;
-  padding: 5px 0px; 
+  padding: 5px 0px;
   font-weight: bold;
   justify-content: center !important;
 }
 
-form input:nth-last-child(2){
+form input:nth-last-child(2) {
   margin-bottom: 15px;
 }
 
-.error{
+.error {
   color: #C3222A;
 }
