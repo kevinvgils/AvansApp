@@ -18,8 +18,10 @@ include("./logic/adminRedirect.php");
 </head>
 
 <body>
-    <?php include("templates/header.php"); ?>
+    <?php include("templates/header.php");
+    echo $_SESSION["routeId"]; ?>
     <main>
+
         <div class="wrap row">
             <div class="col-12 mb-3">
                 <a class="button px-3 py-1" href="addroute.php">

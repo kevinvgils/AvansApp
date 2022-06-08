@@ -33,14 +33,14 @@ function addQuestionToRoute($routeId, $question, $description, $latitude, $longi
 function addAnswersToQuestion($questionId, $allAnswers)
 {
     include("databaseconnection.php");
-    foreach($allAnswers as $answer) {
-        if(!empty($answer[1])) {
+    foreach ($allAnswers as $answer) {
+        if (!empty($answer[1])) {
             $query = "INSERT INTO `answer`(`questionId`, `answer`, `isCorrect`) VALUES (:questionId, :answer, :isCorrect)";
             $stm = $con->prepare($query);
             $stm->bindValue(':questionId', $questionId);
             $stm->bindValue(':answer', $answer[1]);
             $stm->bindValue(':isCorrect', $answer[2]);
-        
+
             $stm->execute();
         } else {
             break;
@@ -59,4 +59,41 @@ function getAllAnswersForQuestion($questionId)
     }
     return $allAnswers;
 }
-?>
+
+function getRouteName($sessionRouteId)
+{
+    include("databaseconnection.php");
+
+
+    $query = "SELECT * FROM `route` WHERE `routeId` = " . $sessionRouteId;
+    $stm = $con->prepare($query);
+    if ($stm->execute()) {
+        $result = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    return $result;
+}
+function getGlobalQuestion($sessionRouteId)
+{
+    include("databaseconnection.php");
+
+
+    $query = "SELECT * FROM `question` WHERE `longitude` IS NULL AND `routeId` = " . $sessionRouteId;
+    $stm = $con->prepare($query);
+    if ($stm->execute()) {
+        $result = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $result;
+}
+function getLocalQuestion($sessionRouteId)
+{
+    include("databaseconnection.php");
+
+    $query = "SELECT * FROM `question` WHERE `longitude` IS NOT NULL AND `routeId` = " . $sessionRouteId;
+    $stm = $con->prepare($query);
+    if ($stm->execute()) {
+        $result = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    return $result;
+}

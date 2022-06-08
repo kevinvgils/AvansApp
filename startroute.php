@@ -20,7 +20,7 @@ if (isset($_POST["btnOpslaan"])) {
     session_start();
     $_SESSION['routeId'] = $somevar;
 
-    header("Location: index.php");
+    header("Location: map.php");
     exit();
 }
 
@@ -58,7 +58,7 @@ if (isset($_POST["btnOpslaan"])) {
                                 <h3>Route <?php echo $route->routeName ?> starten</h3>
                             </div>
                             <div class="itemContent">
-                                <form method="POST" class="addRouteForm" enctype="multipart/form-data" action="./map.php?id=<?php echo $getRouteId; ?>">
+                                <form method="POST" class="addRouteForm" enctype="multipart/form-data">
                                     <label>Team naam</label>
                                     <input name="txtTeamName" type="text" placeholder="Team naam..." required>
 
