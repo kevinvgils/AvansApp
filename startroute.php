@@ -42,9 +42,9 @@ if (isset($_POST["btnOpslaan"])) {
     <?php include("templates/header.php"); ?>
     <main>
         <?php
-        $somevar = $_GET["id"];
+        $getRouteId = $_GET["id"];
         // query op routeid gebaseert op id uit url
-        $query = "SELECT * FROM `route` WHERE `routeId` = " . $somevar;
+        $query = "SELECT * FROM `route` WHERE `routeId` = " . $getRouteId;
         $stm = $con->prepare($query);
         if ($stm->execute()) {
             $result = $stm->fetchAll(PDO::FETCH_OBJ);
@@ -58,7 +58,7 @@ if (isset($_POST["btnOpslaan"])) {
                                 <h3>Route <?php echo $route->routeName ?> starten</h3>
                             </div>
                             <div class="itemContent">
-                                <form method="POST" class="addRouteForm" enctype="multipart/form-data">
+                                <form method="POST" class="addRouteForm" enctype="multipart/form-data" action="./map.php?id=<?php echo $getRouteId; ?>">
                                     <label>Team naam</label>
                                     <input name="txtTeamName" type="text" placeholder="Team naam..." required>
 
