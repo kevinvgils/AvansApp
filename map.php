@@ -19,7 +19,7 @@ include("./dataaccess/databaseconnection.php");
 </head>
 
 <body>
-<?php include("templates/header.php"); ?>
+<?php include("templates/mapheader.php"); ?>
     <div id="map"></div>
 
 
