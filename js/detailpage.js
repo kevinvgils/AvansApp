@@ -40,21 +40,21 @@ function showAnswerFields(elementValue) {
     if(elementValue.value == "2") {
         document.getElementById("answer3CK").checked = false
         document.getElementById("answer3Div").style.display = "none"
-        document.getElementById("answer3Txt").style.required = false
+        document.getElementById("answer3Txt").required = false
         document.getElementById("answer4Div").style.display = "none"
-        document.getElementById("answer4Txt").style.required = false
+        document.getElementById("answer4Txt").required = false
         document.getElementById("answer4CK").checked = false
     } else if(elementValue.value == "3") {
         document.getElementById("answer3Div").style.display = "block"
-        document.getElementById("answer3Txt").style.required = true
+        document.getElementById("answer3Txt").required = true
         document.getElementById("answer4Div").style.display = "none"
-        document.getElementById("answer4Txt").style.required = false
+        document.getElementById("answer4Txt").required = false
         document.getElementById("answer4CK").checked = false
     } else if(elementValue.value == "4") {
         document.getElementById("answer3Div").style.display = "block"
-        document.getElementById("answer3Txt").style.required = true
+        document.getElementById("answer3Txt").required = true
         document.getElementById("answer4Div").style.display = "block"
-        document.getElementById("answer4Txt").style.required = true
+        document.getElementById("answer4Txt").required = true
     }
 }
 
