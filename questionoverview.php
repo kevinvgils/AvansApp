@@ -16,19 +16,16 @@ include("./dataaccess/questionData.php");
 </head>
 
 <body>
-    <?php include("templates/header.php"); ?>
-
+    <?php include("templates/header.php"); 
+    session_start(); 
+    ?>
     <div class="wrap">
         <div class="item">
             <div class="itemWrap">
-
                 <div class="itemHeader">
-
                     <h3>
                         <?php include("./dataaccess/databaseconnection.php");
-                        // $somevar = $_SESSION["routeId"];
-                        $somevar = 1;
-
+                        $somevar = $_SESSION["routeId"];
                         $query = "SELECT * FROM `route` WHERE `routeId` = " . $somevar;
                         $stm = $con->prepare($query);
                         if ($stm->execute()) {
@@ -44,8 +41,7 @@ include("./dataaccess/questionData.php");
                     <strong>Globale vragen</strong>
                     <p>
                         <?php
-                        // $somevar = $_SESSION["routeId"];
-                        $somevar = 1;
+                        $somevar = $_SESSION["routeId"];
                         $questionCount = 1;
                         $query = "SELECT * FROM `question` WHERE `longitude` IS NULL AND `routeId` = " . $somevar;
                         $stm = $con->prepare($query);
@@ -63,8 +59,7 @@ include("./dataaccess/questionData.php");
                     <strong>Locatie vragen</strong>
                     <p>
                         <?php
-                        // $somevar = $_SESSION["routeId"];
-                        $somevar = 1;
+                        $somevar = $_SESSION["routeId"];
                         $questionCount = 1;
                         $query = "SELECT * FROM `question` WHERE `longitude` IS NOT NULL AND `routeId` = " . $somevar;
                         $stm = $con->prepare($query);
