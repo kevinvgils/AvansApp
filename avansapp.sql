@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2022 at 11:56 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.5
+-- Gegenereerd op: 08 jun 2022 om 18:30
+-- Serverversie: 10.4.24-MariaDB
+-- PHP-versie: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,7 +35,7 @@ CREATE TABLE `answer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `answer`
+-- Gegevens worden geëxporteerd voor tabel `answer`
 --
 
 INSERT INTO `answer` (`answerId`, `answer`, `questionId`, `isCorrect`) VALUES
@@ -110,10 +110,10 @@ CREATE TABLE `question` (
 
 INSERT INTO `question` (`questionId`, `question`, `description`, `image`, `videoUrl`, `longitude`, `latitude`, `routeId`) VALUES
 (3, 'Dit is de eerste vraag voor Technische Informatica', 'De eerste vraag voor informatica', NULL, NULL, '4.785294649261182', '51.58847188318798', 3),
-(23, 'In welk jaar is Avans ontstaan?', 'Selecteer in welk jaar Avans hogeschool is ontstaan', NULL, NULL, NULL, NULL, 1),
-(24, 'Hoeveel docenten in het trappenhuis behoren tot de opleiding Informatica', 'In het trappenhuis hangen foto’s van docenten. Hoeveel docenten hiervan zitten bij de opleiding Informatica?', NULL, NULL, NULL, NULL, 1),
-(25, 'Waar kun je pizza scoren binnen de Avans locaties in Breda?', 'Selecteer de locatie waar je pizza\'s kunt scoren!', NULL, NULL, NULL, NULL, 1),
-(26, 'Wie is de oudste docent?', 'Selecteer de oudste docent.', NULL, NULL, NULL, NULL, 1),
+(23, 'In welk jaar is Avans ontstaan?', 'Selecteer in welk jaar Avans hogeschool is ontstaan', NULL, NULL, '51.5891643', '4.7860003', 1),
+(24, 'Hoeveel docenten in het trappenhuis behoren tot de opleiding Informatica', 'In het trappenhuis hangen foto’s van docenten. Hoeveel docenten hiervan zitten bij de opleiding Informatica?', NULL, NULL, '51.5874996', '4.7810686', 1),
+(25, 'Waar kun je pizza scoren binnen de Avans locaties in Breda?', 'Selecteer de locatie waar je pizza\'s kunt scoren!', NULL, NULL, '51.5902832', '4.7872995094107', 1),
+(26, 'Wie is de oudste docent?', 'Selecteer de oudste docent.', NULL, NULL, '51.58516', '4.797319', 1),
 (27, 'Wie is de jongste docent?', 'Selecteer de jongste docent', NULL, NULL, NULL, NULL, 1),
 (28, 'Welke docent heeft Biochemie gestudeerd?', 'Selecteer de docent die Biochemie heeft gestudeerd!', NULL, NULL, NULL, NULL, 1),
 (29, 'Hoeveel opleidingen vallen er onder de ATiX academie?', 'De opleiding Informatica valt onder de academie ATiX. Hoeveel opleidingen vallen er onder deze academie?', NULL, NULL, NULL, NULL, 1);
@@ -160,7 +160,9 @@ CREATE TABLE `team` (
 --
 
 INSERT INTO `team` (`id`, `name`, `members`, `score`, `time`, `routeId`) VALUES
-(10, 'bert', 'a, v, da, e, a, d', 0, '2022-06-08 12:09:12', 1);
+(10, 'bert', 'a, v, da, e, a, d', 0, '2022-06-08 12:09:12', 1),
+(11, 'Hutsers', 'Bryan,Dimitri,Thijs,Tim,Kevin,Mohammed,', 0, '2022-06-08 16:48:46', 1),
+(12, 'test', 'test,', 0, '2022-06-08 17:08:58', 1);
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -233,7 +235,7 @@ ALTER TABLE `route`
 -- AUTO_INCREMENT voor een tabel `team`
 --
 ALTER TABLE `team`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Beperkingen voor geëxporteerde tabellen
