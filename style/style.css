@@ -95,6 +95,19 @@ header .wrap ul li{
   justify-content: space-between;
   align-items: center;
 }
+
+.flexitem{
+  display: flex;
+  /* align-items: center; */
+}
+.flexitem .img{
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin-right: 15px;
+}
 .itemWrap .itemContent{
   color: #000;
   padding: 15px;
