@@ -1,4 +1,4 @@
-<?php 
+<?php
 include("./dataaccess/databaseconnection.php");
 include("./dataaccess/routeData.php");
 include("./dataaccess/courseData.php");
@@ -6,6 +6,7 @@ include("./dataaccess/questionData.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,6 +15,7 @@ include("./dataaccess/questionData.php");
     <link rel="stylesheet" href="style/style.css">
     <title>AvansApp</title>
 </head>
+
 <body>
     <?php include("templates/header.php"); ?>
     <main>
@@ -23,32 +25,33 @@ include("./dataaccess/questionData.php");
                     Add route
                 </a>
             </div>
-        <?php
+            <?php
             foreach (getAllRoutes() as $route) { ?>
                 <div class="item col-12 col-md-6">
                     <div class="itemWrap">
-                            <a href="detailpage.php?id=<?php echo $route->routeId; ?>" title>
-                                <div class="itemHeader">
-                                    <h3><?php echo $route->routeName; ?></h3>
-                                    <p><?php echo count(getAllQuestionsForRoute($route->routeId)) . " vragen"; ?></p>
-                                </div>
-                            </a>
-                            <div class="itemContent">
-                                <?php foreach( getCourseById($route->courseId) as $course) {?>
-                                <p><?php echo $course->courseName; ?></p>
-                                <?php } ?>
-                                <p><?php echo $route->description ?> </p>
-                                <div class="buttonWrap">
-                                    <a href="/" class="button">Scores</a>
-                                    <a href="/" class="button">Bewerken</a>
-                                    <a href="/" class="button">Verwijderen</a>
-                                </div>
+                        <a href="detailpage.php?id=<?php echo $route->routeId; ?>" title>
+                            <div class="itemHeader">
+                                <h3><?php echo $route->routeName; ?></h3>
+                                <p><?php echo count(getAllQuestionsForRoute($route->routeId)) . " vragen"; ?></p>
                             </div>
-                        
+                        </a>
+                        <div class="itemContent">
+                            <?php foreach (getCourseById($route->courseId) as $course) { ?>
+                                <p><?php echo $course->courseName; ?></p>
+                            <?php } ?>
+                            <p><?php echo $route->description ?> </p>
+                            <div class="buttonWrap">
+                                <a href="/" class="button">Scores</a>
+                                <a href="/" class="button">Bewerken</a>
+                                <a href="/" class="button">Verwijderen</a>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-        <?php }?>
+            <?php } ?>
         </div>
     </main>
 </body>
+
 </html>

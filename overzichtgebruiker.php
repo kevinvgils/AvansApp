@@ -31,6 +31,11 @@ include("./dataaccess/questionData.php");
                                 <p><?php echo count(getAllQuestionsForRoute($route->routeId)) . " vragen"; ?></p>
                             </div>
                         </a>
+                        <?php
+                        $url = "data:image/jpeg;base64," . base64_encode($route->picture) ?>
+
+
+                        <div class="col-12 col-md-4 img" style="background-image:url('<?php echo $url ?>')"></div>
                         <div class="itemContent">
                             <?php foreach (getCourseById($route->courseId) as $course) { ?>
                                 <p><?php echo $course->courseName; ?></p>

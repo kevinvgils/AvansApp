@@ -5,13 +5,17 @@ include("./dataaccess/courseData.php");
 
 if (isset($_POST["btnOpslaan"])) {
     $teamName = $_POST["txtTeamName"];
-    $teamMembers = $_POST["txtTeamMembers"];
+    $teamMembers = $_POST["txtlid1"] . ", " .  $_POST["txtlid2"] . ", " .  $_POST["txtlid3"] . ", " .  $_POST["txtlid4"] . ", " .  $_POST["txtlid5"] . ", " .  $_POST["txtlid6"];
     $somevar = $_GET["id"];
     startRoute($teamName, $teamMembers, $somevar);
+
+    session_start();
+    $_SESSION['routeId'] = $somevar;
 
     header("Location: index.php");
     exit();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,8 +54,18 @@ if (isset($_POST["btnOpslaan"])) {
                                     <label>Team naam</label>
                                     <input name="txtTeamName" type="text" placeholder="Team naam..." required>
 
-                                    <label>Team leden</label>
-                                    <textarea id="txtTeamMembers" name="txtTeamMembers" rows="4" cols="50"></textarea>
+                                    <label>Teamlid 1</label>
+                                    <input name="txtlid1" type="text" placeholder="Teamlid 1">
+                                    <label>Teamlid 2</label>
+                                    <input name="txtlid2" type="text" placeholder="Teamlid 2">
+                                    <label>Teamlid 3</label>
+                                    <input name="txtlid3" type="text" placeholder="Teamlid 3">
+                                    <label>Teamlid 4</label>
+                                    <input name="txtlid4" type="text" placeholder="Teamlid 4">
+                                    <label>Teamlid 5</label>
+                                    <input name="txtlid5" type="text" placeholder="Teamlid 5">
+                                    <label>Teamlid 6</label>
+                                    <input name="txtlid6" type="text" placeholder="Teamlid 6">
                                     <input type="submit" name="btnOpslaan" value="Route starten" class="button buttonWrap">
                                 </form>
                             </div>
