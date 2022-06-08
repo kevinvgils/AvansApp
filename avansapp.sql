@@ -45,7 +45,7 @@ CREATE TABLE `course` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Gegevens worden geëxporteerd voor tabel `course`
+-- Dumping data for table `course`
 --
 
 INSERT INTO `course` (`courseId`, `courseName`) VALUES
@@ -55,7 +55,7 @@ INSERT INTO `course` (`courseId`, `courseName`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `question`
+-- Table structure for table `question`
 --
 
 CREATE TABLE `question` (
@@ -71,7 +71,7 @@ CREATE TABLE `question` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Gegevens worden geëxporteerd voor tabel `question`
+-- Dumping data for table `question`
 --
 
 INSERT INTO `question` (`questionId`, `question`, `description`, `image`, `videoUrl`, `longitude`, `latitude`, `correctAnswerId`, `routeId`) VALUES
@@ -82,7 +82,7 @@ INSERT INTO `question` (`questionId`, `question`, `description`, `image`, `video
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `route`
+-- Table structure for table `route`
 --
 
 CREATE TABLE `route` (
@@ -94,7 +94,7 @@ CREATE TABLE `route` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Gegevens worden geëxporteerd voor tabel `route`
+-- Dumping data for table `route`
 --
 
 INSERT INTO `route` (`routeId`, `routeName`, `description`, `courseId`, `picture`) VALUES
@@ -121,7 +121,7 @@ CREATE TABLE `team` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Indexen voor geëxporteerde tabellen
+-- Indexes for dumped tables
 --
 
 --
@@ -139,7 +139,7 @@ ALTER TABLE `course`
   ADD UNIQUE KEY `UQ_course_name` (`courseName`);
 
 --
--- Indexen voor tabel `question`
+-- Indexes for table `question`
 --
 ALTER TABLE `question`
   ADD PRIMARY KEY (`questionId`),
@@ -147,7 +147,7 @@ ALTER TABLE `question`
   ADD KEY `FK_correctAnswerId_answer` (`correctAnswerId`);
 
 --
--- Indexen voor tabel `route`
+-- Indexes for table `route`
 --
 ALTER TABLE `route`
   ADD PRIMARY KEY (`routeId`),
@@ -163,8 +163,6 @@ ALTER TABLE `team`
 --
 -- AUTO_INCREMENT voor geëxporteerde tabellen
 --
-
---
 -- AUTO_INCREMENT voor een tabel `answer`
 --
 ALTER TABLE `answer`
@@ -177,13 +175,13 @@ ALTER TABLE `course`
   MODIFY `courseId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT voor een tabel `question`
+-- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
   MODIFY `questionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT voor een tabel `route`
+-- AUTO_INCREMENT for table `route`
 --
 ALTER TABLE `route`
   MODIFY `routeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
@@ -197,6 +195,8 @@ ALTER TABLE `team`
 --
 -- Beperkingen voor geëxporteerde tabellen
 --
+ALTER TABLE `answer`
+  ADD CONSTRAINT `FK_answer_question` FOREIGN KEY (`questionId`) REFERENCES `question` (`questionId`);
 
 --
 -- Beperkingen voor tabel `answer`
@@ -212,7 +212,7 @@ ALTER TABLE `question`
   ADD CONSTRAINT `FK_question_routeId` FOREIGN KEY (`routeId`) REFERENCES `route` (`routeId`);
 
 --
--- Beperkingen voor tabel `route`
+-- Constraints for table `route`
 --
 ALTER TABLE `route`
   ADD CONSTRAINT `FK_route_courseId` FOREIGN KEY (`courseId`) REFERENCES `course` (`courseId`);

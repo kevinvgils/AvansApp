@@ -87,39 +87,66 @@ include("./dataaccess/coursedata.php")
 
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <div class="modal-header bg-danger">
-                        <h5 class="modal-title text-white">Voeg een vraag toe</h5>
-                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form method="POST">
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Vraag</label>
-                                <input type="text" name="question" class="form-control">
-                            </div>
-                            <div class="mb-3">
-                                TODO: VOEG ANTWOORDEN TOE BIJ VRAAG
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" name="addQuestion" class="btn btn-danger">Submit</button>
-                        </div>
-                    </form>
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-white">Voeg een vraag toe</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
+                <form method="POST" onsubmit="return validateForm()" >
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-6 border-right mb-3">
+                                    <label for="question" class="form-label">Titel</label>
+                                    <input type="text" name="question" class="form-control mb-2" required>
+                                    <label for="description" class="form-label" >Omschrijving</label>
+                                    <textarea type="text" name="description" class="form-control mb-2" required></textarea>
+                                    <div class="custom-control custom-checkbox mb-2">
+                                        <input type="checkbox" class="custom-control-input" id="latLong" onchange="latLongChecked()">
+                                        <label class="custom-control-label" for="latLong">Vraag met locatie?</label>
+                                    </div>
+                                    <div id="latLongDiv" class="row mb-2">
+                                        <div class="col-6">
+                                            <label for="latitude" class="form-label">Breedtegraad</label>
+                                            <input type="text" id="lat" name="latitude" class="form-control">
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="longtitude" class="form-label">Lengtegraad</label>
+                                            <input type="text" id="long" name="longtitude" class="form-control">
+                                        </div>
+                                    </div>
+                                    <label>Optionele afbeelding of video</label>
+                                    <select class="mb-2 custom-select" onchange="showSelected(this)">
+                                        <option selected value="none">---</option>
+                                        <option value="image">Afbeelding</option>
+                                        <option value="videoUrl">Youtube video</option>
+                                    </select>
+                                    <label class="videoUrl" for="videoUrl">Youtube video URL</label>
+                                    <input type="text" id="videoUrl" class="form-control mb-2 videoUrl" name="videoUrl">
+                                    <label class="image" for="image">Afbeelding</label>
+                                    <input type="file" id="file" accept="image/*" class="form-control-file image" name="image">
+                                </div>
+                                <div class="col-6 mb-3">
+                                    TODO: VOEG ANTWOORDEN TOE BIJ VRAAG
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" name="addQuestion" class="btn btn-danger">Submit</button>
+                    </div>
+                </form>
             </div>
     </main>
 </body>
 <!-- JS code -->
-<script src="https://code.jquery.com/jquery-3.1.1.min.js">
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js">
-</script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js">
-</script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="./js/detailpage.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
 <!--JS below-->
 
 
@@ -130,10 +157,15 @@ include("./dataaccess/coursedata.php")
     })
 </script>
 <?php
-if (isset($_POST["addQuestion"])) {
-    $routeId = $_GET["id"];
-    $question = $_POST["question"];
-    addQuestionToRoute($routeId, $question);
+    if (isset($_POST["addQuestion"])) {
+        $routeId = $_GET["id"];
+        $question = $_POST["question"];
+        $description = $_POST["description"];
+        $latitude = $_POST["latitude"];
+        $longtitude = $_POST["longtitude"];
+        $image = $_POST["image"];
+        $videoUrl = $_POST["videoUrl"];
+        addQuestionToRoute($routeId, $question, $description, $latitude, $longtitude, $image, $videoUrl);
 
     //sorry voor deze oplossing als je een betere oplossing weet laat het dan weten :)
     echo "<meta http-equiv='refresh' content='0'>";

@@ -3,6 +3,7 @@ include("./dataaccess/databaseconnection.php");
 include("./dataaccess/routeData.php");
 include("./dataaccess/courseData.php");
 include("./dataaccess/questionData.php");
+include("./logic/adminRedirect.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
