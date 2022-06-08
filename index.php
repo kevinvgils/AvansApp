@@ -18,8 +18,7 @@ include("./logic/adminRedirect.php");
 </head>
 
 <body>
-    <?php include("templates/header.php");
-    echo $_SESSION["routeId"]; ?>
+    <?php include("templates/header.php"); ?>
     <main>
 
         <div class="wrap row">
