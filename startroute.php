@@ -5,9 +5,17 @@ include("./dataaccess/courseData.php");
 
 if (isset($_POST["btnOpslaan"])) {
     $teamName = $_POST["txtTeamName"];
+    $teammembersarray = array(
+        $_POST["txtlid1"],
+        $_POST["txtlid2"],
+        $_POST["txtlid3"],
+        $_POST["txtlid4"],
+        $_POST["txtlid5"],
+        $_POST["txtlid6"]
+    );
     $teamMembers = $_POST["txtlid1"] . ", " .  $_POST["txtlid2"] . ", " .  $_POST["txtlid3"] . ", " .  $_POST["txtlid4"] . ", " .  $_POST["txtlid5"] . ", " .  $_POST["txtlid6"];
     $somevar = $_GET["id"];
-    startRoute($teamName, $teamMembers, $somevar);
+    startRoute($teamName, $teamMembers, $somevar, $teammembersarray);
 
     session_start();
     $_SESSION['routeId'] = $somevar;
