@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `answer`
+-- Tabelstructuur voor tabel `answer`
 --
 
 CREATE TABLE `answer` (
@@ -71,7 +71,7 @@ INSERT INTO `answer` (`answerId`, `answer`, `questionId`, `isCorrect`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `course`
+-- Tabelstructuur voor tabel `course`
 --
 
 CREATE TABLE `course` (
@@ -80,7 +80,7 @@ CREATE TABLE `course` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `course`
+-- Gegevens worden geëxporteerd voor tabel `course`
 --
 
 INSERT INTO `course` (`courseId`, `courseName`) VALUES
@@ -90,7 +90,7 @@ INSERT INTO `course` (`courseId`, `courseName`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `question`
+-- Tabelstructuur voor tabel `question`
 --
 
 CREATE TABLE `question` (
@@ -105,7 +105,7 @@ CREATE TABLE `question` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `question`
+-- Gegevens worden geëxporteerd voor tabel `question`
 --
 
 INSERT INTO `question` (`questionId`, `question`, `description`, `image`, `videoUrl`, `longitude`, `latitude`, `routeId`) VALUES
@@ -121,7 +121,7 @@ INSERT INTO `question` (`questionId`, `question`, `description`, `image`, `video
 -- --------------------------------------------------------
 
 --
--- Table structure for table `route`
+-- Tabelstructuur voor tabel `route`
 --
 
 CREATE TABLE `route` (
@@ -133,94 +133,135 @@ CREATE TABLE `route` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `route`
+-- Gegevens worden geëxporteerd voor tabel `route`
 --
 
 INSERT INTO `route` (`routeId`, `routeName`, `description`, `courseId`, `picture`) VALUES
 (1, 'PuzzelTocht Informatica', 'Dit is een hele leuke tocht voor Technische informatica', 4, ''),
 (3, 'Leuke tocht Technische Informatica', 'Dit is een hele leuke tocht voor informatica', 1, '');
 
+-- --------------------------------------------------------
+
 --
--- Indexes for dumped tables
+-- Tabelstructuur voor tabel `team`
+--
+
+CREATE TABLE `team` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `members` varchar(255) NOT NULL,
+  `score` int(100) NOT NULL,
+  `time` datetime NOT NULL,
+  `routeId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `team`
+--
+
+INSERT INTO `team` (`id`, `name`, `members`, `score`, `time`, `routeId`) VALUES
+(10, 'bert', 'a, v, da, e, a, d', 0, '2022-06-08 12:09:12', 1);
+
+--
+-- Indexen voor geëxporteerde tabellen
 --
 
 --
--- Indexes for table `answer`
+-- Indexen voor tabel `answer`
 --
 ALTER TABLE `answer`
   ADD PRIMARY KEY (`answerId`),
   ADD KEY `FK_answer_question` (`questionId`);
 
 --
--- Indexes for table `course`
+-- Indexen voor tabel `course`
 --
 ALTER TABLE `course`
   ADD PRIMARY KEY (`courseId`),
   ADD UNIQUE KEY `UQ_course_name` (`courseName`);
 
 --
--- Indexes for table `question`
+-- Indexen voor tabel `question`
 --
 ALTER TABLE `question`
   ADD PRIMARY KEY (`questionId`),
   ADD KEY `FK_question_routeId` (`routeId`);
 
 --
--- Indexes for table `route`
+-- Indexen voor tabel `route`
 --
 ALTER TABLE `route`
   ADD PRIMARY KEY (`routeId`),
   ADD KEY `FK_route_courseId` (`courseId`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- Indexen voor tabel `team`
+--
+ALTER TABLE `team`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_team_routeId` (`routeId`);
+
+--
+-- AUTO_INCREMENT voor geëxporteerde tabellen
 --
 
 --
--- AUTO_INCREMENT for table `answer`
+-- AUTO_INCREMENT voor een tabel `answer`
 --
 ALTER TABLE `answer`
   MODIFY `answerId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
--- AUTO_INCREMENT for table `course`
+-- AUTO_INCREMENT voor een tabel `course`
 --
 ALTER TABLE `course`
   MODIFY `courseId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `question`
+-- AUTO_INCREMENT voor een tabel `question`
 --
 ALTER TABLE `question`
   MODIFY `questionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
--- AUTO_INCREMENT for table `route`
+-- AUTO_INCREMENT voor een tabel `route`
 --
 ALTER TABLE `route`
   MODIFY `routeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- Constraints for dumped tables
+-- AUTO_INCREMENT voor een tabel `team`
+--
+ALTER TABLE `team`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- Beperkingen voor geëxporteerde tabellen
 --
 
 --
--- Constraints for table `answer`
+-- Beperkingen voor tabel `answer`
 --
 ALTER TABLE `answer`
   ADD CONSTRAINT `FK_answer_question` FOREIGN KEY (`questionId`) REFERENCES `question` (`questionId`);
 
 --
--- Constraints for table `question`
+-- Beperkingen voor tabel `question`
 --
 ALTER TABLE `question`
   ADD CONSTRAINT `FK_question_routeId` FOREIGN KEY (`routeId`) REFERENCES `route` (`routeId`);
 
 --
--- Constraints for table `route`
+-- Beperkingen voor tabel `route`
 --
 ALTER TABLE `route`
   ADD CONSTRAINT `FK_route_courseId` FOREIGN KEY (`courseId`) REFERENCES `course` (`courseId`);
+
+--
+-- Beperkingen voor tabel `team`
+--
+ALTER TABLE `team`
+  ADD CONSTRAINT `FK_team_routeId` FOREIGN KEY (`routeId`) REFERENCES `route` (`routeId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
