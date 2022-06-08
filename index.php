@@ -30,21 +30,30 @@ include("./logic/adminRedirect.php");
             foreach (getAllRoutes() as $route) { ?>
                 <div class="item col-12 col-md-6">
                     <div class="itemWrap">
-                        <a href="detailpage.php?id=<?php echo $route->routeId; ?>" title>
-                            <div class="itemHeader">
-                                <h3><?php echo $route->routeName; ?></h3>
-                                <p><?php echo count(getAllQuestionsForRoute($route->routeId)) . " vragen"; ?></p>
-                            </div>
-                        </a>
-                        <div class="itemContent">
-                            <?php foreach (getCourseById($route->courseId) as $course) { ?>
-                                <p><?php echo $course->courseName; ?></p>
-                            <?php } ?>
-                            <p><?php echo $route->description ?> </p>
-                            <div class="buttonWrap">
-                                <a href="/" class="button">Scores</a>
-                                <a href="/" class="button">Bewerken</a>
-                                <a href="/" class="button">Verwijderen</a>
+                            <a href="detailpage.php?id=<?php echo $route->routeId; ?>" title>
+                                <div class="itemHeader">
+                                    <h3><?php echo $route->routeName; ?></h3>
+                                    <p><?php echo count(getAllQuestionsForRoute($route->routeId)) . " vragen"; ?></p>
+                                </div>
+                            </a>
+                            <div class="itemContent flexitem">
+                                <?php foreach( getCourseById($route->courseId) as $course) {?>
+                                <div>
+                                    <?php if(!$route->picture == null){
+                                    $url = "data:image/jpeg;base64,".base64_encode($route->picture) ?>
+                                    <div class="img" style="background-image:url('<?php echo $url ?>')"></div>
+                    	            <?php } ?>
+                                </div>
+                                <div>
+                                    <p><?php echo $course->courseName; ?></p>
+                                    <?php } ?>
+                                    <p><?php echo $route->description ?> </p>
+                                    <div class="buttonWrap">
+                                        <a href="/" class="button">Scores</a>
+                                        <a href="/" class="button">Bewerken</a>
+                                        <a href="/" class="button">Verwijderen</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
