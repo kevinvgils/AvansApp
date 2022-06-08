@@ -103,27 +103,24 @@ include("./dataaccess/questionData.php");
 
 
                                             <?php
-
+                                            $sessionRouteId = $_SESSION["routeId"];
                                             $getQuestionId = $_GET["questionId"];
-                                            $query = "SELECT * FROM `question` WHERE `questionId` =" . $getQuestionId . "  AND `routeId` = 1";
-                                            $stm = $con->prepare($query);
-                                            if ($stm->execute()) {
-                                                $result = $stm->fetchAll(PDO::FETCH_OBJ);
-                                                foreach ($result as $questions) {
-                                                    echo $questions->question;
-                                                    echo "<br/><br/> Bescrhijving: <br/>";
-                                                    echo $questions->description;
-                                                    echo "<br/><br/>";
-                                                    echo "<iframe class='vraagdetailvid' src='$questions->videoUrl' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
 
-                                                    if (!$questions->image == null) {
-                                                        $url = "data:image/jpeg;base64," . base64_encode($questions->image) ?>
+                                            foreach (getQuestionDetails($getQuestionId, $sessionRouteId) as $questions) {
+                                                echo $questions->question;
+                                                echo "<br/><br/> Bescrhijving: <br/>";
+                                                echo $questions->description;
+                                                echo "<br/><br/>";
+                                                echo "<iframe class='vraagdetailvid' src='$questions->videoUrl' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
+
+                                                if (!$questions->image == null) {
+                                                    $url = "data:image/jpeg;base64," . base64_encode($questions->image) ?>
 
 
-                                                        <div class="img vraagdetailimg" style="background-image:url('<?php echo $url ?>')"></div>
+                                                    <div class="img vraagdetailimg" style="background-image:url('<?php echo $url ?>')"></div>
 
 
-                                                    <?php } ?>
+                                                <?php } ?>
 
 
 
@@ -131,20 +128,18 @@ include("./dataaccess/questionData.php");
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <p>Antwoord mogelijkheden</p><br />
-                                    <?php
-                                                    $queryAnswer = "SELECT * FROM `answer` WHERE questionId =" . $questions->questionId;
-                                                    $stm = $con->prepare($queryAnswer);
-                                                    if ($stm->execute()) {
-                                                        $resultAnswer = $stm->fetchAll(PDO::FETCH_OBJ);
-                                                        foreach ($resultAnswer as $answers) {
-                                                            echo $answers->answer;
-                                                            echo "<br/>";
-                                                        }
-                                                    }
+                                        <?php
+                                                $questionId = $questions->questionId;
+
+                                                foreach (getQuestionAnswer($questionId) as $answers) {
+                                                    echo $answers->answer;
                                                     echo "<br/>";
                                                 }
                                             }
-                                    ?>
+                                            echo "<br/>";
+
+
+                                        ?>
                                         </div>
                                     </div>
                                 </div>

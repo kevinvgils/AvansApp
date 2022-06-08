@@ -97,3 +97,35 @@ function getLocalQuestion($sessionRouteId)
 
     return $result;
 }
+
+function getLocationCheck($getRouteId)
+{
+    include("databaseconnection.php");
+    $query = "SELECT * FROM `question` WHERE `longitude` IS NOT NULL AND `latitude` IS NOT NULL AND `routeId` =" . $getRouteId;
+    $stm = $con->prepare($query);
+    if ($stm->execute()) {
+        $result = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $result;
+}
+function getQuestionDetails($getQuestionId, $sessionRouteId)
+{
+    include("databaseconnection.php");
+    $query = "SELECT * FROM `question` WHERE `questionId` =" . $getQuestionId . "  AND `routeId` = $sessionRouteId ";
+    $stm = $con->prepare($query);
+    if ($stm->execute()) {
+        $result = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $result;
+}
+
+function getQuestionAnswer($questionId)
+{
+    include("databaseconnection.php");
+    $queryAnswer = "SELECT * FROM `answer` WHERE questionId =" . $questionId;
+    $stm = $con->prepare($queryAnswer);
+    if ($stm->execute()) {
+        $resultAnswer = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $resultAnswer;
+}

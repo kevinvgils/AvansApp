@@ -1,5 +1,6 @@
 <?php
 include("./dataaccess/databaseconnection.php");
+include("./dataaccess/questionData.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -102,21 +103,17 @@ include("./dataaccess/databaseconnection.php");
     <?php
     $getRouteId = $_SESSION["routeId"];
 
-    $query = "SELECT * FROM `question` WHERE `longitude` IS NOT NULL AND `latitude` IS NOT NULL AND `routeId` =" . $getRouteId;
-    $stm = $con->prepare($query);
-    if ($stm->execute()) {
-        $result = $stm->fetchAll(PDO::FETCH_OBJ);
-        foreach ($result as $questionMarker) {
+    foreach (getLocationCheck($getRouteId) as $questionMarker) {
     ?>
 
-            var markerChasse = L.marker([<?php echo $questionMarker->longitude ?>, <?php echo $questionMarker->latitude ?>], {
-                    icon: avansPin
-                })
-                .addTo(map)
-                .bindPopup("Kom dichterbij om mij tezien!");
+        var markerChasse = L.marker([<?php echo $questionMarker->longitude ?>, <?php echo $questionMarker->latitude ?>], {
+                icon: avansPin
+            })
+            .addTo(map)
+            .bindPopup("Kom dichterbij om mij tezien!");
 
     <?php }
-    } ?>
+    ?>
 
     //osm layer
     var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
