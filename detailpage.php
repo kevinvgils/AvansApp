@@ -1,4 +1,4 @@
-<?php 
+<?php
 include("./dataaccess/databaseconnection.php");
 include("./dataaccess/routeData.php");
 include("./dataaccess/questionData.php");
@@ -7,6 +7,7 @@ include("./dataaccess/coursedata.php")
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,11 +17,12 @@ include("./dataaccess/coursedata.php")
     <link rel="stylesheet" href="style/detail.css">
     <title>AvansApp</title>
 </head>
+
 <body>
     <?php include("templates/header.php"); ?>
     <main>
         <div class="wrap row detailWrap">
-        <?php
+            <?php
             include("./dataaccess/databaseconnection.php");
             // variable id ophalen uit url
             $somevar = $_GET["id"];
@@ -29,18 +31,22 @@ include("./dataaccess/coursedata.php")
             $stm = $con->prepare($query);
             if ($stm->execute()) {
                 $result = $stm->fetchAll(PDO::FETCH_OBJ);
-                foreach ($result as $route) { 
-                    if(!$route->picture == null){
-                    $url = "data:image/jpeg;base64,".base64_encode($route->picture) ?>
+                foreach ($result as $route) {
+                    if (!$route->picture == null) {
+                        $url = "data:image/jpeg;base64," . base64_encode($route->picture) ?>
 
-                    
-                    <div class="col-12 col-md-4 img" style="background-image:url('<?php echo $url ?>')"></div>
+
+                        <div class="col-12 col-md-4 img" style="background-image:url('<?php echo $url ?>')"></div>
 
                     <?php } ?>
-                    <div class="details col-12 <?php if(!$route->picture == null){echo "col-md-8";}?>" style="<?php if(!$route->picture == null){echo "padding-left: 45px;";} ?>">
+                    <div class="details col-12 <?php if (!$route->picture == null) {
+                                                    echo "col-md-8";
+                                                } ?>" style="<?php if (!$route->picture == null) {
+                                                                                                                    echo "padding-left: 45px;";
+                                                                                                                } ?>">
                         <div class="header">
                             <h1 class="black"><?php echo $route->routeName ?></h1>
-                            <?php foreach( getCourseById($route->courseId) as $course) {?>
+                            <?php foreach (getCourseById($route->courseId) as $course) { ?>
                                 <p class="large"><?php echo $course->courseName; ?></p>
                             <?php } ?>
                         </div>
@@ -59,27 +65,29 @@ include("./dataaccess/coursedata.php")
                             </p>
                         </div>
                     </div>
-            <?php }} ?>
+            <?php }
+            } ?>
             <?php
-                $i = 1;
-                foreach (getAllQuestionsForRoute($_GET['id']) as $question) { ?>
-                    <div class="fullwidth" style="border-bottom: solid black 1px; margin-bottom: 20px; padding-bottom: 20px;">
-                        <div class="row">
-                            <div class="col-12">
-                                <h6 class="font-weight-bold">Vraag <?php echo $i . ": " . $question->question; $i++; ?></h5>
+            $i = 1;
+            foreach (getAllQuestionsForRoute($_GET['id']) as $question) { ?>
+                <div class="fullwidth" style="border-bottom: solid black 1px; margin-bottom: 20px; padding-bottom: 20px;">
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="font-weight-bold">Vraag <?php echo $i . ": " . $question->question;
+                                                                $i++; ?></h5>
                                 <p>A:</p>
                                 <p>B:</p>
                                 <p>C:</p>
                                 <p>D:</p>
-                            </div>
                         </div>
                     </div>
-            <?php }?>
+                </div>
+            <?php } ?>
         </div>
 
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header bg-danger">
                     <h5 class="modal-title text-white">Voeg een vraag toe</h5>
@@ -87,48 +95,80 @@ include("./dataaccess/coursedata.php")
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="POST">
+                <form method="POST" onsubmit="return validateForm()" >
                     <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Vraag</label>
-                                <input type="text" name="question" class="form-control">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-6 border-right mb-3">
+                                    <label for="question" class="form-label">Titel</label>
+                                    <input type="text" name="question" class="form-control mb-2" required>
+                                    <label for="description" class="form-label" >Omschrijving</label>
+                                    <textarea type="text" name="description" class="form-control mb-2" required></textarea>
+                                    <div class="custom-control custom-checkbox mb-2">
+                                        <input type="checkbox" class="custom-control-input" id="latLong" onchange="latLongChecked()">
+                                        <label class="custom-control-label" for="latLong">Vraag met locatie?</label>
+                                    </div>
+                                    <div id="latLongDiv" class="row mb-2">
+                                        <div class="col-6">
+                                            <label for="latitude" class="form-label">Breedtegraad</label>
+                                            <input type="text" id="lat" name="latitude" class="form-control">
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="longtitude" class="form-label">Lengtegraad</label>
+                                            <input type="text" id="long" name="longtitude" class="form-control">
+                                        </div>
+                                    </div>
+                                    <label>Optionele afbeelding of video</label>
+                                    <select class="mb-2 custom-select" onchange="showSelected(this)">
+                                        <option selected value="none">---</option>
+                                        <option value="image">Afbeelding</option>
+                                        <option value="videoUrl">Youtube video</option>
+                                    </select>
+                                    <label class="videoUrl" for="videoUrl">Youtube video URL</label>
+                                    <input type="text" id="videoUrl" class="form-control mb-2 videoUrl" name="videoUrl">
+                                    <label class="image" for="image">Afbeelding</label>
+                                    <input type="file" id="file" accept="image/*" class="form-control-file image" name="image">
+                                </div>
+                                <div class="col-6 mb-3">
+                                    TODO: VOEG ANTWOORDEN TOE BIJ VRAAG
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                TODO: VOEG ANTWOORDEN TOE BIJ VRAAG
-                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" name="addQuestion" class="btn btn-danger">Submit</button>
                     </div>
                 </form>
             </div>
-        </div>
     </main>
 </body>
 <!-- JS code -->
-<script src="https://code.jquery.com/jquery-3.1.1.min.js">
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js">
-</script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js">
-</script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="./js/detailpage.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
 <!--JS below-->
 
 
 <!--modal-->
 <script>
-$('#myModal').on('shown.bs.modal', function () {
-  $('#myInput').trigger('focus')
-})
+    $('#myModal').on('shown.bs.modal', function() {
+        $('#myInput').trigger('focus')
+    })
 </script>
 <?php
     if (isset($_POST["addQuestion"])) {
         $routeId = $_GET["id"];
         $question = $_POST["question"];
-        addQuestionToRoute($routeId, $question);
+        $description = $_POST["description"];
+        $latitude = $_POST["latitude"];
+        $longtitude = $_POST["longtitude"];
+        $image = $_POST["image"];
+        $videoUrl = $_POST["videoUrl"];
+        addQuestionToRoute($routeId, $question, $description, $latitude, $longtitude, $image, $videoUrl);
 
-        //sorry voor deze oplossing als je een betere oplossing weet laat het dan weten :)
-        echo "<meta http-equiv='refresh' content='0'>";
-        exit();
-    }
+    //sorry voor deze oplossing als je een betere oplossing weet laat het dan weten :)
+    echo "<meta http-equiv='refresh' content='0'>";
+    exit();
+}
 ?>

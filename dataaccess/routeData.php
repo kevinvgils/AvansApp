@@ -24,13 +24,18 @@ function getAllRoutes()
     return $allRoutes;
 }
 
-function addQuestionToRoute($routeId, $question)
+function addQuestionToRoute($routeId, $question, $description, $latitude, $longitude, $image, $videoUrl)
 {
     include("databaseconnection.php");
-    $query = "INSERT INTO `question`(`routeId`, `question`) VALUES (:routeId, :question)";
+    $query = "INSERT INTO `question`(`routeId`, `question`, `description`, `latitude`, `longitude`, `image`, `videoUrl`) VALUES (:routeId, :question, :descr, :latitude, :longitude, :img, :videoUrl)";
     $stm = $con->prepare($query);
     $stm->bindValue(':routeId', $routeId);
     $stm->bindValue(':question', $question);
+    $stm->bindValue(':descr', $description);
+    $stm->bindValue(':latitude', (empty($latitude)) ? null : $latitude);
+    $stm->bindValue(':longitude', (empty($longitude)) ? null : $longitude);
+    $stm->bindValue(':img', (empty($image)) ? null : $image);
+    $stm->bindValue(':videoUrl', (empty($videoUrl)) ? null : $videoUrl);
 
     $stm->execute();
 }
