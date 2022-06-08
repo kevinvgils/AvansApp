@@ -66,11 +66,13 @@ include("./dataaccess/coursedata.php")
                     <div class="fullwidth" style="border-bottom: solid black 1px; margin-bottom: 20px; padding-bottom: 20px;">
                         <div class="row">
                             <div class="col-12">
-                                <h6 class="font-weight-bold">Vraag <?php echo $i . ": " . $question->question; $i++; ?></h5>
-                                <p>A:</p>
-                                <p>B:</p>
-                                <p>C:</p>
-                                <p>D:</p>
+                                <h5 class="font-weight-bold">Vraag <?php echo $i . ": " . $question->question; $i++; ?></h5>
+                                <h6 class="pt-1"><?php echo $question->description?>
+                                <div class="pt-3">
+                                    <?php foreach(getAllAnswersForQuestion($question->questionId) as $answer) {?>
+                                        <p><?php echo ($answer->isCorrect == 1) ? $answer->answer . ' ✓' : $answer->answer; ?></p>
+                                    <?php }?>
+                               </div>
                             </div>
                         </div>
                     </div>
@@ -122,7 +124,52 @@ include("./dataaccess/coursedata.php")
                                     <input type="file" id="file" accept="image/*" class="form-control-file image" name="image">
                                 </div>
                                 <div class="col-6 mb-3">
-                                    TODO: VOEG ANTWOORDEN TOE BIJ VRAAG
+                                <label>Aantal antwoord mogelijkheden</label>
+                                    <select class="mb-2 custom-select" onchange="showAnswerFields(this)">
+                                        <option selected value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                    <label for="answer1">Antwoord 1</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                            <input type="checkbox" name="answer1CK" value="1" id="answer1CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
+                                            </div>
+                                        </div>
+                                        <input type="text" id="answer1Txt" name="answer1" class="form-control" aria-label="Text input with checkbox" required>
+                                    </div>
+                                    <label for="answer1">Antwoord 2</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                            <input type="checkbox" name="answer2CK" value="1" id="answer2CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
+                                            </div>
+                                        </div>
+                                        <input type="text" id="answer2Txt" name="answer2" class="form-control" aria-label="Text input with checkbox" required>
+                                    </div>
+                                    <div id="answer3Div">
+                                        <label for="answer1">Antwoord 3</label>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                <input type="checkbox" name="answer3CK" value="1" id="answer3CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
+                                                </div>
+                                            </div>
+                                            <input type="text" id="answer3Txt" name="answer3" class="form-control" aria-label="Text input with checkbox">
+                                        </div>
+                                    </div>
+                                    <div id="answer4Div">
+                                        <label for="answer1">Antwoord 4</label>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                <input type="checkbox" name="answer4CK" value="1" id="answer4CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
+                                                </div>
+                                            </div>
+                                            <input type="text" id="answer4Txt" name="answer4" class="form-control" aria-label="Text input with checkbox">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -158,7 +205,13 @@ $('#myModal').on('shown.bs.modal', function () {
         $longtitude = $_POST["longtitude"];
         $image = $_POST["image"];
         $videoUrl = $_POST["videoUrl"];
-        addQuestionToRoute($routeId, $question, $description, $latitude, $longtitude, $image, $videoUrl);
+        $allAnswers = array (
+            array(1, $_POST["answer1"], $_POST["answer1CK"]),
+            array(2, $_POST["answer2"], $_POST["answer2CK"]),
+            array(3, $_POST["answer3"], $_POST["answer3CK"]),
+            array(4, $_POST["answer4"], $_POST["answer4CK"])
+        );
+        addQuestionToRoute($routeId, $question, $description, $latitude, $longtitude, $image, $videoUrl, $allAnswers);
 
         //sorry voor deze oplossing als je een betere oplossing weet laat het dan weten :)
         echo "<meta http-equiv='refresh' content='0'>";
