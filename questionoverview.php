@@ -5,6 +5,7 @@ include("./dataaccess/questionData.php");
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,6 +15,7 @@ include("./dataaccess/questionData.php");
     <script src="https://kit.fontawesome.com/72d4739e76.js" crossorigin="anonymous"></script>
     <title>AvansApp</title>
 </head>
+
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <?php $show_overview_button =  "<button type=\"button\" class=\"btn btn-light\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal\"><i class=\"fa-solid fa-bars\"></i></button>";
@@ -28,7 +30,7 @@ include("./dataaccess/questionData.php");
                         <?php include("./dataaccess/databaseconnection.php");
                         // $somevar = $_SESSION["routeId"];
                         $somevar = 1;
-                        
+
                         $query = "SELECT * FROM `route` WHERE `routeId` = " . $somevar;
                         $stm = $con->prepare($query);
                         if ($stm->execute()) {
@@ -41,17 +43,35 @@ include("./dataaccess/questionData.php");
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <h6 class="font-weight-bold">Globale vragen</h6>
                     <?php
                     // $somevar = $_SESSION["routeId"];
                     $somevar = 1;
-                    $query = "SELECT * FROM `question` WHERE `routeId` = " . $somevar;
+                    $query = "SELECT * FROM `question` WHERE `longitude` IS NULL AND `routeId` = " . $somevar;
 
                     $stm = $con->prepare($query);
                     if ($stm->execute()) {
                         $result = $stm->fetchAll(PDO::FETCH_OBJ);
                         foreach ($result as $questions) {
                             echo $questions->question;
+                            echo "<br/>";
+                        }
+                    }
+                    ?>
 
+                    <br>
+
+                    <h6 class="font-weight-bold">Locatie vragen</h6>
+                    <?php
+                    // $somevar = $_SESSION["routeId"];
+                    $somevar = 1;
+                    $query = "SELECT * FROM `question` WHERE `longitude` IS NOT NULL AND `routeId` = " . $somevar;
+
+                    $stm = $con->prepare($query);
+                    if ($stm->execute()) {
+                        $result = $stm->fetchAll(PDO::FETCH_OBJ);
+                        foreach ($result as $questions) {
+                            echo $questions->question;
                             echo "<br/>";
                         }
                     }
@@ -61,4 +81,5 @@ include("./dataaccess/questionData.php");
         </div>
     </div>
 </body>
+
 </html>
