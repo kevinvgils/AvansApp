@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 08 jun 2022 om 11:08
+-- Gegenereerd op: 08 jun 2022 om 12:10
 -- Serverversie: 10.4.24-MariaDB
 -- PHP-versie: 8.1.6
 
@@ -45,7 +45,7 @@ CREATE TABLE `course` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `course`
+-- Gegevens worden geëxporteerd voor tabel `course`
 --
 
 INSERT INTO `course` (`courseId`, `courseName`) VALUES
@@ -55,7 +55,7 @@ INSERT INTO `course` (`courseId`, `courseName`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `question`
+-- Tabelstructuur voor tabel `question`
 --
 
 CREATE TABLE `question` (
@@ -71,7 +71,7 @@ CREATE TABLE `question` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `question`
+-- Gegevens worden geëxporteerd voor tabel `question`
 --
 
 INSERT INTO `question` (`questionId`, `question`, `description`, `image`, `videoUrl`, `longitude`, `latitude`, `correctAnswerId`, `routeId`) VALUES
@@ -82,7 +82,7 @@ INSERT INTO `question` (`questionId`, `question`, `description`, `image`, `video
 -- --------------------------------------------------------
 
 --
--- Table structure for table `route`
+-- Tabelstructuur voor tabel `route`
 --
 
 CREATE TABLE `route` (
@@ -94,7 +94,7 @@ CREATE TABLE `route` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `route`
+-- Gegevens worden geëxporteerd voor tabel `route`
 --
 
 INSERT INTO `route` (`routeId`, `routeName`, `description`, `courseId`, `picture`) VALUES
@@ -121,7 +121,14 @@ CREATE TABLE `team` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Indexes for dumped tables
+-- Gegevens worden geëxporteerd voor tabel `team`
+--
+
+INSERT INTO `team` (`id`, `name`, `members`, `score`, `time`, `routeId`) VALUES
+(10, 'bert', 'a, v, da, e, a, d', 0, '2022-06-08 12:09:12', 1);
+
+--
+-- Indexen voor geëxporteerde tabellen
 --
 
 --
@@ -139,7 +146,7 @@ ALTER TABLE `course`
   ADD UNIQUE KEY `UQ_course_name` (`courseName`);
 
 --
--- Indexes for table `question`
+-- Indexen voor tabel `question`
 --
 ALTER TABLE `question`
   ADD PRIMARY KEY (`questionId`),
@@ -147,7 +154,7 @@ ALTER TABLE `question`
   ADD KEY `FK_correctAnswerId_answer` (`correctAnswerId`);
 
 --
--- Indexes for table `route`
+-- Indexen voor tabel `route`
 --
 ALTER TABLE `route`
   ADD PRIMARY KEY (`routeId`),
@@ -163,6 +170,8 @@ ALTER TABLE `team`
 --
 -- AUTO_INCREMENT voor geëxporteerde tabellen
 --
+
+--
 -- AUTO_INCREMENT voor een tabel `answer`
 --
 ALTER TABLE `answer`
@@ -175,13 +184,13 @@ ALTER TABLE `course`
   MODIFY `courseId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `question`
+-- AUTO_INCREMENT voor een tabel `question`
 --
 ALTER TABLE `question`
   MODIFY `questionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `route`
+-- AUTO_INCREMENT voor een tabel `route`
 --
 ALTER TABLE `route`
   MODIFY `routeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
@@ -190,13 +199,11 @@ ALTER TABLE `route`
 -- AUTO_INCREMENT voor een tabel `team`
 --
 ALTER TABLE `team`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Beperkingen voor geëxporteerde tabellen
 --
-ALTER TABLE `answer`
-  ADD CONSTRAINT `FK_answer_question` FOREIGN KEY (`questionId`) REFERENCES `question` (`questionId`);
 
 --
 -- Beperkingen voor tabel `answer`
@@ -212,7 +219,7 @@ ALTER TABLE `question`
   ADD CONSTRAINT `FK_question_routeId` FOREIGN KEY (`routeId`) REFERENCES `route` (`routeId`);
 
 --
--- Constraints for table `route`
+-- Beperkingen voor tabel `route`
 --
 ALTER TABLE `route`
   ADD CONSTRAINT `FK_route_courseId` FOREIGN KEY (`courseId`) REFERENCES `course` (`courseId`);
