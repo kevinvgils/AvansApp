@@ -31,8 +31,15 @@ include("./dataaccess/questionData.php");
                                 <p><?php echo count(getAllQuestionsForRoute($route->routeId)) . " vragen"; ?></p>
                             </div>
                         </a>
-                        <div class="itemContent">
+                        <div class="itemContent flexitem">
                             <?php foreach (getCourseById($route->courseId) as $course) { ?>
+                                <div>
+                                    <?php if (!$route->picture == null) {
+                                        $url = "data:image/jpeg;base64," . base64_encode($route->picture) ?>
+                                        <div class="img" style="background-image:url('<?php echo $url ?>')"></div>
+                                    <?php } ?>
+                                </div>
+                                <div>
                                 <p><?php echo $course->courseName; ?></p>
                             <?php } ?>
                             <p><?php echo $route->description ?> </p>
@@ -41,7 +48,7 @@ include("./dataaccess/questionData.php");
                                 <a href="startroute.php?id=<?php echo $route->routeId; ?>" class="button">Starten</a>
                             </div>
                         </div>
-
+                        </div>
                     </div>
                 </div>
             <?php } ?>
