@@ -147,7 +147,7 @@ include("./dataaccess/questionData.php");
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" name="addQuestion" class="btn btn-danger">Submit</button>
+                                <button type="submit" name="addQuestion" class="btn submit-btn">Submit</button>
                             </div>
                         </form>
                     </div>

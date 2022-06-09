@@ -180,3 +180,8 @@ form input:nth-last-child(2) {
 .modal-header {
  background-color: #C3222A;
 }
+
+.submit-btn {
+  color: white;
+  background-color: #C3222A;
+}
