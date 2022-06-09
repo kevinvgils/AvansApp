@@ -176,3 +176,7 @@ form input:nth-last-child(2) {
 .error {
   color: #C3222A;
 }
+
+.modal-header {
+ background-color: #C3222A;
+}
