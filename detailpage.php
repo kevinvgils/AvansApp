@@ -217,7 +217,10 @@ include("./dataaccess/coursedata.php")
         $description = $_POST["description"];
         $latitude = $_POST["latitude"];
         $longtitude = $_POST["longtitude"];
-        $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
+        $image = null;
+        if(!empty($_FILES['file']['tmp_name'])) {
+            $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
+        }
         $videoUrl = $_POST["videoUrl"];
         $allAnswers = array (
             array(1, $_POST["answer1"], (isset($_POST["answer1CK"])) ? $_POST["answer1CK"] : NULL),
