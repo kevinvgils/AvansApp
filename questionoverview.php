@@ -99,7 +99,7 @@ include("./dataaccess/questionData.php");
                             <div class="modal-body">
                                 <div class="container-fluid">
                                     <div class="row">
-                                        <div class="col-12 border-right col-md-6">
+                                        <div class="col-12 border-right col-md-6 media-full-width">
 
 
                                             <?php
@@ -108,16 +108,18 @@ include("./dataaccess/questionData.php");
 
                                             foreach (getQuestionDetails($getQuestionId, $sessionRouteId) as $questions) {
                                                 echo $questions->question;
-                                                echo "<br/><br/> Bescrhijving: <br/>";
+                                                echo "<br/><br/><strong>Bescrhijving: </strong><br/>";
                                                 echo $questions->description;
                                                 echo "<br/><br/>";
-                                                echo "<iframe class='vraagdetailvid' src='$questions->videoUrl' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
-
+                                                if(!$questions->videoUrl == null){
+                                                    echo "<iframe src='$questions->videoUrl' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
+                                                }
+                                                
                                                 if (!$questions->image == null) {
                                                     $url = "data:image/jpeg;base64," . base64_encode($questions->image) ?>
 
 
-                                                    <div class="img vraagdetailimg" style="background-image:url('<?php echo $url ?>')"></div>
+                                                    <div class="img" style="background-image:url('<?php echo $url ?>')"></div>
 
 
                                                 <?php } ?>
@@ -126,8 +128,8 @@ include("./dataaccess/questionData.php");
 
 
                                         </div>
-                                        <div class="col-12 col-md-6">
-                                            <p>Antwoord mogelijkheden</p><br />
+                                        <div class="col-12 col-md-6 answers">
+                                            <p><strong>Antwoord mogelijkheden</strong></p>
                                         <?php
                                                 $questionId = $questions->questionId;
 
