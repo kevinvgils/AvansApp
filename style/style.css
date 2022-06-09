@@ -93,6 +93,8 @@ header .wrap ul li {
 .itemWrap {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 7px;
+  height: 100%;
+  position: relative;
 }
 
 .itemWrap a:hover {
@@ -114,6 +116,10 @@ header .wrap ul li {
   justify-content: space-between;
   align-items: center;
 }
+.itemWrap .itemHeader p{
+  white-space: nowrap;
+}
+
 .flexitem{
   display: flex;
   /* align-items: center; */
@@ -130,7 +136,7 @@ header .wrap ul li {
   color: #000;
   padding: 15px;
   padding-bottom: 50px;
-  position: relative;
+  height: 100%;
 }
 
 .itemWrap .itemContent .buttonWrap {
@@ -149,7 +155,7 @@ header .wrap ul li {
   margin-bottom: 20px;
 }
 
-@media screen and (max-width: 480px) {
+/* @media screen and (max-width: 480px) {
   .mobilecentered {
     position: fixed;
     width: 100%;
@@ -158,7 +164,7 @@ header .wrap ul li {
     left: 50%;
     transform: translate(-50%, -50%);
   }
-}
+} */
 
 /* =====FORM==== */
 form .button {
@@ -175,4 +181,19 @@ form input:nth-last-child(2) {
 
 .error {
   color: #C3222A;
+}
+
+.modal-header {
+ background-color: #C3222A;
+}
+
+.submit-btn {
+  color: white;
+  background-color: #C3222A;
+}
+
+@media (max-width: 1200px){
+  .wrap{
+    margin: 0 20px;
+  }
 }

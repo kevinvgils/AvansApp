@@ -20,7 +20,7 @@ if (isset($_POST["btnOpslaan"])) {
     session_start();
     $_SESSION['routeId'] = $somevar;
 
-    header("Location: index.php");
+    header("Location: map.php");
     exit();
 }
 
@@ -42,9 +42,9 @@ if (isset($_POST["btnOpslaan"])) {
     <?php include("templates/header.php"); ?>
     <main>
         <?php
-        $somevar = $_GET["id"];
+        $getRouteId = $_GET["id"];
         // query op routeid gebaseert op id uit url
-        $query = "SELECT * FROM `route` WHERE `routeId` = " . $somevar;
+        $query = "SELECT * FROM `route` WHERE `routeId` = " . $getRouteId;
         $stm = $con->prepare($query);
         if ($stm->execute()) {
             $result = $stm->fetchAll(PDO::FETCH_OBJ);
