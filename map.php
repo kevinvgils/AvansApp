@@ -192,4 +192,3 @@ include("./dataaccess/questionData.php");
 
     // map.on('click', onMapClick);
 </script>
-<script type="text/javascript" src="./js/mapHeight.js"></script>
