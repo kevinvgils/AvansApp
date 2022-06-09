@@ -50,3 +50,15 @@
 #answer4Div{
   display: none;
 }
+
+#questionImage{
+  height: 150px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+#questionVid{
+  height: 100%;
+  width: 100%;
+}
+
