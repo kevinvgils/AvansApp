@@ -3,7 +3,6 @@ include("./dataaccess/databaseconnection.php");
 include("./dataaccess/routeData.php");
 include("./dataaccess/courseData.php");
 include("./dataaccess/questionData.php");
-include("./logic/adminRedirect.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,18 +19,13 @@ include("./logic/adminRedirect.php");
 <body>
     <?php include("templates/header.php"); ?>
     <main>
-
         <div class="wrap row">
-            <div class="col-12 mb-3">
-                <a class="button px-3 py-1" href="addroute.php">
-                    Add route
-                </a>
-            </div>
             <?php
             foreach (getAllRoutes() as $route) { ?>
                 <div class="item col-12 col-md-6">
                     <div class="itemWrap">
-                        <a href="detailpage.php?id=<?php echo $route->routeId; ?>" title>
+                        <!-- Titel van de route is klikbaar en word de routeId megegeven -->
+                        <a href="startroute.php?id=<?php echo $route->routeId; ?>" title>
                             <div class="itemHeader">
                                 <h3><?php echo $route->routeName; ?></h3>
                                 <p><?php echo count(getAllQuestionsForRoute($route->routeId)) . " vragen"; ?></p>
@@ -46,17 +40,15 @@ include("./logic/adminRedirect.php");
                                     <?php } ?>
                                 </div>
                                 <div>
-                                    <p><?php echo $course->courseName; ?></p>
-                                <?php } ?>
-                                <p><?php echo $route->description ?> </p>
-                                <div class="buttonWrap">
-                                    <a href="/" class="button">Scores</a>
-                                    <a href="/" class="button">Bewerken</a>
-                                    <a href="/" class="button">Verwijderen</a>
-                                </div>
-                                </div>
+                                <p><?php echo $course->courseName; ?></p>
+                            <?php } ?>
+                            <p><?php echo $route->description ?> </p>
+                            <div class="buttonWrap">
+                                <!-- start knop waar routeId word megegeven -->
+                                <a href="startroute.php?id=<?php echo $route->routeId; ?>" class="button">Starten</a>
+                            </div>
                         </div>
-
+                        </div>
                     </div>
                 </div>
             <?php } ?>

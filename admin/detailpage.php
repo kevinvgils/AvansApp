@@ -1,8 +1,8 @@
 <?php
-include("./dataaccess/databaseconnection.php");
-include("./dataaccess/routeData.php");
-include("./dataaccess/questionData.php");
-include("./dataaccess/coursedata.php")
+include("../dataaccess/databaseconnection.php");
+include("../dataaccess/routeData.php");
+include("../dataaccess/questionData.php");
+include("../dataaccess/coursedata.php")
 
 ?>
 <!DOCTYPE html>
@@ -13,8 +13,8 @@ include("./dataaccess/coursedata.php")
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="style/style.css">
-    <link rel="stylesheet" href="style/detail.css">
+    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/detail.css">
     <title>AvansApp</title>
 </head>
 
@@ -23,7 +23,7 @@ include("./dataaccess/coursedata.php")
     <main>
         <div class="wrap row detailWrap">
             <?php
-            include("./dataaccess/databaseconnection.php");
+            include("../dataaccess/databaseconnection.php");
             // variable id ophalen uit url
             $somevar = $_GET["id"];
             // query op routeid gebaseert op id uit url
@@ -198,7 +198,7 @@ include("./dataaccess/coursedata.php")
 </body>
 <!-- JS code -->
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="./js/detailpage.js"></script>
+<script src="../js/detailpage.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
 <!--JS below-->
