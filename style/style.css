@@ -191,3 +191,9 @@ form input:nth-last-child(2) {
   color: white;
   background-color: #C3222A;
 }
+
+@media (max-width: 1200px){
+  .wrap{
+    margin: 0 20px;
+  }
+}
