@@ -149,7 +149,7 @@ header .wrap ul li {
   margin-bottom: 20px;
 }
 
-@media screen and (max-width: 480px) {
+/* @media screen and (max-width: 480px) {
   .mobilecentered {
     position: fixed;
     width: 100%;
@@ -158,7 +158,7 @@ header .wrap ul li {
     left: 50%;
     transform: translate(-50%, -50%);
   }
-}
+} */
 
 /* =====FORM==== */
 form .button {
