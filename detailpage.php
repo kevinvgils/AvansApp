@@ -72,7 +72,7 @@ include("./dataaccess/coursedata.php")
                 foreach (getAllQuestionsForRoute($_GET['id']) as $question) { ?>
                     <div class="fullwidth" style="border-bottom: solid black 1px; margin-bottom: 20px; padding-bottom: 20px;">
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-9">
                                 <h5 class="font-weight-bold">Vraag <?php echo $i . ": " . $question->question; $i++; ?></h5>
                                 <h6 class="pt-1"><?php echo $question->description?>
                                 <div class="pt-3">
@@ -80,6 +80,14 @@ include("./dataaccess/coursedata.php")
                                         <p><?php echo ($answer->isCorrect == 1) ? $answer->answer . ' ✓' : $answer->answer; ?></p>
                                     <?php }?>
                                </div>
+                            </div>
+                            <div class="col-3">
+                                <?php if (!empty($question->image)) {
+                                    $url = "data:image/jpeg;base64," . base64_encode($question->image) ?>
+                                    <div id="questionImage" style="background-image:url('<?php echo $url ?>')"></div>
+                                <?php } else if(!empty($question->videoUrl)) { ?>
+                                    <iframe id="questionVid"src="<?php echo $question->videoUrl ?>"></iframe> 
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
@@ -96,7 +104,7 @@ include("./dataaccess/coursedata.php")
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="POST" onsubmit="return validateForm()" >
+                <form method="POST" enctype="multipart/form-data" onsubmit="return validateForm()" >
                     <div class="modal-body">
                         <div class="container-fluid">
                             <div class="row">
@@ -128,7 +136,7 @@ include("./dataaccess/coursedata.php")
                                     <label class="videoUrl" for="videoUrl">Youtube video URL</label>
                                     <input type="text" id="videoUrl" class="form-control mb-2 videoUrl" name="videoUrl">
                                     <label class="image" for="image">Afbeelding</label>
-                                    <input type="file" id="file" accept="image/*" class="form-control-file image" name="image">
+                                    <input type="file" id="file" accept="image/*" class="form-control-file image" name="file">
                                 </div>
                                 <div class="col-6 mb-3">
                                 <label>Aantal antwoord mogelijkheden</label>
@@ -209,13 +217,16 @@ include("./dataaccess/coursedata.php")
         $description = $_POST["description"];
         $latitude = $_POST["latitude"];
         $longtitude = $_POST["longtitude"];
-        $image = $_POST["image"];
+        $image = null;
+        if(!empty($_FILES['file']['tmp_name'])) {
+            $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
+        }
         $videoUrl = $_POST["videoUrl"];
         $allAnswers = array (
-            array(1, $_POST["answer1"], $_POST["answer1CK"]),
-            array(2, $_POST["answer2"], $_POST["answer2CK"]),
-            array(3, $_POST["answer3"], $_POST["answer3CK"]),
-            array(4, $_POST["answer4"], $_POST["answer4CK"])
+            array(1, $_POST["answer1"], (isset($_POST["answer1CK"])) ? $_POST["answer1CK"] : NULL),
+            array(2, $_POST["answer2"], (isset($_POST["answer2CK"])) ? $_POST["answer2CK"] : NULL),
+            array(3, $_POST["answer3"], (isset($_POST["answer3CK"])) ? $_POST["answer3CK"] : NULL),
+            array(4, $_POST["answer4"], (isset($_POST["answer4CK"])) ? $_POST["answer4CK"] : NULL)
         );
         addQuestionToRoute($routeId, $question, $description, $latitude, $longtitude, $image, $videoUrl, $allAnswers);
 
