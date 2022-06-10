@@ -16,3 +16,13 @@ function startRoute($teamName, $teamMembers, $somevar, $array)
     $stm->bindValue(':routeId', $somevar);
     $stm->execute();
 }
+
+function getAllTeams() {
+    include("databaseconnection.php");
+    $allTeamsQuery = "SELECT * FROM `team`";
+    $stm = $con->prepare($allTeamsQuery);
+    if ($stm->execute()) {
+        $allTeams = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $allTeams;
+}
