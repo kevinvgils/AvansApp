@@ -4,9 +4,10 @@ function startRoute($teamName, $teamMembers, $somevar, $array)
     $allmembers = "";
     foreach ($array as $member) {
         if (!empty($member)) {
-            $allmembers .= $member . ",";
+            $allmembers .= $member . ", ";
         }
     }
+    $allmembers = substr($allmembers, 0, -2);
 
     include("databaseconnection.php");
     $query = "INSERT INTO `team`(`name`, `members`, `score`, `time`, `routeId`) VALUES (:teamName,:teamMembers,0,NOW(), :routeId)";

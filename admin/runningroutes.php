@@ -32,7 +32,7 @@ include("../dataaccess/questionData.php");
                             <h3 class="collapsible-points"><?php echo $team->score ?> punten</h3>
                         </button>
                         <div class="collapsible-content">
-                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tincidunt nisi sed ante condimentum venenatis. Phasellus eu enim nec dolor sodales fringilla quis a nisi. Cras eu sapien feugiat, lobortis enim eget, placerat mauris. Vivamus elit est, semper tristique est at, dapibus consectetur mi. Sed eleifend dolor eu metus sodales bibendum. Mauris aliquam lectus id est sagittis rutrum. Morbi ut dolor condimentum, interdum sem in, ultrices nunc. Proin sapien ipsum, pulvinar ut odio eget, rutrum egestas diam. Suspendisse ac est aliquet libero volutpat malesuada. Aenean sed nibh blandit, volutpat dolor et, pulvinar metus. Etiam vulputate, est euismod posuere blandit, tellus neque vestibulum purus, quis eleifend mauris metus eget libero. Fusce eget nisl posuere, malesuada enim sed, pulvinar odio. Mauris quis nisl at nunc sagittis varius non at arcu. Etiam tincidunt elit et felis cursus hendrerit. Pellentesque non condimentum ipsum, elementum fermentum massa. Fusce id ante ac tellus imperdiet dictum at a elit. </p>
+                            <p>Teamleden: <?php echo $team->members; ?> </p>
                         </div>
                     </div>
                 </div>
