@@ -211,6 +211,10 @@ form input:nth-last-child(2) {
   justify-content: start !important;
 }
 
+.collapsible:focus {
+  outline: none;
+}
+
 .collapsible-text {
   float: left;
   margin-left: 10px;
