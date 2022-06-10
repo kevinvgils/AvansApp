@@ -128,3 +128,24 @@ function getQuestionAnswer($questionId)
     }
     return $resultAnswer;
 }
+
+function getAwnserCount($questionId){
+    include("databaseconnection.php");
+    $queryAnswer = "SELECT count(*) AS count FROM `answer` WHERE questionId =" . $questionId;
+    $stm = $con->prepare($queryAnswer);
+    if ($stm->execute()) {
+        $resultAnswer = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $resultAnswer;
+}
+
+function deleteQuestion($questionId){
+    include("databaseconnection.php");
+    $queries = ["DELETE FROM `answer` WHERE questionId = :questionId", "DELETE FROM `question` WHERE questionId = :questionId"];
+    foreach ($queries as $query){
+        $stm = $con->prepare($query);
+        $stm->bindValue(':questionId', $questionId);
+        $stm->execute();
+    }
+    return true;
+}

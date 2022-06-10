@@ -55,6 +55,7 @@
   height: 150px;
   background-repeat: no-repeat;
   background-size: contain;
+  background-position-x: right;
 }
 
 #questionVid{
@@ -62,3 +63,19 @@
   width: 100%;
 }
 
+.questionDetail{
+  position: relative;
+  border-bottom: solid black 1px;
+  margin-bottom: 20px;
+  padding-bottom: 60px;
+}
+.questionDetail .buttonWrap {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+.questionDetail .buttonWrap .button {
+  margin-left: 10px;
+}
