@@ -26,3 +26,15 @@ function getAllTeams() {
     }
     return $allTeams;
 }
+
+function getEndTime($teamId)
+{
+
+    include("databaseconnection.php");
+    $allRoutesQuery = "SELECT TIMEDIFF(`endTime`,`startTime`) AS finalTime from team WHERE id = $teamId";
+    $stm = $con->prepare($allRoutesQuery);
+    if ($stm->execute()) {
+        $allteams = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $allteams;
+}
