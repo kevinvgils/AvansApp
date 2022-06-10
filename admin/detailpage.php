@@ -119,12 +119,12 @@ include("../dataaccess/coursedata.php")
                                     </div>
                                     <div id="latLongDiv" class="row mb-2">
                                         <div class="col-6">
-                                            <label for="latitude" class="form-label">Breedtegraad</label>
-                                            <input type="text" id="lat" name="latitude" class="form-control">
-                                        </div>
-                                        <div class="col-6">
                                             <label for="longtitude" class="form-label">Lengtegraad</label>
                                             <input type="text" id="long" name="longtitude" class="form-control">
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="latitude" class="form-label">Breedtegraad</label>
+                                            <input type="text" id="lat" name="latitude" class="form-control">
                                         </div>
                                     </div>
                                     <label>Optionele afbeelding of video</label>
