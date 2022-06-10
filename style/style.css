@@ -220,6 +220,10 @@ form input:nth-last-child(2) {
   margin-left: 10px;
 }
 
+.collapsible-points {
+  margin-left: auto;
+}
+
 .active, .collapsible:hover {
   background-color: #78161b;
 }
