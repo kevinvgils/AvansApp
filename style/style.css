@@ -62,6 +62,10 @@ header {
   margin-bottom: 50px;
 }
 
+header .h1 {
+  color: #fff;
+}
+
 header .wrap {
   display: flex;
   justify-content: space-between;

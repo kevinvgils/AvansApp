@@ -23,3 +23,15 @@ function getAllRoutes()
     }
     return $allRoutes;
 }
+
+function getRouteById($id)
+{
+    include("databaseconnection.php");
+    $routeByIdQuery = "SELECT * FROM `route` WHERE `routeId` = :id";
+    $stm = $con->prepare($routeByIdQuery);
+    $stm->bindValue(':id', $id);
+    if ($stm->execute()) {
+        $route = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $route;
+}

@@ -59,19 +59,6 @@ function getAllAnswersForQuestion($questionId)
     return $allAnswers;
 }
 
-function getRouteName($sessionRouteId)
-{
-    include("databaseconnection.php");
-
-
-    $query = "SELECT * FROM `route` WHERE `routeId` = " . $sessionRouteId;
-    $stm = $con->prepare($query);
-    if ($stm->execute()) {
-        $result = $stm->fetchAll(PDO::FETCH_OBJ);
-    }
-
-    return $result;
-}
 function getGlobalQuestion($sessionRouteId)
 {
     include("databaseconnection.php");

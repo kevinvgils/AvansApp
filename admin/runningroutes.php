@@ -1,7 +1,7 @@
 <?php
 include("../dataaccess/databaseconnection.php");
 include("../dataaccess/routeData.php");
-include("./dataaccess/teamData.php");
+include("../dataaccess/teamData.php");
 include("../dataaccess/questionData.php");
 
 ?>
@@ -19,7 +19,7 @@ include("../dataaccess/questionData.php");
 </head>
 
 <body>
-    <?php include("templates/header.php"); ?>\
+    <?php include("templates/runningroutesheader.php"); ?>
     <main>
 
     </main>
