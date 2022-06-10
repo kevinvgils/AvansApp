@@ -30,8 +30,9 @@ function getAllTeams() {
 
 function getAllActiveTeamsInRoute($routeId) {
     include("databaseconnection.php");
-    $activeTeamsQuery = "SELECT * FROM `team` WHERE `endTime` IS NULL AND `routeId` = '$routeId'";
+    $activeTeamsQuery = "SELECT * FROM `team` WHERE `endTime` IS NULL AND `routeId` = ':routeId'";
     $stm = $con->prepare($activeTeamsQuery);
+    $stm->bindValue(':routeId', $routeId);
     if ($stm->execute()) {
         $activeTeams = $stm->fetchAll(PDO::FETCH_OBJ);
     }
@@ -40,8 +41,9 @@ function getAllActiveTeamsInRoute($routeId) {
 
 function getEndTime($teamId) {
     include("databaseconnection.php");
-    $endTimeQuery = "SELECT TIMEDIFF(`endTime`,`startTime`) AS `finalTime` FROM `team` WHERE `id` = $teamId";
+    $endTimeQuery = "SELECT TIMEDIFF(`endTime`,`startTime`) AS `finalTime` FROM `team` WHERE `id` = :teamId";
     $stm = $con->prepare($endTimeQuery);
+    $stm->bindValue(':teamId', $teamId);
     if ($stm->execute()) {
         $endTime = $stm->fetchAll(PDO::FETCH_OBJ);
     }
