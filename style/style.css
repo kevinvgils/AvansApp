@@ -208,28 +208,30 @@ form input:nth-last-child(2) {
   text-align: left;
   outline: none;
   font-size: 15px;
+  justify-content: start !important;
+}
+
+.collapsible-text {
+  float: left;
+  margin-left: 10px;
 }
 
 .active, .collapsible:hover {
-  background-color: #C3222A;
-}
-
-.collapsible:after {
-  content: '\2304';
-  color: white;
-  font-weight: bold;
-  float: right;
-  margin-left: 5px;
-}
-
-.active:after {
-  content: "\2212";
+  background-color: #78161b;
 }
 
 .collapsible-content {
   padding: 0 18px;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.2s ease-out;
+  transition: max-height 0.3s ease-out;
   background-color: #f1f1f1;
+}
+
+.collapsible img {
+  transition: 0.3s ease-out;
+}
+
+.active img {
+  transform:rotateZ(180deg);
 }

@@ -26,9 +26,12 @@ include("../dataaccess/questionData.php");
             foreach (getAllTeams() as $team) { ?>
                 <div class="col-12 mb-3">
                     <div class="itemWrap">
-                        <button type="button" class="collapsible"><?php echo $team->name; ?></button>
+                        <button type="button" class="collapsible itemHeader">
+                            <img src="../img/down-arrow.png" alt="Down Arrow" width="30" height="30">
+                            <h3 class="collapsible-text"><?php echo $team->name; ?></h3>
+                        </button>
                         <div class="collapsible-content">
-                            <p> Test </p>
+                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tincidunt nisi sed ante condimentum venenatis. Phasellus eu enim nec dolor sodales fringilla quis a nisi. Cras eu sapien feugiat, lobortis enim eget, placerat mauris. Vivamus elit est, semper tristique est at, dapibus consectetur mi. Sed eleifend dolor eu metus sodales bibendum. Mauris aliquam lectus id est sagittis rutrum. Morbi ut dolor condimentum, interdum sem in, ultrices nunc. Proin sapien ipsum, pulvinar ut odio eget, rutrum egestas diam. Suspendisse ac est aliquet libero volutpat malesuada. Aenean sed nibh blandit, volutpat dolor et, pulvinar metus. Etiam vulputate, est euismod posuere blandit, tellus neque vestibulum purus, quis eleifend mauris metus eget libero. Fusce eget nisl posuere, malesuada enim sed, pulvinar odio. Mauris quis nisl at nunc sagittis varius non at arcu. Etiam tincidunt elit et felis cursus hendrerit. Pellentesque non condimentum ipsum, elementum fermentum massa. Fusce id ante ac tellus imperdiet dictum at a elit. </p>
                         </div>
                     </div>
                 </div>
