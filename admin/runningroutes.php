@@ -14,6 +14,7 @@ include("../dataaccess/questionData.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/runningroutes.css">
     <link rel="stylesheet" href="../style/detail.css">
     <title>AvansApp</title>
 </head>
@@ -32,7 +33,20 @@ include("../dataaccess/questionData.php");
                             <h3 class="collapsible-points"><?php echo $team->score ?> punten</h3>
                         </button>
                         <div class="collapsible-content">
-                            <p>Teamleden: <?php echo $team->members; ?> </p>
+                            <h5 class="members-text"><strong>Teamleden:</strong> <?php echo $team->members; ?> </h5>
+
+                            <?php
+                            $i = 1;
+                            foreach (getAllQuestionsForRoute($_GET['id']) as $question) { ?>
+                                <div class="fullwidth" style="border-bottom: solid black 1px; margin-bottom: 20px; padding-bottom: 20px;">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <p class="font-weight-bold">Vraag <?php echo $i . ": " . $question->question;
+                                            $i++; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
@@ -43,19 +57,19 @@ include("../dataaccess/questionData.php");
 
 <!-- JS code -->
 <script>
-var coll = document.getElementsByClassName("collapsible");
-var i;
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
 
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var content = this.nextElementSibling;
-    if (content.style.maxHeight){
-      content.style.maxHeight = null;
-    } else {
-      content.style.maxHeight = content.scrollHeight + "px";
-    } 
-  });
-}
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    }
 </script>
 <!-- JS code -->
