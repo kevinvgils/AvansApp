@@ -10,7 +10,7 @@ function startRoute($teamName, $teamMembers, $somevar, $array)
     $allmembers = substr($allmembers, 0, -2);
 
     include("databaseconnection.php");
-    $query = "INSERT INTO `team`(`name`, `members`, `score`, `time`, `routeId`) VALUES (:teamName,:teamMembers,0,NOW(), :routeId)";
+    $query = "INSERT INTO `team`(`name`, `members`, `score`, `startTime`, `endTime`, `routeId`) VALUES (:teamName,:teamMembers,0,NOW(),NULL, :routeId)";
     $stm = $con->prepare($query);
     $stm->bindValue(':teamName', $teamName);
     $stm->bindValue(':teamMembers', $allmembers);
@@ -28,14 +28,22 @@ function getAllTeams() {
     return $allTeams;
 }
 
-function getEndTime($teamId)
-{
-
+function getAllActiveTeamsInRoute($routeId) {
     include("databaseconnection.php");
-    $allRoutesQuery = "SELECT TIMEDIFF(`endTime`,`startTime`) AS finalTime from team WHERE id = $teamId";
-    $stm = $con->prepare($allRoutesQuery);
+    $activeTeamsQuery = "SELECT * FROM `team` WHERE `endTime` IS NULL AND `routeId` = '$routeId'";
+    $stm = $con->prepare($activeTeamsQuery);
     if ($stm->execute()) {
-        $allteams = $stm->fetchAll(PDO::FETCH_OBJ);
+        $activeTeams = $stm->fetchAll(PDO::FETCH_OBJ);
     }
-    return $allteams;
+    return $activeTeams;
+}
+
+function getEndTime($teamId) {
+    include("databaseconnection.php");
+    $endTimeQuery = "SELECT TIMEDIFF(`endTime`,`startTime`) AS `finalTime` FROM `team` WHERE `id` = $teamId";
+    $stm = $con->prepare($endTimeQuery);
+    if ($stm->execute()) {
+        $endTime = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $endTime;
 }

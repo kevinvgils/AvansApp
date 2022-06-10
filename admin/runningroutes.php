@@ -24,7 +24,7 @@ include("../dataaccess/questionData.php");
     <main>
         <div class="wrap row">
             <?php
-            foreach (getAllTeams() as $team) { ?>
+            foreach (getAllActiveTeamsInRoute($_GET['id']) as $team) { ?>
                 <div class="col-12 mb-3">
                     <div class="itemWrap">
                         <button type="button" class="collapsible itemHeader">

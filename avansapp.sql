@@ -151,7 +151,8 @@ CREATE TABLE `team` (
   `name` varchar(255) NOT NULL,
   `members` varchar(255) NOT NULL,
   `score` int(100) NOT NULL,
-  `time` datetime NOT NULL,
+  `startTime` datetime NOT NULL,
+  `endTime` datetime,
   `routeId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -159,10 +160,11 @@ CREATE TABLE `team` (
 -- Gegevens worden geëxporteerd voor tabel `team`
 --
 
-INSERT INTO `team` (`id`, `name`, `members`, `score`, `time`, `routeId`) VALUES
-(10, 'bert', 'a, v, da, e, a, d', 0, '2022-06-08 12:09:12', 1),
-(11, 'Hutsers', 'Bryan,Dimitri,Thijs,Tim,Kevin,Mohammed,', 0, '2022-06-08 16:48:46', 1),
-(12, 'test', 'test,', 0, '2022-06-08 17:08:58', 1);
+INSERT INTO `team` (`id`, `name`, `members`, `score`, `startTime`, `endTime`, `routeId`) VALUES
+(10, 'De mannen', 'Bryan, Dimitri, Kevin, Mohammed, Thijs, Tim', 30, '2022-06-10 15:50:12', NULL, 1),
+(11, 'De koters', 'Thijs', 0, '2022-06-08 16:48:46', '2022-06-08 17:25:41', 1),
+(12, 'Biermannen', 'Bryan, Dimitri, Kevin, Thijs', 69, '2022-06-10 15:50:12', NULL, 1),
+(13, 'Test team', 'Testuser1, Testuser2, SHEEEESH', 0, '2022-06-08 17:08:58', NULL, 1);
 
 --
 -- Indexen voor geëxporteerde tabellen
