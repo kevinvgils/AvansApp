@@ -62,10 +62,6 @@ header {
   margin-bottom: 50px;
 }
 
-header .h1 {
-  color: #fff;
-}
-
 header .wrap {
   display: flex;
   justify-content: space-between;
@@ -200,4 +196,40 @@ form input:nth-last-child(2) {
   .wrap{
     margin: 0 20px;
   }
+}
+
+.collapsible {
+  background-color: #C3222A;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  background-color: #C3222A;
+}
+
+.collapsible:after {
+  content: '\2304';
+  color: white;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.collapsible-content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
 }

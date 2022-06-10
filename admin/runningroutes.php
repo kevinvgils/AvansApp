@@ -21,6 +21,37 @@ include("../dataaccess/questionData.php");
 <body>
     <?php include("templates/runningroutesheader.php"); ?>
     <main>
-
+        <div class="wrap row">
+            <?php
+            foreach (getAllTeams() as $team) { ?>
+                <div class="col-12 mb-3">
+                    <div class="itemWrap">
+                        <button type="button" class="collapsible"><?php echo $team->name; ?></button>
+                        <div class="collapsible-content">
+                            <p> Test </p>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
     </main>
 </body>
+
+<!-- JS code -->
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    } 
+  });
+}
+</script>
+<!-- JS code -->
