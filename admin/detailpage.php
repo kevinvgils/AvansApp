@@ -157,7 +157,7 @@ include("../logic/editQuestion.php");
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">
-                                            <input type="checkbox" name="answer1CK" value="1" <?php if( isEditing() && $questions[0]->isCorrect == 1){ echo "checked";} ?> id="answer1CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
+                                            <input type="checkbox" name="answer1CK" value="1" <?php if( isEditing() && isset($questions[0]) && $questions[0]->isCorrect == 1){ echo "checked";} ?> id="answer1CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
                                             </div>
                                         </div>
                                         <input type="text" id="answer1Txt" name="answer1" class="form-control" value="<?php if(isEditing() && $count >= 1){echo $questions[0]->answer;} ?>" aria-label="Text input with checkbox" required>
@@ -166,7 +166,7 @@ include("../logic/editQuestion.php");
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">
-                                            <input type="checkbox" name="answer2CK" value="1" <?php if(isEditing() && $questions[1]->isCorrect == 1){ echo "checked";} ?> id="answer2CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
+                                            <input type="checkbox" name="answer2CK" value="1" <?php if(isEditing() && isset($questions[1]) && $questions[1]->isCorrect == 1){ echo "checked";} ?> id="answer2CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
                                             </div>
                                         </div>
                                         <input type="text" id="answer2Txt" name="answer2" class="form-control" value="<?php if(isEditing() && $count >= 2){echo $questions[1]->answer;} ?>" aria-label="Text input with checkbox" required>
@@ -176,7 +176,7 @@ include("../logic/editQuestion.php");
                                         <div class="input-group mb-2">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
-                                                <input type="checkbox" name="answer3CK" value="1" <?php if( isEditing() && $questions[2]->isCorrect == 1){ echo "checked";} ?> id="answer3CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
+                                                <input type="checkbox" name="answer3CK" value="1" <?php if( isEditing() && isset($questions[2]) && $questions[2]->isCorrect == 1){ echo "checked";} ?> id="answer3CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
                                                 </div>
                                             </div>
                                             <input type="text" id="answer3Txt" name="answer3" class="form-control" value="<?php if(isEditing() && $count >= 3){echo $questions[2]->answer;} ?>" aria-label="Text input with checkbox">
@@ -187,7 +187,7 @@ include("../logic/editQuestion.php");
                                         <div class="input-group mb-2">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
-                                                <input type="checkbox" name="answer4CK" value="1" <?php if(isEditing() && $questions[3]->isCorrect == 1){ echo "checked";} ?> id="answer4CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
+                                                <input type="checkbox" name="answer4CK" value="1" <?php if(isEditing() && isset($questions[3]) && $questions[3]->isCorrect == 1){ echo "checked";} ?> id="answer4CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
                                                 </div>
                                             </div>
                                             <input type="text" id="answer4Txt" name="answer4" class="form-control" value="<?php if(isEditing() && $count >= 4){echo $questions[3]->answer;} ?>" aria-label="Text input with checkbox">
@@ -242,16 +242,26 @@ include("../logic/editQuestion.php");
             addQuestionToRoute($routeId, $question, $description, $latitude, $longtitude, $image, $videoUrl, $allAnswers);
         } else{
             updateQuestionToRoute($_GET["questionId"], $routeId, $question, $description, $latitude, $longtitude, $image, $videoUrl, $allAnswers);
-        }
-        
-    echo "<meta http-equiv='refresh' content='0'>";
-    exit();
-}
-?>
+        }?> 
+        <script>
+            window.location.replace("detailpage.php?id=<?php echo $routeId; ?>");
+        </script>
+    <?php } ?>
+
 <script>
     <?php
     if (isEditing()) { ?>
         $('#myModal').modal('show');
     <?php } ?>
+
+    $('#myModal').on('hidden.bs.modal', function (e) {
+     $(this)
+        .find("input,textarea")
+           .val('')
+           .end()
+        .find("input[type=checkbox], input[type=radio]")
+           .prop("checked", "")
+           .end();
+    })
 </script>
 </html>
