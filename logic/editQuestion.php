@@ -38,6 +38,13 @@ function awnserCount(){
   }
 }
 
+function getQuestions(){
+  if(isEditing()){
+    return getAllAnswersForQuestion($_GET['questionId']);
+  } else{
+    return "";
+  }
+}
 
 function checkOptionalVidOrImg(){
   if(isEditing()){
