@@ -20,8 +20,24 @@ include("./dataaccess/questionData.php");
     <?php include("templates/header.php"); ?>
     <main>
         <div class="wrap row">
+            <div class="col-11 mb-4">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Kies je opleiding!
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="index.php">Alle routes</a>
+                        <div class="dropdown-divider"></div>
+                        <?php
+                        foreach (getCourses() as $course) { ?>
+                            <a class="dropdown-item" href="index.php?courseId=<?php echo $course->courseId?>"><?php echo $course->courseName ?></a>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
             <?php
-            foreach (getAllRoutes() as $route) { ?>
+            $courseId = (empty($_GET["courseId"])) ? null : $_GET["courseId"];
+            foreach ((empty($courseId)) ? getAllRoutes() : getAllRoutesByCourse($courseId) as $route) { ?>
                 <div class="item col-12 col-md-6">
                     <div class="itemWrap">
                         <!-- Titel van de route is klikbaar en word de routeId megegeven -->
@@ -54,6 +70,9 @@ include("./dataaccess/questionData.php");
             <?php } ?>
         </div>
     </main>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 
 </html>
