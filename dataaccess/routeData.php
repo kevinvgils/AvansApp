@@ -13,11 +13,22 @@ function addRoutes($routeName, $course, $desc, $picture)
     $stm->execute();
 }
 
-function getAllRoutes()
+function getAllActiveRoutes()
 {
     include("databaseconnection.php");
-    $allRoutesQuery = "SELECT * FROM `route`";
+    $allRoutesQuery = "SELECT * FROM `route` WHERE `isActive` = 1";
     $stm = $con->prepare($allRoutesQuery);
+    if ($stm->execute()) {
+        $allRoutes = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $allRoutes;
+}
+function archiveRoute($routeId)
+{
+    include("databaseconnection.php");
+    $allRoutesQuery = "UPDATE `route` SET `isActive` = '0' WHERE `route`.`routeId` = :routeId;";
+    $stm = $con->prepare($allRoutesQuery);
+    $stm->bindValue(':routeId', $routeId);
     if ($stm->execute()) {
         $allRoutes = $stm->fetchAll(PDO::FETCH_OBJ);
     }
