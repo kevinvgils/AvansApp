@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 14 jun 2022 om 10:27
--- Serverversie: 10.4.17-MariaDB
--- PHP-versie: 8.0.2
+-- Gegenereerd op: 14 jun 2022 om 12:04
+-- Serverversie: 10.4.24-MariaDB
+-- PHP-versie: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -95,7 +95,7 @@ INSERT INTO `course` (`courseId`, `courseName`) VALUES
 
 CREATE TABLE `question` (
   `questionId` int(11) NOT NULL,
-  `questionType` int(11) NOT NULL DEFAULT 0,
+  `questionType` int(11) NOT NULL,
   `question` text NOT NULL,
   `description` text NOT NULL,
   `image` longblob DEFAULT NULL,
@@ -152,18 +152,20 @@ CREATE TABLE `team` (
   `name` varchar(255) NOT NULL,
   `members` varchar(255) NOT NULL,
   `score` int(100) NOT NULL,
-  `time` datetime NOT NULL,
-  `routeId` int(11) NOT NULL
+  `startTime` datetime NOT NULL,
+  `endTime` datetime DEFAULT NULL,
+  `routeId` int(11) NOT NULL,
+  `isActive` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `team`
 --
 
-INSERT INTO `team` (`id`, `name`, `members`, `score`, `time`, `routeId`) VALUES
-(10, 'bert', 'a, v, da, e, a, d', 0, '2022-06-08 12:09:12', 1),
-(11, 'Hutsers', 'Bryan,Dimitri,Thijs,Tim,Kevin,Mohammed,', 0, '2022-06-08 16:48:46', 1),
-(12, 'test', 'test,', 0, '2022-06-08 17:08:58', 1);
+INSERT INTO `team` (`id`, `name`, `members`, `score`, `startTime`, `endTime`, `routeId`, `isActive`) VALUES
+(10, 'bert', 'a, v, da, e, a, d', 0, '2022-06-08 12:09:12', NULL, 1, 1),
+(11, 'Hutsers', 'Bryan,Dimitri,Thijs,Tim,Kevin,Mohammed,', 0, '2022-06-08 16:48:46', NULL, 1, 1),
+(12, 'test', 'test,', 0, '2022-06-08 17:08:58', NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -258,7 +260,7 @@ ALTER TABLE `route`
 -- AUTO_INCREMENT voor een tabel `team`
 --
 ALTER TABLE `team`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT voor een tabel `team_questions`
