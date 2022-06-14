@@ -151,7 +151,7 @@ include("../logic/editQuestion.php");
                                         <option <?php if($type == 2){ echo "selected"; } ?> value="2">Afbeeldingsvraag</option>
                                         <option <?php if($type == 3){ echo "selected"; } ?> value="3">Videovraag</option>
                                     </select>
-                                    <div id="multipleChoice" <?php if(getValueWhenEdit("questionType") != 0){ echo "style='display: none;'";} ?>>
+                                    <div id="multipleChoice" <?php if(getValueWhenEdit("questionType") != 0 && isEditing()){ echo "style='display: none;'";} ?>>
                                         <label>Aantal antwoord mogelijkheden</label>
                                         <select class="mb-2 custom-select" onchange="showAnswerFields(this)">
                                             <?php $count = awnserCount() ?>
