@@ -23,13 +23,42 @@ include("../dataaccess/questionData.php");
     <?php include("templates/runningroutesheader.php"); ?>
     <main>
         <div class="wrap row">
+        <?php
+            foreach (getAllFinishedTeamsInRoute($_GET['id']) as $team) { ?>
+                <div class="col-12 mb-3">
+                    <div class="itemWrap">
+                        <button type="button" class="collapsible itemHeader">
+                            <img src="../img/down-arrow.png" alt="Down Arrow" width="30" height="30">
+                            <h3 class="collapsible-text"><?php echo $team->name; ?>. Tocht voltooid in <?php echo getEndTime($team->id)?></h3>
+                            <h3 class="collapsible-points"><?php echo $team->score ?> punten</h3>
+                        </button>
+                        <div class="collapsible-content">
+                            <h5 class="members-text"><strong>Teamleden:</strong> <?php echo $team->members; ?> </h5>
+
+                            <?php
+                            $i = 1;
+                            foreach (getAllQuestionsForRoute($_GET['id']) as $question) { ?>
+                                <div class="fullwidth" style="border-bottom: solid black 1px; margin-bottom: 20px; padding-bottom: 20px;">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <p class="font-weight-bold">Vraag <?php echo $i . ": " . $question->question;
+                                            $i++; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+
             <?php
             foreach (getAllActiveTeamsInRoute($_GET['id']) as $team) { ?>
                 <div class="col-12 mb-3">
                     <div class="itemWrap">
                         <button type="button" class="collapsible itemHeader">
                             <img src="../img/down-arrow.png" alt="Down Arrow" width="30" height="30">
-                            <h3 class="collapsible-text"><?php echo $team->name; ?></h3>
+                            <h3 class="collapsible-text"><?php echo $team->name; ?>. Bezig...</h3>
                             <h3 class="collapsible-points"><?php echo $team->score ?> punten</h3>
                         </button>
                         <div class="collapsible-content">
