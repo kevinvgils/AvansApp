@@ -95,7 +95,7 @@ INSERT INTO `course` (`courseId`, `courseName`) VALUES
 
 CREATE TABLE `question` (
   `questionId` int(11) NOT NULL,
-  `questionType` int(11) NOT NULL,
+  `questionType` int(11) NOT NULL DEFAULT 0,
   `question` text NOT NULL,
   `description` text NOT NULL,
   `image` longblob DEFAULT NULL,
