@@ -36,7 +36,7 @@ function addQuestionToRoute($routeId, $questionType, $question, $description, $l
 function updateQuestionToRoute($questionId, $routeId, $questionType, $question, $description, $latitude, $longitude, $image, $videoUrl, $allAnswers){
     $imageString = "";
     if($image != null){
-        $imageString = "`image`= $image,";
+        $imageString = "`image`= '$image',";
     }
     include("databaseconnection.php");
     $query = "UPDATE `question`".
