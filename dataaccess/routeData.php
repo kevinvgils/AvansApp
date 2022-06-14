@@ -23,3 +23,17 @@ function getAllRoutes()
     }
     return $allRoutes;
 }
+
+function getAllRoutesByCourse($courseId)
+{
+    include("databaseconnection.php");
+    $allRoutesQuery = "SELECT * FROM `route` WHERE `courseId` = :courseId";
+    $stm = $con->prepare($allRoutesQuery);
+    $stm->bindValue(':courseId', $courseId);
+
+    if ($stm->execute()) {
+        $allRoutes = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    return $allRoutes;
+}
