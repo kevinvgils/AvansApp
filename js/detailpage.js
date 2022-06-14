@@ -41,10 +41,21 @@ function showMultipleChoiceFields(type){
         document.getElementById("multipleChoice").style.display = "none";
         document.getElementById("answer1Txt").required = false;
         document.getElementById("answer2Txt").required = false;
-        document.getElementById("answer3Txt").required = false
-        document.getElementById("answer4Txt").required = false
+        document.getElementById("answer3Txt").required = false;
+        document.getElementById("answer4Txt").required = false;
     } else{
+        const count = document.getElementById("awnserCount").value;
         document.getElementById("multipleChoice").style.display = "block";
+        if(count >= 2){
+            document.getElementById("answer1Txt").required = true;
+            document.getElementById("answer2Txt").required = true;
+        }
+        if(count >= 3){
+            document.getElementById("answer3Txt").required = true;
+        }
+        if(count >= 4){
+            document.getElementById("answer4Txt").required = true;
+        }
     }
 }
 
