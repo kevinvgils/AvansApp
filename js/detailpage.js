@@ -97,6 +97,8 @@ function latLongChecked() {
         document.getElementById("latLongDiv").style.display = 'none';
         document.getElementById("lat").value = null;
         document.getElementById("long").value = null;
+        document.getElementById("lat").required = false;
+        document.getElementById("long").required = false;
     };
 }
 
