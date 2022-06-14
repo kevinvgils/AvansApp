@@ -39,6 +39,10 @@ function showSelected(elementValue) {
 function showMultipleChoiceFields(type){
     if(type.value != 0){
         document.getElementById("multipleChoice").style.display = "none";
+        document.getElementById("answer1Txt").required = false;
+        document.getElementById("answer2Txt").required = false;
+        document.getElementById("answer3Txt").required = false
+        document.getElementById("answer4Txt").required = false
     } else{
         document.getElementById("multipleChoice").style.display = "block";
     }
