@@ -29,7 +29,7 @@ include("../dataaccess/questionData.php");
                     <div class="itemWrap">
                         <button type="button" class="collapsible itemHeader">
                             <img src="../img/down-arrow.png" alt="Down Arrow" width="30" height="30">
-                            <h3 class="collapsible-text"><?php echo $team->name; ?>. Tocht voltooid in <?php echo getEndTime($team->id)?></h3>
+                            <h3 class="collapsible-text"><?php echo $team->name; ?>. Tocht voltooid in <?php foreach (getEndTime($team->id) as $time) { echo $time->finalTime; }?></h3>
                             <h3 class="collapsible-points"><?php echo $team->score ?> punten</h3>
                         </button>
                         <div class="collapsible-content">
