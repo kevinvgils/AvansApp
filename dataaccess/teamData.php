@@ -30,13 +30,22 @@ function getAllTeams() {
 
 function getAllActiveTeamsInRoute($routeId) {
     include("databaseconnection.php");
-    $activeTeamsQuery = "SELECT * FROM `team` WHERE `endTime` IS NULL AND `routeId` = ':routeId'";
+    $activeTeamsQuery = "SELECT * FROM `team` WHERE `endTime` IS NULL AND `routeId` = $routeId";
     $stm = $con->prepare($activeTeamsQuery);
-    $stm->bindValue(':routeId', $routeId);
     if ($stm->execute()) {
         $activeTeams = $stm->fetchAll(PDO::FETCH_OBJ);
     }
     return $activeTeams;
+}
+
+function getAllFinishedTeamsInRoute($routeId) {
+    include("databaseconnection.php");
+    $finishedTeamsQuery = "SELECT * FROM `team` WHERE `endTime` IS NOT NULL AND `routeId` = $routeId";
+    $stm = $con->prepare($finishedTeamsQuery);
+    if ($stm->execute()) {
+        $finishedTeams = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $finishedTeams;
 }
 
 function getEndTime($teamId) {
