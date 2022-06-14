@@ -29,6 +29,36 @@ function addQuestionToRoute($routeId, $question, $description, $latitude, $longi
     addAnswersToQuestion($questionId, $allAnswers);
 }
 
+function updateQuestionToRoute($questionId, $routeId, $question, $description, $latitude, $longitude, $image, $videoUrl, $allAnswers){
+    $imageString = "";
+    if($image != null){
+        $imageString = "`image`= $image,";
+    }
+    include("databaseconnection.php");
+    $query = "UPDATE `question`".
+     " SET `question`=:question, `description`=:descr, `latitude`=:latitude, `longitude`=:longitude, $imageString `videoUrl`=:videoUrl".
+     " WHERE `questionId`=:questionId;";
+    $stm = $con->prepare($query);
+    $stm->bindValue(':question', $question);
+    $stm->bindValue(':descr', $description);
+    $stm->bindValue(':latitude', (empty($latitude)) ? null : $latitude);
+    $stm->bindValue(':longitude', (empty($longitude)) ? null : $longitude);
+    $stm->bindValue(':videoUrl', (empty($videoUrl)) ? '' : $videoUrl);
+    $stm->bindValue(':questionId', $questionId, PDO::PARAM_INT);
+    $stm->execute();
+
+    deleteAllAnswersToQuestion($questionId);
+    addAnswersToQuestion($questionId, $allAnswers);
+}
+
+function deleteAllAnswersToQuestion($questionId){
+    include("databaseconnection.php");
+    $query = "DELETE FROM `answer` WHERE `questionId` = :questionId";
+    $stm = $con->prepare($query);
+    $stm->bindValue(':questionId', $questionId, PDO::PARAM_INT);
+    $stm->execute();
+}
+
 function addAnswersToQuestion($questionId, $allAnswers)
 {
     include("databaseconnection.php");
@@ -127,4 +157,25 @@ function getQuestionAnswer($questionId)
         $resultAnswer = $stm->fetchAll(PDO::FETCH_OBJ);
     }
     return $resultAnswer;
+}
+
+function getAwnserCount($questionId){
+    include("databaseconnection.php");
+    $queryAnswer = "SELECT count(*) AS count FROM `answer` WHERE questionId =" . $questionId;
+    $stm = $con->prepare($queryAnswer);
+    if ($stm->execute()) {
+        $resultAnswer = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $resultAnswer;
+}
+
+function deleteQuestion($questionId){
+    include("databaseconnection.php");
+    $queries = ["DELETE FROM `answer` WHERE questionId = :questionId", "DELETE FROM `question` WHERE questionId = :questionId"];
+    foreach ($queries as $query){
+        $stm = $con->prepare($query);
+        $stm->bindValue(':questionId', $questionId);
+        $stm->execute();
+    }
+    return true;
 }

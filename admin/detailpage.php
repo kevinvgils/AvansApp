@@ -2,8 +2,8 @@
 include("../dataaccess/databaseconnection.php");
 include("../dataaccess/routeData.php");
 include("../dataaccess/questionData.php");
-include("../dataaccess/coursedata.php")
-
+include("../dataaccess/coursedata.php");
+include("../logic/editQuestion.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +23,6 @@ include("../dataaccess/coursedata.php")
     <main>
         <div class="wrap row detailWrap">
             <?php
-            include("../dataaccess/databaseconnection.php");
             // variable id ophalen uit url
             $somevar = $_GET["id"];
             // query op routeid gebaseert op id uit url
@@ -40,10 +39,10 @@ include("../dataaccess/coursedata.php")
 
                     <?php } ?>
                     <div class="details col-12 <?php if (!$route->picture == null) {
-                                                    echo "col-md-8";
-                                                } ?>" style="<?php if (!$route->picture == null) {
-                                                                                                                    echo "padding-left: 45px;";
-                                                                                                                } ?>">
+                            echo "col-md-8";
+                        } ?>" style="<?php if (!$route->picture == null) {
+                             echo "padding-left: 45px;";
+                         } ?>">
                         <div class="header">
                             <h1 class="black"><?php echo $route->routeName ?></h1>
                             <?php foreach (getCourseById($route->courseId) as $course) { ?>
@@ -70,7 +69,7 @@ include("../dataaccess/coursedata.php")
             <?php
                 $i = 1;
                 foreach (getAllQuestionsForRoute($_GET['id']) as $question) { ?>
-                    <div class="fullwidth" style="border-bottom: solid black 1px; margin-bottom: 20px; padding-bottom: 20px;">
+                    <div class="fullwidth questionDetail">
                         <div class="row">
                             <div class="col-9">
                                 <h5 class="font-weight-bold">Vraag <?php echo $i . ": " . $question->question; $i++; ?></h5>
@@ -89,6 +88,10 @@ include("../dataaccess/coursedata.php")
                                     <iframe id="questionVid"src="<?php echo $question->videoUrl ?>"></iframe> 
                                 <?php } ?>
                             </div>
+                        </div>
+                        <div class="buttonWrap">
+                            <a href="detailpage.php?edit=true&questionId=<?php echo $question->questionId; ?>&id=<?php echo $_GET["id"]; ?>" class="button">Bewerken</a>
+                            <a href="../logic/deleteQuestion.php?id=<?php echo $question->questionId; ?>&routeId=<?php echo $_GET["id"]; ?>" class="button">Verwijderen</a>
                         </div>
                     </div>
             <?php } ?>
@@ -110,79 +113,84 @@ include("../dataaccess/coursedata.php")
                             <div class="row">
                                 <div class="col-6 border-right mb-3">
                                     <label for="question" class="form-label">Titel</label>
-                                    <input type="text" name="question" class="form-control mb-2" required>
+                                    <input type="text" name="question" class="form-control mb-2" value="<?php echo getValueWhenEdit("question"); ?>" required>
                                     <label for="description" class="form-label" >Omschrijving</label>
-                                    <textarea type="text" name="description" class="form-control mb-2" required></textarea>
+                                    <textarea type="text" name="description" class="form-control mb-2" required><?php echo getValueWhenEdit("description"); ?></textarea>
                                     <div class="custom-control custom-checkbox mb-2">
-                                        <input type="checkbox" class="custom-control-input" id="latLong" onchange="latLongChecked()">
+                                        <input type="checkbox" class="custom-control-input" id="latLong" <?php if(checkCoords()){ echo "checked";} ?> onchange="latLongChecked()">
                                         <label class="custom-control-label" for="latLong">Vraag met locatie?</label>
                                     </div>
-                                    <div id="latLongDiv" class="row mb-2">
+                                    <div id="latLongDiv" class="row mb-2" <?php if(checkCoords()){ echo "style='display: flex;'"; } ?>>
                                         <div class="col-6">
                                             <label for="longtitude" class="form-label">Lengtegraad</label>
-                                            <input type="text" id="long" name="longtitude" class="form-control">
+                                            <input type="text" id="long" name="longtitude" class="form-control" value="<?php echo getValueWhenEdit("longitude"); ?>">
                                         </div>
                                         <div class="col-6">
                                             <label for="latitude" class="form-label">Breedtegraad</label>
-                                            <input type="text" id="lat" name="latitude" class="form-control">
+                                            <input type="text" id="lat" name="latitude" class="form-control" value="<?php echo getValueWhenEdit("latitude"); ?>">
                                         </div>
                                     </div>
                                     <label>Optionele afbeelding of video</label>
                                     <select class="mb-2 custom-select" onchange="showSelected(this)">
-                                        <option selected value="none">---</option>
-                                        <option value="image">Afbeelding</option>
-                                        <option value="videoUrl">Youtube video</option>
+                                        <?php $toSelect = checkOptionalVidOrImg() ?>
+                                        <option <?php if($toSelect == 0){ echo "selected"; } ?> value="none">---</option>
+                                        <option <?php if($toSelect == 1){ echo "selected"; } ?> value="image">Afbeelding</option>
+                                        <option <?php if($toSelect == 2){ echo "selected"; } ?> value="videoUrl">Youtube video</option>
                                     </select>
-                                    <label class="videoUrl" for="videoUrl">Youtube video URL</label>
-                                    <input type="text" id="videoUrl" class="form-control mb-2 videoUrl" name="videoUrl">
-                                    <label class="image" for="image">Afbeelding</label>
-                                    <input type="file" id="file" accept="image/*" class="form-control-file image" name="file">
+                                    <label class="videoUrl" for="videoUrl" <?php if($toSelect == 2){ echo "style='display: block;'"; } ?>>Youtube video URL</label>
+                                    <input type="text" id="videoUrl" class="form-control mb-2 videoUrl" name="videoUrl" <?php if($toSelect == 2){ echo "style='display: block;'"; } ?>>
+                                    <label class="image" for="image" <?php if($toSelect == 1){ echo "style='display: block;'"; } ?>>Afbeelding</label>
+                                    <input type="file" id="file" accept="image/*" class="form-control-file image" name="file" <?php if($toSelect == 1){ echo "style='display: block;'"; } ?>>
                                 </div>
                                 <div class="col-6 mb-3">
                                 <label>Aantal antwoord mogelijkheden</label>
                                     <select class="mb-2 custom-select" onchange="showAnswerFields(this)">
-                                        <option selected value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
+                                        <?php $count = awnserCount() ?>
+                                        <option <?php if($count == 2){ echo "selected"; } ?> value="2">2</option>
+                                        <option <?php if($count == 3){ echo "selected"; } ?> value="3">3</option>
+                                        <option <?php if($count == 4){ echo "selected"; } ?> value="4">4</option>
                                     </select>
+                                    <?php
+                                        $questions = getQuestions();
+                                    ?>
                                     <label for="answer1">Antwoord 1</label>
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">
-                                            <input type="checkbox" name="answer1CK" value="1" id="answer1CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
+                                            <input type="checkbox" name="answer1CK" value="1" <?php if( isEditing() && isset($questions[0]) && $questions[0]->isCorrect == 1){ echo "checked";} ?> id="answer1CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
                                             </div>
                                         </div>
-                                        <input type="text" id="answer1Txt" name="answer1" class="form-control" aria-label="Text input with checkbox" required>
+                                        <input type="text" id="answer1Txt" name="answer1" class="form-control" value="<?php if(isEditing() && $count >= 1){echo $questions[0]->answer;} ?>" aria-label="Text input with checkbox" required>
                                     </div>
                                     <label for="answer1">Antwoord 2</label>
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">
-                                            <input type="checkbox" name="answer2CK" value="1" id="answer2CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
+                                            <input type="checkbox" name="answer2CK" value="1" <?php if(isEditing() && isset($questions[1]) && $questions[1]->isCorrect == 1){ echo "checked";} ?> id="answer2CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
                                             </div>
                                         </div>
-                                        <input type="text" id="answer2Txt" name="answer2" class="form-control" aria-label="Text input with checkbox" required>
+                                        <input type="text" id="answer2Txt" name="answer2" class="form-control" value="<?php if(isEditing() && $count >= 2){echo $questions[1]->answer;} ?>" aria-label="Text input with checkbox" required>
                                     </div>
-                                    <div id="answer3Div">
+                                    <div id="answer3Div" <?php if(isEditing() && $count >= 3){ echo "style='display: block;'"; } ?>>
                                         <label for="answer1">Antwoord 3</label>
                                         <div class="input-group mb-2">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
-                                                <input type="checkbox" name="answer3CK" value="1" id="answer3CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
+                                                <input type="checkbox" name="answer3CK" value="1" <?php if( isEditing() && isset($questions[2]) && $questions[2]->isCorrect == 1){ echo "checked";} ?> id="answer3CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
                                                 </div>
                                             </div>
-                                            <input type="text" id="answer3Txt" name="answer3" class="form-control" aria-label="Text input with checkbox">
+                                            <input type="text" id="answer3Txt" name="answer3" class="form-control" value="<?php if(isEditing() && $count >= 3){echo $questions[2]->answer;} ?>" aria-label="Text input with checkbox">
                                         </div>
                                     </div>
-                                    <div id="answer4Div">
+                                    <div id="answer4Div" <?php if(isEditing() && $count >= 4){ echo "style='display: block;'"; } ?>>
                                         <label for="answer1">Antwoord 4</label>
                                         <div class="input-group mb-2">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
-                                                <input type="checkbox" name="answer4CK" value="1" id="answer4CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
+                                                <input type="checkbox" name="answer4CK" value="1" <?php if(isEditing() && isset($questions[3]) && $questions[3]->isCorrect == 1){ echo "checked";} ?> id="answer4CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
                                                 </div>
                                             </div>
-                                            <input type="text" id="answer4Txt" name="answer4" class="form-control" aria-label="Text input with checkbox">
+                                            <input type="text" id="answer4Txt" name="answer4" class="form-control" value="<?php if(isEditing() && $count >= 4){echo $questions[3]->answer;} ?>" aria-label="Text input with checkbox">
                                         </div>
                                     </div>
                                 </div>
@@ -210,6 +218,7 @@ include("../dataaccess/coursedata.php")
         $('#myInput').trigger('focus')
     })
 </script>
+
 <?php
     if (isset($_POST["addQuestion"])) {
         $routeId = $_GET["id"];
@@ -228,10 +237,31 @@ include("../dataaccess/coursedata.php")
             array(3, $_POST["answer3"], (isset($_POST["answer3CK"])) ? $_POST["answer3CK"] : NULL),
             array(4, $_POST["answer4"], (isset($_POST["answer4CK"])) ? $_POST["answer4CK"] : NULL)
         );
-        addQuestionToRoute($routeId, $question, $description, $latitude, $longtitude, $image, $videoUrl, $allAnswers);
 
-    //sorry voor deze oplossing als je een betere oplossing weet laat het dan weten :)
-    echo "<meta http-equiv='refresh' content='0'>";
-    exit();
-}
-?>
+        if(!isEditing()){
+            addQuestionToRoute($routeId, $question, $description, $latitude, $longtitude, $image, $videoUrl, $allAnswers);
+        } else{
+            updateQuestionToRoute($_GET["questionId"], $routeId, $question, $description, $latitude, $longtitude, $image, $videoUrl, $allAnswers);
+        }?> 
+        <script>
+            window.location.replace("detailpage.php?id=<?php echo $routeId; ?>");
+        </script>
+    <?php } ?>
+
+<script>
+    <?php
+    if (isEditing()) { ?>
+        $('#myModal').modal('show');
+    <?php } ?>
+
+    $('#myModal').on('hidden.bs.modal', function (e) {
+     $(this)
+        .find("input,textarea")
+           .val('')
+           .end()
+        .find("input[type=checkbox], input[type=radio]")
+           .prop("checked", "")
+           .end();
+    })
+</script>
+</html>
