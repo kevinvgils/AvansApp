@@ -36,6 +36,14 @@ function showSelected(elementValue) {
     }
 }
 
+function showMultipleChoiceFields(type){
+    if(type.value != 0){
+        document.getElementById("multipleChoice").style.display = "none";
+    } else{
+        document.getElementById("multipleChoice").style.display = "block";
+    }
+}
+
 function showAnswerFields(elementValue) {
     if(elementValue.value == "2") {
         document.getElementById("answer3CK").checked = false
@@ -68,7 +76,7 @@ function validateForm() {
     const answerCK2 = document.getElementById("answer2CK").checked
     const answerCK3 = document.getElementById("answer3CK").checked
     const answerCK4 = document.getElementById("answer4CK").checked
-
+    const multipleChoice = document.getElementById("multipleChoice").style.display;
 
     if(isFinite(latReplaced) && Math.abs(latReplaced) <= 90 && hasLocation) {
         alert("Breedtegraad geen geldige waarde.");
@@ -80,7 +88,7 @@ function validateForm() {
         return false;
     }
 
-    if(!answerCK1 && !answerCK2 && !answerCK3 && !answerCK4) {
+    if( multipleChoice.match("block") && !answerCK1 && !answerCK2 && !answerCK3 && !answerCK4) {
         alert("Selecteer een correct antwoord!");
         return false;
     }
