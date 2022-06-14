@@ -183,24 +183,15 @@ function deleteQuestion($questionId){
 function answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer){
     include("databaseconnection.php");
 
-    
-    //$stm->bindValue(':openAnswer', $openQuestion);
-    
+    $query = "";
     if($questionType == 1){
-        $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `openAnswer`) VALUES ($sessionTeamId, $getQuestionId, :openAnswer)";
+        $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `openAnswer`) VALUES ($sessionTeamId, $getQuestionId, $answer)";
     } else if($questionType == 2){
         $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `imageAnswer`) VALUES ($sessionTeamId, $getQuestionId, $answer)";    
     } else if($questionType == 3){
-        $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `videoAnswer`) VALUES ($sessionTeamId, $getQuestionId, $answer)";
-
-    } 
-    $stm = $con->prepare($query);   
-    $stm->bindValue(':openAnswer', $answer);
-    // $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `openAnswer`) VALUES ($teamId, $questionId, :openAnswer)";
-    // $stm->bindValue(':openAnwser', $openQuestion);
-
-
-    
+        $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `videoAnswer`) VALUES ($sessionTeamId, $getQuestionId, '$answer')";
+    }
+    $stm = $con->prepare($query);     
     $stm->execute();
     
 }

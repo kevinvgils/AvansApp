@@ -172,23 +172,6 @@ include("./dataaccess/questionData.php");
                                 <button type="submit" name="btnAnswerQuestion" class="btn submit-btn">Submit</button>
                             </div>
                         </form>
-                        <?php
-                         $pictureQuestion = NULL;
-                         $videoQuestion = NULL;
-                            if (isset($_POST["btnAnswerQuestion"])) {
-                               
-                                $answer;
-                                if ($questionType == 1) {
-                                    $answer = $_POST["txtQuestionAnswer"];
-                                } elseif ($questionType == 2) {
-                                    $answer = addslashes(file_get_contents($_FILES['picture']['tmp_name']));
-                                } elseif ($questionType == 3) {
-                                    $answer = addslashes(file_get_contents($_FILES['video']['tmp_name']));
-                                } 
-
-                                answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer);
-                            }
-                        ?>
                     </div>
                 </div>
             </div>
@@ -210,4 +193,20 @@ include("./dataaccess/questionData.php");
     <?php } ?>
 </script>
 
+<?php
+ $pictureQuestion = NULL;
+ $videoQuestion = NULL;
+    if (isset($_POST["btnAnswerQuestion"])) {
+       
+        $answer;
+        if ($questionType == 1) {
+            $answer = $_POST["txtQuestionAnswer"];
+        } elseif ($questionType == 2) {
+            $answer = addslashes(file_get_contents($_FILES['picture']['tmp_name']));
+        } elseif ($questionType == 3) {
+            $answer = addslashes(file_get_contents($_FILES['video']['tmp_name']));
+        } 
+        answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer);
+    }
+?>
 </html>
