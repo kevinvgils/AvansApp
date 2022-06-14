@@ -103,7 +103,7 @@ function validateForm() {
         return false;
     }
 
-    if( multipleChoice.match("block") && !answerCK1 && !answerCK2 && !answerCK3 && !answerCK4) {
+    if(document.getElementById("selectQuestionType").value == 0 && !answerCK1 && !answerCK2 && !answerCK3 && !answerCK4) {
         alert("Selecteer een correct antwoord!");
         return false;
     }

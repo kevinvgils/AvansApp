@@ -144,7 +144,7 @@ include("../logic/editQuestion.php");
                                 </div>
                                 <div class="col-6 mb-3">
                                     <label>Vraag type</label>
-                                    <select class="mb-2 custom-select" name="type" onchange="showMultipleChoiceFields(this)">
+                                    <select id="selectQuestionType" class="mb-2 custom-select" name="type" onchange="showMultipleChoiceFields(this)">
                                         <?php $type = getValueWhenEdit("questionType"); ?>
                                         <option <?php if($type == 0){ echo "selected"; } ?> value="0">Meerkeuzevraag</option>
                                         <option <?php if($type == 1){ echo "selected"; } ?> value="1">Openvraag</option>
