@@ -3,8 +3,9 @@ function getAllQuestionsForRoute($routeId)
 {
     include("databaseconnection.php");
     $intRouteId = (int)$routeId;
-    $allQuestionsQuery = "SELECT * FROM `question` WHERE `routeId` =" . $intRouteId;
+    $allQuestionsQuery = "SELECT * FROM `question` WHERE `routeId` = :routeId";
     $stm = $con->prepare($allQuestionsQuery);
+    $stm->bindValue(':routeId', $intRouteId);
     if ($stm->execute()) {
         $allQuestions = $stm->fetchAll(PDO::FETCH_OBJ);
     }
