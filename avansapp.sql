@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 08 jun 2022 om 18:30
--- Serverversie: 10.4.24-MariaDB
--- PHP-versie: 8.1.6
+-- Gegenereerd op: 14 jun 2022 om 10:27
+-- Serverversie: 10.4.17-MariaDB
+-- PHP-versie: 8.0.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -95,6 +95,7 @@ INSERT INTO `course` (`courseId`, `courseName`) VALUES
 
 CREATE TABLE `question` (
   `questionId` int(11) NOT NULL,
+  `questionType` int(11) NOT NULL,
   `question` text NOT NULL,
   `description` text NOT NULL,
   `image` longblob DEFAULT NULL,
@@ -108,15 +109,15 @@ CREATE TABLE `question` (
 -- Gegevens worden geëxporteerd voor tabel `question`
 --
 
-INSERT INTO `question` (`questionId`, `question`, `description`, `image`, `videoUrl`, `longitude`, `latitude`, `routeId`) VALUES
-(3, 'Dit is de eerste vraag voor Technische Informatica', 'De eerste vraag voor informatica', NULL, NULL, '4.785294649261182', '51.58847188318798', 3),
-(23, 'In welk jaar is Avans ontstaan?', 'Selecteer in welk jaar Avans hogeschool is ontstaan', NULL, NULL, '51.5891643', '4.7860003', 1),
-(24, 'Hoeveel docenten in het trappenhuis behoren tot de opleiding Informatica', 'In het trappenhuis hangen foto’s van docenten. Hoeveel docenten hiervan zitten bij de opleiding Informatica?', NULL, NULL, '51.5874996', '4.7810686', 1),
-(25, 'Waar kun je pizza scoren binnen de Avans locaties in Breda?', 'Selecteer de locatie waar je pizza\'s kunt scoren!', NULL, NULL, '51.5902832', '4.7872995094107', 1),
-(26, 'Wie is de oudste docent?', 'Selecteer de oudste docent.', NULL, NULL, '51.58516', '4.797319', 1),
-(27, 'Wie is de jongste docent?', 'Selecteer de jongste docent', NULL, NULL, NULL, NULL, 1),
-(28, 'Welke docent heeft Biochemie gestudeerd?', 'Selecteer de docent die Biochemie heeft gestudeerd!', NULL, NULL, NULL, NULL, 1),
-(29, 'Hoeveel opleidingen vallen er onder de ATiX academie?', 'De opleiding Informatica valt onder de academie ATiX. Hoeveel opleidingen vallen er onder deze academie?', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `question` (`questionId`, `questionType`, `question`, `description`, `image`, `videoUrl`, `longitude`, `latitude`, `routeId`) VALUES
+(3, 0, 'Dit is de eerste vraag voor Technische Informatica', 'De eerste vraag voor informatica', NULL, NULL, '4.785294649261182', '51.58847188318798', 3),
+(23, 0, 'In welk jaar is Avans ontstaan?', 'Selecteer in welk jaar Avans hogeschool is ontstaan', NULL, NULL, '51.5891643', '4.7860003', 1),
+(24, 0, 'Hoeveel docenten in het trappenhuis behoren tot de opleiding Informatica', 'In het trappenhuis hangen foto’s van docenten. Hoeveel docenten hiervan zitten bij de opleiding Informatica?', NULL, NULL, '51.5874996', '4.7810686', 1),
+(25, 0, 'Waar kun je pizza scoren binnen de Avans locaties in Breda?', 'Selecteer de locatie waar je pizza\'s kunt scoren!', NULL, NULL, '51.5902832', '4.7872995094107', 1),
+(26, 0, 'Wie is de oudste docent?', 'Selecteer de oudste docent.', NULL, NULL, '51.58516', '4.797319', 1),
+(27, 0, 'Wie is de jongste docent?', 'Selecteer de jongste docent', NULL, NULL, NULL, NULL, 1),
+(28, 0, 'Welke docent heeft Biochemie gestudeerd?', 'Selecteer de docent die Biochemie heeft gestudeerd!', NULL, NULL, NULL, NULL, 1),
+(29, 0, 'Hoeveel opleidingen vallen er onder de ATiX academie?', 'De opleiding Informatica valt onder de academie ATiX. Hoeveel opleidingen vallen er onder deze academie?', NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -164,6 +165,20 @@ INSERT INTO `team` (`id`, `name`, `members`, `score`, `time`, `routeId`) VALUES
 (11, 'Hutsers', 'Bryan,Dimitri,Thijs,Tim,Kevin,Mohammed,', 0, '2022-06-08 16:48:46', 1),
 (12, 'test', 'test,', 0, '2022-06-08 17:08:58', 1);
 
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `team_questions`
+--
+
+CREATE TABLE `team_questions` (
+  `id` int(11) NOT NULL,
+  `teamId` int(11) NOT NULL,
+  `questionId` int(11) NOT NULL,
+  `awnser` text NOT NULL,
+  `correct` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indexen voor geëxporteerde tabellen
 --
@@ -204,6 +219,14 @@ ALTER TABLE `team`
   ADD KEY `FK_team_routeId` (`routeId`);
 
 --
+-- Indexen voor tabel `team_questions`
+--
+ALTER TABLE `team_questions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `questionRelation` (`questionId`),
+  ADD KEY `teamRelation` (`teamId`);
+
+--
 -- AUTO_INCREMENT voor geëxporteerde tabellen
 --
 
@@ -238,6 +261,12 @@ ALTER TABLE `team`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
+-- AUTO_INCREMENT voor een tabel `team_questions`
+--
+ALTER TABLE `team_questions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Beperkingen voor geëxporteerde tabellen
 --
 
@@ -264,6 +293,13 @@ ALTER TABLE `route`
 --
 ALTER TABLE `team`
   ADD CONSTRAINT `FK_team_routeId` FOREIGN KEY (`routeId`) REFERENCES `route` (`routeId`);
+
+--
+-- Beperkingen voor tabel `team_questions`
+--
+ALTER TABLE `team_questions`
+  ADD CONSTRAINT `questionRelation` FOREIGN KEY (`questionId`) REFERENCES `question` (`questionId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `teamRelation` FOREIGN KEY (`teamId`) REFERENCES `team` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
