@@ -137,8 +137,16 @@ include("../logic/editQuestion.php");
                                         <option <?php if($toSelect == 1){ echo "selected"; } ?> value="image">Afbeelding</option>
                                         <option <?php if($toSelect == 2){ echo "selected"; } ?> value="videoUrl">Youtube video</option>
                                     </select>
-                                    <label class="videoUrl" for="videoUrl" <?php if($toSelect == 2){ echo "style='display: block;'"; } ?>>Youtube video URL</label>
-                                    <input type="text" id="videoUrl" class="form-control mb-2 videoUrl" name="videoUrl" <?php if($toSelect == 2){ echo "style='display: block;'"; } ?>>
+                                    
+                                    <div id="videoUrlcontainer" <?php if($toSelect == 2){ echo "style='display: block;'"; } ?> class="mt-2">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon3">www.youtube.com/watch?v=</span>
+                                                </div>
+                                                <input type="text" class="form-control" id="videoUrl" name="videoUrl" aria-describedby="basic-addon3">
+                                            </div>
+                                        </div>
+
                                     <label class="image" for="image" <?php if($toSelect == 1){ echo "style='display: block;'"; } ?>>Afbeelding</label>
                                     <input type="file" id="file" accept="image/*" class="form-control-file image" name="file" <?php if($toSelect == 1){ echo "style='display: block;'"; } ?>>
                                 </div>
@@ -232,6 +240,7 @@ include("../logic/editQuestion.php");
 <?php
     if (isset($_POST["addQuestion"])) {
         $routeId = $_GET["id"];
+        $videoUrl = $_POST["videoUrl"];
         $questionType = $_POST["type"];
         $question = $_POST["question"];
         $description = $_POST["description"];
@@ -241,7 +250,11 @@ include("../logic/editQuestion.php");
         if(!empty($_FILES['file']['tmp_name'])) {
             $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
         }
-        $videoUrl = $_POST["videoUrl"];
+
+        if($_POST["videoUrl"] != "") {
+            $videoUrl = "https://www.youtube.com/embed/" . $videoUrl;
+        }
+        
         $allAnswers = array (
             array(1, $_POST["answer1"], (isset($_POST["answer1CK"])) ? $_POST["answer1CK"] : NULL),
             array(2, $_POST["answer2"], (isset($_POST["answer2CK"])) ? $_POST["answer2CK"] : NULL),
