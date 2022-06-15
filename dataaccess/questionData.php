@@ -89,21 +89,36 @@ function getAllAnswersForQuestion($questionId)
 {
     include("databaseconnection.php");
     $intQuestionId = (int)$questionId;
-    $allAnswersQuery = "SELECT * FROM `answer` WHERE `questionId` =" . $intQuestionId;
+    $allAnswersQuery = "SELECT * FROM `answer` WHERE `questionId` = :questionId";
     $stm = $con->prepare($allAnswersQuery);
+    $stm->bindValue(':questionId', $questionId);
     if ($stm->execute()) {
         $allAnswers = $stm->fetchAll(PDO::FETCH_OBJ);
     }
     return $allAnswers;
 }
 
-function getGlobalQuestion($sessionRouteId)
+function getRouteName($sessionRouteId)
 {
     include("databaseconnection.php");
 
 
-    $query = "SELECT * FROM `question` WHERE `longitude` IS NULL AND `routeId` = " . $sessionRouteId;
+    $query = "SELECT * FROM `route` WHERE `routeId` = :routeId";
     $stm = $con->prepare($query);
+    $stm->bindValue(':routeId', $sessionRouteId);
+    if ($stm->execute()) {
+        $result = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    return $result;
+}
+
+function getGlobalQuestion($sessionRouteId)
+{
+    include("databaseconnection.php");
+    $query = "SELECT * FROM `question` WHERE `longitude` IS NULL AND `routeId` = :routeId";
+    $stm = $con->prepare($query);
+    $stm->bindValue(':routeId', $sessionRouteId);
     if ($stm->execute()) {
         $result = $stm->fetchAll(PDO::FETCH_OBJ);
     }
@@ -113,8 +128,9 @@ function getLocalQuestion($sessionRouteId)
 {
     include("databaseconnection.php");
 
-    $query = "SELECT * FROM `question` WHERE `longitude` IS NOT NULL AND `routeId` = " . $sessionRouteId;
+    $query = "SELECT * FROM `question` WHERE `longitude` IS NOT NULL AND `routeId` = :routeId";
     $stm = $con->prepare($query);
+    $stm->bindValue(':routeId', $sessionRouteId);
     if ($stm->execute()) {
         $result = $stm->fetchAll(PDO::FETCH_OBJ);
     }
@@ -125,8 +141,9 @@ function getLocalQuestion($sessionRouteId)
 function getLocationCheck($getRouteId)
 {
     include("databaseconnection.php");
-    $query = "SELECT * FROM `question` WHERE `longitude` IS NOT NULL AND `latitude` IS NOT NULL AND `routeId` =" . $getRouteId;
+    $query = "SELECT * FROM `question` WHERE `longitude` IS NOT NULL AND `latitude` IS NOT NULL AND `routeId` = :routeId";
     $stm = $con->prepare($query);
+    $stm->bindValue(':routeId', $getRouteId);
     if ($stm->execute()) {
         $result = $stm->fetchAll(PDO::FETCH_OBJ);
     }
@@ -135,8 +152,10 @@ function getLocationCheck($getRouteId)
 function getQuestionDetails($getQuestionId, $sessionRouteId)
 {
     include("databaseconnection.php");
-    $query = "SELECT * FROM `question` WHERE `questionId` =" . $getQuestionId . "  AND `routeId` = $sessionRouteId ";
+    $query = "SELECT * FROM `question` WHERE `questionId` = :questionId AND `routeId` = :routeId";
     $stm = $con->prepare($query);
+    $stm->bindValue(':questionId', $getQuestionId);
+    $stm->bindValue(':routeId', $sessionRouteId);
     if ($stm->execute()) {
         $result = $stm->fetchAll(PDO::FETCH_OBJ);
     }
@@ -146,8 +165,9 @@ function getQuestionDetails($getQuestionId, $sessionRouteId)
 function getQuestionAnswer($questionId)
 {
     include("databaseconnection.php");
-    $queryAnswer = "SELECT * FROM `answer` WHERE questionId =" . $questionId;
+    $queryAnswer = "SELECT * FROM `answer` WHERE questionId = :questionId";
     $stm = $con->prepare($queryAnswer);
+    $stm->bindValue(':questionId', $questionId);
     if ($stm->execute()) {
         $resultAnswer = $stm->fetchAll(PDO::FETCH_OBJ);
     }
@@ -156,8 +176,9 @@ function getQuestionAnswer($questionId)
 
 function getAwnserCount($questionId){
     include("databaseconnection.php");
-    $queryAnswer = "SELECT count(*) AS count FROM `answer` WHERE questionId =" . $questionId;
+    $queryAnswer = "SELECT count(*) AS count FROM `answer` WHERE questionId = :questionId";
     $stm = $con->prepare($queryAnswer);
+    $stm->bindValue(':questionId', $questionId);
     if ($stm->execute()) {
         $resultAnswer = $stm->fetchAll(PDO::FETCH_OBJ);
     }

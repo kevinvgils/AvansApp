@@ -63,8 +63,9 @@ function endRoute($teamId)
 {
     include("databaseconnection.php");
 
-    $query = "UPDATE `team` SET `endTime` = NOW(), `isActive` = 0 WHERE `id` = $teamId AND isActive = 1";
+    $query = "UPDATE `team` SET `endTime` = NOW(), `isActive` = 0 WHERE `id` = :teamId AND isActive = 1";
     $stm = $con->prepare($query);
+    $stm->bindValue(':teamId', $teamId);
     $stm->execute();
 
 }
@@ -86,8 +87,9 @@ function getTeamId($teamName){
 function getTeamScore($teamId){
     include("databaseconnection.php");
 
-    $query = "SELECT * FROM `team` WHERE `id` = " . $teamId;
+    $query = "SELECT * FROM `team` WHERE `id` = :teamId";
     $stm = $con->prepare($query);
+    $stm->bindValue(':teamId', $teamId);
     if ($stm->execute()) {
         $result = $stm->fetchAll(PDO::FETCH_OBJ);
     }
@@ -97,8 +99,9 @@ function getTeamScore($teamId){
 function getPositionLeaderBoard($routeId){
     include("databaseconnection.php");
 
-    $query = "SELECT * FROM `team` WHERE routeId = $routeId AND `isActive` = 0 ORDER BY `score` DESC";
+    $query = "SELECT * FROM `team` WHERE routeId = :routeId AND `isActive` = 0 ORDER BY `score` DESC";
     $stm = $con->prepare($query);
+    $stm->bindValue(':routeId', $routeId);
     if ($stm->execute()) {
         $result = $stm->fetchAll(PDO::FETCH_OBJ);
     }
@@ -108,8 +111,9 @@ function getPositionLeaderBoard($routeId){
 function getAmountStoppedTeams($routeId){
     include("databaseconnection.php");
 
-    $query = "SELECT COUNT(*) AS 'Amount' FROM `team` WHERE routeId = 1 AND isActive = 0";
+    $query = "SELECT COUNT(*) AS 'Amount' FROM `team` WHERE routeId = :routeId AND isActive = 0";
     $stm = $con->prepare($query);
+    $stm->bindValue(':routeId', $routeId);
     if ($stm->execute()) {
         $result = $stm->fetchAll(PDO::FETCH_OBJ);
     }
