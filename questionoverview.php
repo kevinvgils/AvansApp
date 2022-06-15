@@ -21,7 +21,6 @@ include("./dataaccess/questionData.php");
     <script>
         function changeUrl(routeId, questionId) {
             window.location.href = "./questionoverview.php?id=" + routeId + "&questionId=" + questionId;
-
         }
     </script>
     <?php include("templates/questionoverviewheader.php");
