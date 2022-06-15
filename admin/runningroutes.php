@@ -15,7 +15,6 @@ include("../dataaccess/questionData.php");
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../style/style.css">
     <link rel="stylesheet" href="../style/runningroutes.css">
-    <link rel="stylesheet" href="../style/detail.css">
     <title>AvansApp</title>
 </head>
 
@@ -29,13 +28,14 @@ include("../dataaccess/questionData.php");
                     <div class="itemWrap">
                         <button type="button" class="collapsible itemHeader">
                             <img src="../img/down-arrow.png" alt="Down Arrow" width="30" height="30">
-                            <h3 class="collapsible-text"><?php echo $team->name; ?>. Voltooid</h3>
+                            <h3 class="collapsible-text"><?php echo $team->name; ?> | Voltooid</h3>
                             <h3 class="collapsible-points"><?php echo $team->score ?> punten</h3>
                         </button>
                         <div class="collapsible-content">
-                            <h5 class="members-text"><strong>Teamleden:</strong> <?php echo $team->members; ?> </h5>
-                            <h5 class="members-text">Voltooid in <?php foreach (getEndTime($team->id) as $time) { echo $time->finalTime; }?></h5>
-
+                            <div class="toptext">
+                                <h5><strong>Teamleden:</strong> <?php echo $team->members; ?> </h5>
+                                <h5><strong>Voltooid in:</strong> <?php foreach (getEndTime($team->id) as $time) { echo $time->finalTime; }?></h5>
+                            </div>
                             <?php
                             $i = 1;
                             foreach (getAllQuestionsForRoute($_GET['id']) as $question) { ?>
@@ -59,12 +59,14 @@ include("../dataaccess/questionData.php");
                     <div class="itemWrap">
                         <button type="button" class="collapsible itemHeader">
                             <img src="../img/down-arrow.png" alt="Down Arrow" width="30" height="30">
-                            <h3 class="collapsible-text"><?php echo $team->name; ?>. Bezig...</h3>
+                            <h3 class="collapsible-text"><?php echo $team->name; ?> | </h3>
+                            <div class="dot-pulse"></div>
                             <h3 class="collapsible-points"><?php echo $team->score ?> punten</h3>
                         </button>
                         <div class="collapsible-content">
-                            <h5 class="members-text"><strong>Teamleden:</strong> <?php echo $team->members; ?> </h5>
-
+                            <div class="toptext">
+                                <h5 class="members-text"><strong>Teamleden:</strong> <?php echo $team->members; ?> </h5>
+                            </div>
                             <?php
                             $i = 1;
                             foreach (getAllQuestionsForRoute($_GET['id']) as $question) { ?>
