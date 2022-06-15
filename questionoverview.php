@@ -76,6 +76,20 @@ include("./dataaccess/questionData.php");
 
                             ?>
                         </p>
+                        <div class="buttonWrap">
+                                <!-- start knop waar routeId word megegeven -->
+                                <div class="button stopButton" onclick="stopAlert()">Stoppen</div>
+                                <script>
+                                function stopAlert() {
+                                    let text = "Weet u zeker dat u de route wilt stoppen?";
+                                    if (confirm(text) == true) {
+                                        window.location.href = "./eindroute.php";
+                                    } else {
+                                        window.location.href = "./questionoverview.php";
+                                    }
+                                    }
+                                </script>
+                        </div>
                     </div>
                 </div>
             </div>
