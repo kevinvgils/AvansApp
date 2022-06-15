@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 14 jun 2022 om 12:04
+-- Gegenereerd op: 15 jun 2022 om 12:38
 -- Serverversie: 10.4.24-MariaDB
 -- PHP-versie: 8.1.6
 
@@ -130,16 +130,17 @@ CREATE TABLE `route` (
   `routeName` varchar(50) NOT NULL,
   `description` text NOT NULL,
   `courseId` int(11) NOT NULL,
-  `picture` longblob NOT NULL
+  `picture` longblob NOT NULL,
+  `isActive` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `route`
 --
 
-INSERT INTO `route` (`routeId`, `routeName`, `description`, `courseId`, `picture`) VALUES
-(1, 'PuzzelTocht Informatica', 'Dit is een hele leuke tocht voor Technische informatica', 4, ''),
-(3, 'Leuke tocht Technische Informatica', 'Dit is een hele leuke tocht voor informatica', 1, '');
+INSERT INTO `route` (`routeId`, `routeName`, `description`, `courseId`, `picture`, `isActive`) VALUES
+(1, 'PuzzelTocht Informatica', 'Dit is een hele leuke tocht voor Technische informatica', 4, '', 0),
+(3, 'Leuke tocht Technische Informatica', 'Dit is een hele leuke tocht voor informatica', 1, '', 1);
 
 -- --------------------------------------------------------
 
