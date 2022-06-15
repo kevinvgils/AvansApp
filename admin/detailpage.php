@@ -240,6 +240,7 @@ include("../logic/editQuestion.php");
 <?php
     if (isset($_POST["addQuestion"])) {
         $routeId = $_GET["id"];
+        $videoUrl = $_POST["videoUrl"];
         $questionType = $_POST["type"];
         $question = $_POST["question"];
         $description = $_POST["description"];
@@ -249,7 +250,11 @@ include("../logic/editQuestion.php");
         if(!empty($_FILES['file']['tmp_name'])) {
             $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
         }
-        $videoUrl = "https://www.youtube.com/embed/" . $_POST["videoUrl"];
+
+        if($_POST["videoUrl"] != "") {
+            $videoUrl = "https://www.youtube.com/embed/" . $videoUrl;
+        }
+        
         $allAnswers = array (
             array(1, $_POST["answer1"], (isset($_POST["answer1CK"])) ? $_POST["answer1CK"] : NULL),
             array(2, $_POST["answer2"], (isset($_POST["answer2CK"])) ? $_POST["answer2CK"] : NULL),
