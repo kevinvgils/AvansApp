@@ -215,3 +215,9 @@ function checkAnswer ($answer, $correctAnswer, $questionId, $sessionTeamId) {
         $stm->execute();
     }
 }
+
+function checkIfAnswered ($questionId, $sessionTeamId) {
+    include("databaseconnection.php");
+
+    $query = "SELECT * FROM `team_question` WHERE `questionId` = $questionId AND `teamId` = $sessionTeamId;";
+}
