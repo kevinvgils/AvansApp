@@ -184,7 +184,9 @@ function answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer){
     include("databaseconnection.php");
 
     $query = "";
-    if($questionType == 1){
+    if($questionType == 0) {
+        $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `multipleChoiceAnswer`) VALUES ($sessionTeamId, $getQuestionId, $answer)";
+    } else if($questionType == 1){
         $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `openAnswer`) VALUES ($sessionTeamId, $getQuestionId, $answer)";
     } else if($questionType == 2){
         $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `imageAnswer`) VALUES ($sessionTeamId, $getQuestionId, '$answer')";    
@@ -194,4 +196,22 @@ function answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer){
     $stm = $con->prepare($query);     
     $stm->execute();
     
+}
+
+function checkAnswer ($answer, $correctAnswer, $questionId, $sessionTeamId) {
+    include("databaseconnection.php");
+    
+    if(intval($answer) == intval($correctAnswer)){
+        $query = "UPDATE `team_question` SET `correct` = 1 WHERE `teamId` = :teamId AND `questionId` = :questionId";
+        $stm = $con->prepare($query);
+        $stm->bindValue(':teamId', $sessionTeamId);
+        $stm->bindValue(':questionId', $questionId);   
+        $stm->execute();
+    } else {
+        $query = "UPDATE `team_question` SET `correct` = 0 WHERE `teamId` = :teamId AND `questionId` = :questionId";
+        $stm = $con->prepare($query);
+        $stm->bindValue(':teamId', $sessionTeamId);
+        $stm->bindValue(':questionId', $questionId);   
+        $stm->execute();
+    }
 }

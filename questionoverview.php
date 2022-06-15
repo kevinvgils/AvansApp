@@ -134,21 +134,29 @@ include("./dataaccess/questionData.php");
 
                                         </div>
                                         <div class="col-12 col-md-6 answers">
-                                            <p><strong>Antwoord mogelijkheden</strong></p>
                                         <?php
 
                                         $questionType = $questions->questionType;
 
-                                                if($questions->questionType == 0){
+                                            if($questions->questionType == 0){
                                                 
-                                                $questionId = $questions->questionId;
+                                                $answerCount = 1;
 
-                                                foreach (getQuestionAnswer($questionId) as $answers) {
-                                                    echo $answers->answer;
-                                                    echo "<br/>";
+                                                foreach (getQuestionAnswer($getQuestionId) as $answers) {
+                                                    echo "<input type=\"radio\" value=\"{$answerCount}\" name=\"radio_btn\">";
+                                                    echo "<label for=\"{$answerCount}\">{$answers->answer}</label>";
+                                                    echo "<br>";
+
+                                                    if ($answers->isCorrect != null) {
+                                                        $correctAnswer = $answerCount;
+                                                    }
+                                                    
+                                                    $answerCount++;
                                                 }
+                                                
                                             } elseif($questions->questionType == 1){
-                                                ?> <textarea id="txtQuestionAnswer" name="txtQuestionAnswer" rows="4" cols="50" wrap="hard" maxlength="255"></textarea> <?php
+                                                ?>
+                                                 <textarea id="txtQuestionAnswer" name="txtQuestionAnswer" rows="4" cols="50" wrap="hard" maxlength="255"></textarea> <?php
                                             } elseif($questions->questionType == 2){
                                                 ?>
                                                     <label>Afbeelding uploaden</label>
@@ -199,7 +207,9 @@ include("./dataaccess/questionData.php");
     if (isset($_POST["btnAnswerQuestion"])) {
        
         $answer;
-        if ($questionType == 1) {
+        if ($questionType == 0) {
+            $answer = $_POST["radio_btn"];
+        } elseif ($questionType == 1) {
             $answer = $_POST["txtQuestionAnswer"];
         } elseif ($questionType == 2) {
             $answer = addslashes(file_get_contents($_FILES['picture']['tmp_name']));
@@ -207,6 +217,10 @@ include("./dataaccess/questionData.php");
             $answer = addslashes(file_get_contents($_FILES['video']['tmp_name']));
         } 
         answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer);
+        
+        if($questionType == 0){
+            checkAnswer($answer, $correctAnswer, $getQuestionId, $sessionTeamId);
+        }
     }
 ?>
 </html>
