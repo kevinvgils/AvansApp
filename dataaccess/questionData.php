@@ -112,6 +112,7 @@ function getRouteName($sessionRouteId)
 
     return $result;
 }
+
 function getGlobalQuestion($sessionRouteId)
 {
     include("databaseconnection.php");

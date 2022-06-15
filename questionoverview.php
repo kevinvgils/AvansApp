@@ -37,7 +37,7 @@ include("./dataaccess/questionData.php");
                             <?php
 
                             $sessionRouteId = $_SESSION["routeId"];
-                            foreach (getRouteName($sessionRouteId) as $route) {
+                            foreach (getRouteById($sessionRouteId) as $route) {
                                 echo $route->routeName;
                             }
                             ?>
