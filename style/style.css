@@ -41,6 +41,10 @@ h3 {}
   margin: 0 auto;
 }
 
+.stopButton{
+  color: white;
+}
+
 .button {
   width: 100px;
   text-align: center;
@@ -50,6 +54,7 @@ h3 {}
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   padding: 2px 0px;
 }
+
 
 .button:hover {
   text-decoration: none;

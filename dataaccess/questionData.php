@@ -3,19 +3,21 @@ function getAllQuestionsForRoute($routeId)
 {
     include("databaseconnection.php");
     $intRouteId = (int)$routeId;
-    $allQuestionsQuery = "SELECT * FROM `question` WHERE `routeId` =" . $intRouteId;
+    $allQuestionsQuery = "SELECT * FROM `question` WHERE `routeId` = :routeId";
     $stm = $con->prepare($allQuestionsQuery);
+    $stm->bindValue(':routeId', $intRouteId);
     if ($stm->execute()) {
         $allQuestions = $stm->fetchAll(PDO::FETCH_OBJ);
     }
     return $allQuestions;
 }
 
-function addQuestionToRoute($routeId, $question, $description, $latitude, $longitude, $image, $videoUrl, $allAnswers)
+function addQuestionToRoute($routeId, $questionType, $question, $description, $latitude, $longitude, $image, $videoUrl, $allAnswers)
 {
     include("databaseconnection.php");
-    $query = "INSERT INTO `question`(`routeId`, `question`, `description`, `latitude`, `longitude`, `image`, `videoUrl`) VALUES (:routeId, :question, :descr, :latitude, :longitude, '$image', :videoUrl)";
+    $query = "INSERT INTO `question`(`questionType`, `routeId`, `question`, `description`, `latitude`, `longitude`, `image`, `videoUrl`) VALUES (:questionType, :routeId, :question, :descr, :latitude, :longitude, '$image', :videoUrl)";
     $stm = $con->prepare($query);
+    $stm->bindValue(':questionType', $questionType);
     $stm->bindValue(':routeId', $routeId);
     $stm->bindValue(':question', $question);
     $stm->bindValue(':descr', $description);
@@ -25,8 +27,44 @@ function addQuestionToRoute($routeId, $question, $description, $latitude, $longi
 
     $stm->execute();
 
-    $questionId = $con->lastInsertId();
-    addAnswersToQuestion($questionId, $allAnswers);
+    if($questionType == 0){
+        $questionId = $con->lastInsertId();
+        addAnswersToQuestion($questionId, $allAnswers);
+    }
+}
+
+function updateQuestionToRoute($questionId, $routeId, $questionType, $question, $description, $latitude, $longitude, $image, $videoUrl, $allAnswers){
+    $imageString = "";
+    if($image != null){
+        $imageString = "`image`= '$image',";
+    }
+    include("databaseconnection.php");
+    $query = "UPDATE `question`".
+     " SET `questionType`=:questionType, `question`=:question, `description`=:descr, `latitude`=:latitude, `longitude`=:longitude, $imageString `videoUrl`=:videoUrl".
+     " WHERE `questionId`=:questionId;";
+    $stm = $con->prepare($query);
+    $stm->bindValue(':questionType', $questionType);
+    $stm->bindValue(':question', $question);
+    $stm->bindValue(':descr', $description);
+    $stm->bindValue(':latitude', (empty($latitude)) ? null : $latitude);
+    $stm->bindValue(':longitude', (empty($longitude)) ? null : $longitude);
+    $stm->bindValue(':videoUrl', (empty($videoUrl)) ? null : $videoUrl);
+    $stm->bindValue(':questionId', $questionId, PDO::PARAM_INT);
+    $stm->execute();
+
+    deleteAllAnswersToQuestion($questionId);
+
+    if($questionType == 0){
+        addAnswersToQuestion($questionId, $allAnswers);
+    }
+}
+
+function deleteAllAnswersToQuestion($questionId){
+    include("databaseconnection.php");
+    $query = "DELETE FROM `answer` WHERE `questionId` = :questionId";
+    $stm = $con->prepare($query);
+    $stm->bindValue(':questionId', $questionId, PDO::PARAM_INT);
+    $stm->execute();
 }
 
 function addAnswersToQuestion($questionId, $allAnswers)
@@ -114,4 +152,25 @@ function getQuestionAnswer($questionId)
         $resultAnswer = $stm->fetchAll(PDO::FETCH_OBJ);
     }
     return $resultAnswer;
+}
+
+function getAwnserCount($questionId){
+    include("databaseconnection.php");
+    $queryAnswer = "SELECT count(*) AS count FROM `answer` WHERE questionId =" . $questionId;
+    $stm = $con->prepare($queryAnswer);
+    if ($stm->execute()) {
+        $resultAnswer = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $resultAnswer;
+}
+
+function deleteQuestion($questionId){
+    include("databaseconnection.php");
+    $queries = ["DELETE FROM `answer` WHERE questionId = :questionId", "DELETE FROM `question` WHERE questionId = :questionId"];
+    foreach ($queries as $query){
+        $stm = $con->prepare($query);
+        $stm->bindValue(':questionId', $questionId);
+        $stm->execute();
+    }
+    return true;
 }

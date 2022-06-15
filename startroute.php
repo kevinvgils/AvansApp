@@ -16,9 +16,14 @@ if (isset($_POST["btnOpslaan"])) {
     $teamMembers = $_POST["txtlid1"] . ", " .  $_POST["txtlid2"] . ", " .  $_POST["txtlid3"] . ", " .  $_POST["txtlid4"] . ", " .  $_POST["txtlid5"] . ", " .  $_POST["txtlid6"];
     $somevar = $_GET["id"];
     startRoute($teamName, $teamMembers, $somevar, $teammembersarray);
+    
+    foreach(getTeamId($teamName) as $team){
+        $teamId = $team->id;
+    }
 
     session_start();
     $_SESSION['routeId'] = $somevar;
+    $_SESSION['teamId'] = $teamId;
 
     header("Location: map.php");
     exit();
