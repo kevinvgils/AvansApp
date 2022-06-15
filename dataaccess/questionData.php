@@ -215,6 +215,7 @@ function checkAnswer($answer, $correctAnswer, $questionId, $sessionTeamId)
         $stm->bindValue(':teamId', $sessionTeamId);
         $stm->bindValue(':questionId', $questionId);
         $stm->execute();
+        addPoints($sessionTeamId);
     } else {
         $query = "UPDATE `team_question` SET `correct` = 0 WHERE `teamId` = :teamId AND `questionId` = :questionId";
         $stm = $con->prepare($query);
@@ -237,4 +238,11 @@ function checkIfAnswered($questionId, $sessionTeamId)
     } else {
         return false;
     }
+}
+function addPoints($sessionTeamId)
+{
+    include("databaseconnection.php");
+    $query = "UPDATE `team` SET `score` = score+100 WHERE `id` = $sessionTeamId;";
+    $stm = $con->prepare($query);
+    $stm->execute();
 }
