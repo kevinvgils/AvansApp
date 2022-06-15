@@ -1,4 +1,7 @@
 <?php
+
+use LDAP\Result;
+
 function getAllQuestionsForRoute($routeId)
 {
     include("databaseconnection.php");
@@ -29,15 +32,16 @@ function addQuestionToRoute($routeId, $question, $description, $latitude, $longi
     addAnswersToQuestion($questionId, $allAnswers);
 }
 
-function updateQuestionToRoute($questionId, $routeId, $question, $description, $latitude, $longitude, $image, $videoUrl, $allAnswers){
+function updateQuestionToRoute($questionId, $routeId, $question, $description, $latitude, $longitude, $image, $videoUrl, $allAnswers)
+{
     $imageString = "";
-    if($image != null){
+    if ($image != null) {
         $imageString = "`image`= $image,";
     }
     include("databaseconnection.php");
-    $query = "UPDATE `question`".
-     " SET `question`=:question, `description`=:descr, `latitude`=:latitude, `longitude`=:longitude, $imageString `videoUrl`=:videoUrl".
-     " WHERE `questionId`=:questionId;";
+    $query = "UPDATE `question`" .
+        " SET `question`=:question, `description`=:descr, `latitude`=:latitude, `longitude`=:longitude, $imageString `videoUrl`=:videoUrl" .
+        " WHERE `questionId`=:questionId;";
     $stm = $con->prepare($query);
     $stm->bindValue(':question', $question);
     $stm->bindValue(':descr', $description);
@@ -51,7 +55,8 @@ function updateQuestionToRoute($questionId, $routeId, $question, $description, $
     addAnswersToQuestion($questionId, $allAnswers);
 }
 
-function deleteAllAnswersToQuestion($questionId){
+function deleteAllAnswersToQuestion($questionId)
+{
     include("databaseconnection.php");
     $query = "DELETE FROM `answer` WHERE `questionId` = :questionId";
     $stm = $con->prepare($query);
@@ -159,7 +164,8 @@ function getQuestionAnswer($questionId)
     return $resultAnswer;
 }
 
-function getAwnserCount($questionId){
+function getAwnserCount($questionId)
+{
     include("databaseconnection.php");
     $queryAnswer = "SELECT count(*) AS count FROM `answer` WHERE questionId =" . $questionId;
     $stm = $con->prepare($queryAnswer);
@@ -169,10 +175,11 @@ function getAwnserCount($questionId){
     return $resultAnswer;
 }
 
-function deleteQuestion($questionId){
+function deleteQuestion($questionId)
+{
     include("databaseconnection.php");
     $queries = ["DELETE FROM `answer` WHERE questionId = :questionId", "DELETE FROM `question` WHERE questionId = :questionId"];
-    foreach ($queries as $query){
+    foreach ($queries as $query) {
         $stm = $con->prepare($query);
         $stm->bindValue(':questionId', $questionId);
         $stm->execute();
@@ -180,44 +187,54 @@ function deleteQuestion($questionId){
     return true;
 }
 
-function answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer){
+function answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer)
+{
     include("databaseconnection.php");
 
     $query = "";
-    if($questionType == 0) {
+    if ($questionType == 0) {
         $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `multipleChoiceAnswer`) VALUES ($sessionTeamId, $getQuestionId, $answer)";
-    } else if($questionType == 1){
+    } else if ($questionType == 1) {
         $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `openAnswer`) VALUES ($sessionTeamId, $getQuestionId, $answer)";
-    } else if($questionType == 2){
-        $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `imageAnswer`) VALUES ($sessionTeamId, $getQuestionId, '$answer')";    
-    } else if($questionType == 3){
+    } else if ($questionType == 2) {
+        $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `imageAnswer`) VALUES ($sessionTeamId, $getQuestionId, '$answer')";
+    } else if ($questionType == 3) {
         $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `videoAnswer`) VALUES ($sessionTeamId, $getQuestionId, '$answer')";
     }
-    $stm = $con->prepare($query);     
+    $stm = $con->prepare($query);
     $stm->execute();
-    
 }
 
-function checkAnswer ($answer, $correctAnswer, $questionId, $sessionTeamId) {
+function checkAnswer($answer, $correctAnswer, $questionId, $sessionTeamId)
+{
     include("databaseconnection.php");
-    
-    if(intval($answer) == intval($correctAnswer)){
+
+    if (intval($answer) == intval($correctAnswer)) {
         $query = "UPDATE `team_question` SET `correct` = 1 WHERE `teamId` = :teamId AND `questionId` = :questionId";
         $stm = $con->prepare($query);
         $stm->bindValue(':teamId', $sessionTeamId);
-        $stm->bindValue(':questionId', $questionId);   
+        $stm->bindValue(':questionId', $questionId);
         $stm->execute();
     } else {
         $query = "UPDATE `team_question` SET `correct` = 0 WHERE `teamId` = :teamId AND `questionId` = :questionId";
         $stm = $con->prepare($query);
         $stm->bindValue(':teamId', $sessionTeamId);
-        $stm->bindValue(':questionId', $questionId);   
+        $stm->bindValue(':questionId', $questionId);
         $stm->execute();
     }
 }
 
-function checkIfAnswered ($questionId, $sessionTeamId) {
+function checkIfAnswered($questionId, $sessionTeamId)
+{
     include("databaseconnection.php");
-
     $query = "SELECT * FROM `team_question` WHERE `questionId` = $questionId AND `teamId` = $sessionTeamId;";
+    $stm = $con->prepare($query);
+    if ($stm->execute()) {
+        $result = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    if (!$result) {
+        return true;
+    } else {
+        return false;
+    }
 }
