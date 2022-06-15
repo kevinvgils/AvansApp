@@ -30,14 +30,14 @@ include("./dataaccess/questionData.php");
                         <div class="dropdown-divider"></div>
                         <?php
                         foreach (getCourses() as $course) { ?>
-                            <a class="dropdown-item" href="index.php?courseId=<?php echo $course->courseId?>"><?php echo $course->courseName ?></a>
+                            <a class="dropdown-item" href="index.php?courseId=<?php echo $course->courseId ?>"><?php echo $course->courseName ?></a>
                         <?php } ?>
                     </div>
                 </div>
             </div>
             <?php
             $courseId = (empty($_GET["courseId"])) ? null : $_GET["courseId"];
-            foreach ((empty($courseId)) ? getAllRoutes() : getAllRoutesByCourse($courseId) as $route) { ?>
+            foreach ((empty($courseId)) ? getAllActiveRoutes() : getAllRoutesByCourse($courseId) as $route) { ?>
                 <div class="item col-12 col-md-6">
                     <div class="itemWrap">
                         <!-- Titel van de route is klikbaar en word de routeId megegeven -->
@@ -56,14 +56,14 @@ include("./dataaccess/questionData.php");
                                     <?php } ?>
                                 </div>
                                 <div>
-                                <p><?php echo $course->courseName; ?></p>
-                            <?php } ?>
-                            <p><?php echo $route->description ?> </p>
-                            <div class="buttonWrap">
-                                <!-- start knop waar routeId word megegeven -->
-                                <a href="startroute.php?id=<?php echo $route->routeId; ?>" class="button">Starten</a>
-                            </div>
-                        </div>
+                                    <p><?php echo $course->courseName; ?></p>
+                                <?php } ?>
+                                <p><?php echo $route->description ?> </p>
+                                <div class="buttonWrap">
+                                    <!-- start knop waar routeId word megegeven -->
+                                    <a href="startroute.php?id=<?php echo $route->routeId; ?>" class="button">Starten</a>
+                                </div>
+                                </div>
                         </div>
                     </div>
                 </div>
