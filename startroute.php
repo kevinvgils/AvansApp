@@ -11,9 +11,11 @@ if (isset($_POST["btnOpslaan"])) {
         $_POST["txtlid3"],
         $_POST["txtlid4"],
         $_POST["txtlid5"],
-        $_POST["txtlid6"]
+        $_POST["txtlid6"],
+        $_POST["txtlid7"],
+        $_POST["txtlid8"]
     );
-    $teamMembers = $_POST["txtlid1"] . ", " .  $_POST["txtlid2"] . ", " .  $_POST["txtlid3"] . ", " .  $_POST["txtlid4"] . ", " .  $_POST["txtlid5"] . ", " .  $_POST["txtlid6"];
+    $teamMembers = $_POST["txtlid1"] . ", " .  $_POST["txtlid2"] . ", " .  $_POST["txtlid3"] . ", " .  $_POST["txtlid4"] . ", " .  $_POST["txtlid5"] . ", " .  $_POST["txtlid6"] . ", " .  $_POST["txtlid7"] . ", " .  $_POST["txtlid8"];
     $somevar = $_GET["id"];
     startRoute($teamName, $teamMembers, $somevar, $teammembersarray);
     
@@ -79,6 +81,11 @@ if (isset($_POST["btnOpslaan"])) {
                                     <input name="txtlid5" type="text" placeholder="Teamlid 5">
                                     <label>Teamlid 6</label>
                                     <input name="txtlid6" type="text" placeholder="Teamlid 6">
+                                    <label>Teamlid 7</label>
+                                    <input name="txtlid7" type="text" placeholder="Teamlid 7">
+                                    <label>Teamlid 8</label>
+                                    <input name="txtlid8" type="text" placeholder="Teamlid 8">
+
                                     <input type="submit" name="btnOpslaan" value="Route starten" class="button buttonWrap">
                                 </form>
                             </div>
