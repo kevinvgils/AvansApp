@@ -1,6 +1,8 @@
 <?php
 include("./dataaccess/databaseconnection.php");
 include("./dataaccess/questionData.php");
+include("./dataaccess/routeData.php");
+include("./dataaccess/courseData.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,6 +18,7 @@ include("./dataaccess/questionData.php");
 
     <!-- leaflet css  -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
 
 </head>
 
@@ -25,40 +28,100 @@ include("./dataaccess/questionData.php");
     ?>
     <div id="map"></div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-white">Vraag details</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12 border-right col-md-6 media-full-width">
+                            <?php
+                            $sessionRouteId = $_SESSION["routeId"];
+                            $getQuestionId = $_GET["questionId"];
 
+                            foreach (getQuestionDetails($getQuestionId, $sessionRouteId) as $questions) {
+                                echo $questions->question;
+                                echo "<br/><br/><strong>Beschrijving: </strong><br/>";
+                                echo $questions->description;
+                                echo "<br/><br/>";
+                                if(!$questions->videoUrl == null){
+                                    echo "<iframe src='$questions->videoUrl' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
+                                }
+                                
+                                if (!$questions->image == null) {
+                                    $url = "data:image/jpeg;base64," . base64_encode($questions->image) ?>
+
+
+                                    <div class="img" style="background-image:url('<?php echo $url ?>')"></div>
+
+
+                                <?php } ?>
+                        </div>
+                        <div class="col-12 col-md-6 answers">
+                            <p><strong>Antwoord mogelijkheden</strong></p>
+                        <?php
+                                $questionId = $questions->questionId;
+
+                                foreach (getQuestionAnswer($questionId) as $answers) {
+                                    echo $answers->answer;
+                                    echo "<br/>";
+                                }
+                            }
+                            echo "<br/>";
+
+
+                        ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 
 </html>
 
-<!-- leaflet js  -->
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
 <script>
+    function changeUrl(questionId) {
+        console.log("test")
+        window.location.href = "./map.php?questionId=" + questionId;
+    }
+
+    <?php
+    if (isset($_GET["questionId"])) { ?>
+        $('#exampleModal').modal('show');
+    <?php } ?>
+
+    $('#exampleModal').on('hidden.bs.modal', function () {
+        window.history.pushState("", "", '/AvansApp/map.php');
+    })
+
     //Test cords
     var coordAvansB = 51.5856651;
     var coordAvansL = 4.7922393;
-
-    // var coordChasseB = 51.5891643;
-    // var coordChasseL = 4.7860003;
-
-    // var coordCasinoB = 	51.5874996;
-    // var coordCasinoL = 4.7810686;
-
-    // var coordKoepelB = 	51.5902832;
-    // var coordKoepelL = 4.7872995094107;
-
-    // var coordHogeschoollaanB = 	51.58516;
-    // var coordHogeschoollaanL = 4.797319;
 
 
 
     var avansIcon = L.icon({
         iconUrl: "img/LogoRed.png",
 
-        iconSize: [60, 50], // size of the icon
-        //shadowSize:   [50, 64], // size of the shadow
-        //iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-        //shadowAnchor: [4, 62], // the same for the shadow
-        //popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+        iconSize: [60, 50]
     });
 
     var avansPin = L.icon({
@@ -84,35 +147,27 @@ include("./dataaccess/questionData.php");
         .addTo(map)
         .bindPopup("Avans Lovensdijkstraat");
 
-    // var markerChasse = L.marker([coordChasseB, coordChasseL], { icon: avansPin })
-    // .addTo(map)
-    // .bindPopup("Hier kan dan een vraag komen.");
-
-    // var markerCasino = L.marker([coordCasinoB, coordCasinoL], { icon: avansPin })
-    // .addTo(map)
-    // .bindPopup("Hier kan dan een vraag komen.");
-
-    // var markerKoepel = L.marker([coordKoepelB, coordKoepelL], { icon: avansPin })
-    // .addTo(map)
-    // .bindPopup("Hier kan dan een vraag komen.");
-
-    // var markerHogeschoollaan = L.marker([coordHogeschoollaanB, coordHogeschoollaanL], { icon: avansPin })
-    // .addTo(map).on('click', onClick);
-
-    var markerQuestion
+    var markerQuestion;
+    var questionCircles = [];
     <?php
     $getRouteId = $_SESSION["routeId"];
 
     foreach (getLocationCheck($getRouteId) as $questionMarker) {
+        $i = 1;
     ?>
-
-        var markerChasse = L.marker([<?php echo $questionMarker->longitude ?>, <?php echo $questionMarker->latitude ?>], {
-                icon: avansPin
+        var toPush<?php echo $i?> = new Array();
+        toPush<?php echo $i?>[0] = <?php echo $questionMarker->questionId ?>;
+        toPush<?php echo $i?>[1] = L.circle([<?php echo $questionMarker->longitude ?>, <?php echo $questionMarker->latitude ?>], {
+                color: '#c7002b',
+                fillColor: '#f03',
+                fillOpacity: 0.5,
+                radius: 40
             })
             .addTo(map)
             .bindPopup("Kom dichterbij om mij tezien!");
+        questionCircles.push(toPush<?php echo $i?>);
 
-    <?php }
+    <?php $i++; }
     ?>
 
     //osm layer
@@ -136,59 +191,44 @@ include("./dataaccess/questionData.php");
         var lat = position.coords.latitude
         var long = position.coords.longitude
         var accuracy = position.coords.accuracy
+        var newLatLng = new L.LatLng(lat, long);
+        if (pointer && circle) {
+            pointer.setLatLng(newLatLng);
+            circle.setLatLng(newLatLng)
 
-        if (pointer) {
-            map.removeLayer(pointer)
+        } else {
+            pointer = L.marker([lat, long], {
+                icon: avansPin
+            })
+
+            circle = L.circle([lat, long], {
+                color: '#c7002b',
+                fillColor: '#f03',
+                fillOpacity: 0.5,
+            }, {
+                radius: accuracy
+            })
+
+            var featureGroup = L.featureGroup([pointer, circle]).addTo(map)
         }
 
-        if (circle) {
-            map.removeLayer(circle)
-        }
-
-        pointer = L.marker([lat, long], {
-            icon: avansPin
-        })
-
-        circle = L.circle([lat, long], {
-            color: '#c7002b',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-        }, {
-            radius: accuracy
-        })
-
-        var featureGroup = L.featureGroup([pointer, circle]).addTo(map)
-
-        //Centreert opnieuw wanneer de locatie verandert
-        //map.fitBounds(featureGroup.getBounds())
-
-        console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy)
+        pointer.on("move", function(e) {
+            questionCircles.forEach(function(circle) {
+                var d = map.distance(e.latlng, circle[1].getLatLng());
+                var isInside = d < circle[1].getRadius();
+                circle[1].setStyle({
+                    fillColor: isInside ? "green" : "#f03",
+                    color: isInside ? "green" : "#f03"
+                });
+                if(isInside) {
+                    circle[1].setPopupContent(`<a onclick='changeUrl(` + circle[0] + `)' type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#exampleModal">` + 'Beantwoord vraag! ' + "</button>")
+                    if(!circle[1].isPopupOpen()) {
+                        circle[1].openPopup()
+                    }
+                } else {
+                    circle[1].setPopupContent("Kom dichterbij om mij tezien!")
+                }
+            });
+        });
     }
-
-    //--------
-    // bietje kutten met radius
-    // function onClick(e) {
-    //     const cords = this.getLatLng();
-    //     const cordLat = cords.lat;
-    //     const cordLong = cords.lng;
-    //     //const result2 =
-
-
-    //     console.log(cords);
-    //     console.log(cordLat);
-    //     console.log(cordLong);
-    // }
-    //---------
-    //cords klik popup
-
-    // var popup = L.popup();
-
-    // function onMapClick(e) {
-    //     popup
-    //         .setLatLng(e.latlng)
-    //         .setContent("You clicked the map at " + e.latlng.toString())
-    //         .openOn(map);
-    // }
-
-    // map.on('click', onMapClick);
 </script>
