@@ -28,7 +28,7 @@ include("../logic/adminRedirect.php");
                 </a>
             </div>
             <?php
-            foreach (getAllRoutes() as $route) { ?>
+            foreach (getAllActiveRoutes() as $route) { ?>
                 <div class="item col-12 col-md-6">
                     <div class="itemWrap">
                         <a href="detailpage.php?id=<?php echo $route->routeId; ?>" title>
@@ -50,9 +50,9 @@ include("../logic/adminRedirect.php");
                                 <?php } ?>
                                 <p><?php echo $route->description ?> </p>
                                 <div class="buttonWrap">
-                                    <a href="/" class="button">Scores</a>
+                                    <a href="runningroutes.php?id=<?php echo $route->routeId; ?>" class="button">Scores</a>
                                     <a href="/" class="button">Bewerken</a>
-                                    <a href="/" class="button">Verwijderen</a>
+                                    <a href="../logic/deleteRoute.php?routeId=<?php echo $route->routeId; ?>" class="button">Verwijderen</a>
                                 </div>
                                 </div>
                         </div>

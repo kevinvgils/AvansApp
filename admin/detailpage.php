@@ -137,60 +137,78 @@ include("../logic/editQuestion.php");
                                         <option <?php if($toSelect == 1){ echo "selected"; } ?> value="image">Afbeelding</option>
                                         <option <?php if($toSelect == 2){ echo "selected"; } ?> value="videoUrl">Youtube video</option>
                                     </select>
-                                    <label class="videoUrl" for="videoUrl" <?php if($toSelect == 2){ echo "style='display: block;'"; } ?>>Youtube video URL</label>
-                                    <input type="text" id="videoUrl" class="form-control mb-2 videoUrl" name="videoUrl" <?php if($toSelect == 2){ echo "style='display: block;'"; } ?>>
+                                    
+                                    <div id="videoUrlcontainer" <?php if($toSelect == 2){ echo "style='display: block;'"; } ?> class="mt-2">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon3">www.youtube.com/watch?v=</span>
+                                                </div>
+                                                <input type="text" class="form-control" id="videoUrl" name="videoUrl" aria-describedby="basic-addon3">
+                                            </div>
+                                        </div>
+
                                     <label class="image" for="image" <?php if($toSelect == 1){ echo "style='display: block;'"; } ?>>Afbeelding</label>
                                     <input type="file" id="file" accept="image/*" class="form-control-file image" name="file" <?php if($toSelect == 1){ echo "style='display: block;'"; } ?>>
                                 </div>
                                 <div class="col-6 mb-3">
-                                <label>Aantal antwoord mogelijkheden</label>
-                                    <select class="mb-2 custom-select" onchange="showAnswerFields(this)">
-                                        <?php $count = awnserCount() ?>
-                                        <option <?php if($count == 2){ echo "selected"; } ?> value="2">2</option>
-                                        <option <?php if($count == 3){ echo "selected"; } ?> value="3">3</option>
-                                        <option <?php if($count == 4){ echo "selected"; } ?> value="4">4</option>
+                                    <label>Vraag type</label>
+                                    <select id="selectQuestionType" class="mb-2 custom-select" name="type" onchange="showMultipleChoiceFields(this)">
+                                        <?php $type = getValueWhenEdit("questionType"); ?>
+                                        <option <?php if($type == 0){ echo "selected"; } ?> value="0">Meerkeuzevraag</option>
+                                        <option <?php if($type == 1){ echo "selected"; } ?> value="1">Openvraag</option>
+                                        <option <?php if($type == 2){ echo "selected"; } ?> value="2">Afbeeldingsvraag</option>
+                                        <option <?php if($type == 3){ echo "selected"; } ?> value="3">Videovraag</option>
                                     </select>
-                                    <?php
-                                        $questions = getQuestions();
-                                    ?>
-                                    <label for="answer1">Antwoord 1</label>
-                                    <div class="input-group mb-2">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                            <input type="checkbox" name="answer1CK" value="1" <?php if( isEditing() && isset($questions[0]) && $questions[0]->isCorrect == 1){ echo "checked";} ?> id="answer1CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
-                                            </div>
-                                        </div>
-                                        <input type="text" id="answer1Txt" name="answer1" class="form-control" value="<?php if(isEditing() && $count >= 1){echo $questions[0]->answer;} ?>" aria-label="Text input with checkbox" required>
-                                    </div>
-                                    <label for="answer1">Antwoord 2</label>
-                                    <div class="input-group mb-2">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                            <input type="checkbox" name="answer2CK" value="1" <?php if(isEditing() && isset($questions[1]) && $questions[1]->isCorrect == 1){ echo "checked";} ?> id="answer2CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
-                                            </div>
-                                        </div>
-                                        <input type="text" id="answer2Txt" name="answer2" class="form-control" value="<?php if(isEditing() && $count >= 2){echo $questions[1]->answer;} ?>" aria-label="Text input with checkbox" required>
-                                    </div>
-                                    <div id="answer3Div" <?php if(isEditing() && $count >= 3){ echo "style='display: block;'"; } ?>>
-                                        <label for="answer1">Antwoord 3</label>
+                                    <div id="multipleChoice" <?php if(getValueWhenEdit("questionType") != 0 && isEditing()){ echo "style='display: none;'";} ?>>
+                                        <label>Aantal antwoord mogelijkheden</label>
+                                        <select id="awnserCount" class="mb-2 custom-select" onchange="showAnswerFields(this)">
+                                            <?php $count = awnserCount() ?>
+                                            <option <?php if($count == 2){ echo "selected"; } ?> value="2">2</option>
+                                            <option <?php if($count == 3){ echo "selected"; } ?> value="3">3</option>
+                                            <option <?php if($count == 4){ echo "selected"; } ?> value="4">4</option>
+                                        </select>
+                                        <?php
+                                            $questions = getQuestions();
+                                        ?>
+                                        <label for="answer1">Antwoord 1</label>
                                         <div class="input-group mb-2">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
-                                                <input type="checkbox" name="answer3CK" value="1" <?php if( isEditing() && isset($questions[2]) && $questions[2]->isCorrect == 1){ echo "checked";} ?> id="answer3CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
+                                                <input type="checkbox" name="answer1CK" value="1" <?php if( isEditing() && isset($questions[0]) && $questions[0]->isCorrect == 1){ echo "checked";} ?> id="answer1CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
                                                 </div>
                                             </div>
-                                            <input type="text" id="answer3Txt" name="answer3" class="form-control" value="<?php if(isEditing() && $count >= 3){echo $questions[2]->answer;} ?>" aria-label="Text input with checkbox">
+                                            <input type="text" id="answer1Txt" name="answer1" class="form-control" value="<?php if(isEditing() && $count >= 1){echo $questions[0]->answer;} ?>" aria-label="Text input with checkbox" required>
                                         </div>
-                                    </div>
-                                    <div id="answer4Div" <?php if(isEditing() && $count >= 4){ echo "style='display: block;'"; } ?>>
-                                        <label for="answer1">Antwoord 4</label>
+                                        <label for="answer1">Antwoord 2</label>
                                         <div class="input-group mb-2">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
-                                                <input type="checkbox" name="answer4CK" value="1" <?php if(isEditing() && isset($questions[3]) && $questions[3]->isCorrect == 1){ echo "checked";} ?> id="answer4CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
+                                                <input type="checkbox" name="answer2CK" value="1" <?php if(isEditing() && isset($questions[1]) && $questions[1]->isCorrect == 1){ echo "checked";} ?> id="answer2CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
                                                 </div>
                                             </div>
-                                            <input type="text" id="answer4Txt" name="answer4" class="form-control" value="<?php if(isEditing() && $count >= 4){echo $questions[3]->answer;} ?>" aria-label="Text input with checkbox">
+                                            <input type="text" id="answer2Txt" name="answer2" class="form-control" value="<?php if(isEditing() && $count >= 2){echo $questions[1]->answer;} ?>" aria-label="Text input with checkbox" required>
+                                        </div>
+                                        <div id="answer3Div" <?php if(isEditing() && $count >= 3){ echo "style='display: block;'"; } ?>>
+                                            <label for="answer1">Antwoord 3</label>
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                    <input type="checkbox" name="answer3CK" value="1" <?php if( isEditing() && isset($questions[2]) && $questions[2]->isCorrect == 1){ echo "checked";} ?> id="answer3CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
+                                                    </div>
+                                                </div>
+                                                <input type="text" id="answer3Txt" name="answer3" class="form-control" value="<?php if(isEditing() && $count >= 3){echo $questions[2]->answer;} ?>" aria-label="Text input with checkbox">
+                                            </div>
+                                        </div>
+                                        <div id="answer4Div" <?php if(isEditing() && $count >= 4){ echo "style='display: block;'"; } ?>>
+                                            <label for="answer1">Antwoord 4</label>
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                    <input type="checkbox" name="answer4CK" value="1" <?php if(isEditing() && isset($questions[3]) && $questions[3]->isCorrect == 1){ echo "checked";} ?> id="answer4CK" aria-label="Checkbox for following answer to check if correct" onclick="selectOnlyThis(this.id)">
+                                                    </div>
+                                                </div>
+                                                <input type="text" id="answer4Txt" name="answer4" class="form-control" value="<?php if(isEditing() && $count >= 4){echo $questions[3]->answer;} ?>" aria-label="Text input with checkbox">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -222,6 +240,8 @@ include("../logic/editQuestion.php");
 <?php
     if (isset($_POST["addQuestion"])) {
         $routeId = $_GET["id"];
+        $videoUrl = $_POST["videoUrl"];
+        $questionType = $_POST["type"];
         $question = $_POST["question"];
         $description = $_POST["description"];
         $latitude = $_POST["latitude"];
@@ -230,7 +250,11 @@ include("../logic/editQuestion.php");
         if(!empty($_FILES['file']['tmp_name'])) {
             $image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
         }
-        $videoUrl = $_POST["videoUrl"];
+
+        if($_POST["videoUrl"] != "") {
+            $videoUrl = "https://www.youtube.com/embed/" . $videoUrl;
+        }
+        
         $allAnswers = array (
             array(1, $_POST["answer1"], (isset($_POST["answer1CK"])) ? $_POST["answer1CK"] : NULL),
             array(2, $_POST["answer2"], (isset($_POST["answer2CK"])) ? $_POST["answer2CK"] : NULL),
@@ -239,9 +263,9 @@ include("../logic/editQuestion.php");
         );
 
         if(!isEditing()){
-            addQuestionToRoute($routeId, $question, $description, $latitude, $longtitude, $image, $videoUrl, $allAnswers);
+            addQuestionToRoute($routeId, $questionType, $question, $description, $latitude, $longtitude, $image, $videoUrl, $allAnswers);
         } else{
-            updateQuestionToRoute($_GET["questionId"], $routeId, $question, $description, $latitude, $longtitude, $image, $videoUrl, $allAnswers);
+            updateQuestionToRoute($_GET["questionId"], $routeId, $questionType, $question, $description, $latitude, $longtitude, $image, $videoUrl, $allAnswers);
         }?> 
         <script>
             window.location.replace("detailpage.php?id=<?php echo $routeId; ?>");

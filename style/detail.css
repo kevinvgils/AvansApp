@@ -79,3 +79,7 @@
 .questionDetail .buttonWrap .button {
   margin-left: 10px;
 }
+
+#videoUrlcontainer {
+  display: none;
+}
