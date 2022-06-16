@@ -244,8 +244,9 @@ function checkAnswer($answer, $correctAnswer, $questionId, $sessionTeamId)
 function checkIfAnswered($questionId, $sessionTeamId)
 {
     include("databaseconnection.php");
-    $query = "SELECT * FROM `team_question` WHERE `questionId` = $questionId AND `teamId` = $sessionTeamId;";
+    $query = "SELECT * FROM `team_question` WHERE `questionId` = $questionId AND `teamId` = :sessionTeamId;";
     $stm = $con->prepare($query);
+    $stm->bindValue(':sessionTeamId', $sessionTeamId);
     if ($stm->execute()) {
         $result = $stm->fetchAll(PDO::FETCH_OBJ);
     }
@@ -255,10 +256,51 @@ function checkIfAnswered($questionId, $sessionTeamId)
         return false;
     }
 }
+
+function gradeQuestion($id, $teamId, $isCorrect)
+{
+    include("databaseconnection.php");
+    $query = "UPDATE `team_question` SET `correct` = :isCorrect WHERE `id` = :id";
+    $stm = $con->prepare($query);
+    $stm->bindValue(':id', $id);
+    $stm->bindValue(':isCorrect', $isCorrect);
+    $stm->execute();
+
+    if($isCorrect == 1){
+        addPoints($teamId);
+    }
+}
+
 function addPoints($sessionTeamId)
 {
     include("databaseconnection.php");
-    $query = "UPDATE `team` SET `score` = score+100 WHERE `id` = $sessionTeamId;";
+    $query = "UPDATE `team` SET `score` = score+10 WHERE `id` = :sessionTeamId;";
     $stm = $con->prepare($query);
+    $stm->bindValue(':sessionTeamId', $sessionTeamId);
     $stm->execute();
+}
+
+function getAllAnswersForTeam($teamId)
+{
+    include("databaseconnection.php");
+    $query = "SELECT * FROM team_question
+    WHERE teamId = :teamId";
+    $stm = $con->prepare($query);
+    $stm->bindValue(':teamId', $teamId);
+    if ($stm->execute()) {
+        $answers = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $answers;
+}
+
+function getMultipleChoiseAwnser($id){
+    include("databaseconnection.php");
+    $query = "SELECT * FROM answer
+    WHERE answerId = :answerId";
+    $stm = $con->prepare($query);
+    $stm->bindValue(':answerId', $id);
+    if ($stm->execute()) {
+        $answers = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $answers;
 }

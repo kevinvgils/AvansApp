@@ -137,14 +137,14 @@ header .wrap ul li {
   padding-bottom: 50px;
   height: 100%;
 }
-.itemWrap .itemContent .buttonWrap {
+.buttonWrap {
   position: absolute;
   bottom: 15px;
   right: 15px;
   display: flex;
   justify-content: space-between;
 }
-.itemWrap .itemContent .buttonWrap .button {
+.buttonWrap .button {
   margin-left: 10px;
 }
 
