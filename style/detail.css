@@ -25,7 +25,9 @@
   border-bottom: 1px solid #000;
   margin-left: 0px;
 }
-
+.questions .header .btn{
+  margin-right: 15px;
+}
 .fullwidth{
   padding: 0 15px;
   width: 100%;
