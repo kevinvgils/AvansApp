@@ -7,6 +7,10 @@
   background-position: center;
 }
 
+.answers label{
+  margin-left: 5px;
+}
+
 @media (max-width: 768px){
   .border-right{
     border: none !important;
