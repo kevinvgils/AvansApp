@@ -84,7 +84,6 @@ include("./dataaccess/courseData.php");
             </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
@@ -99,9 +98,9 @@ include("./dataaccess/courseData.php");
 
 
 <script>
-    function changeUrl(routeId, questionId) {
+    function changeUrl(questionId) {
         console.log("test")
-        window.location.href = "./map.php?id=" + routeId + "&questionId=" + questionId;
+        window.location.href = "./map.php?questionId=" + questionId;
     }
 
     <?php
@@ -213,8 +212,6 @@ include("./dataaccess/courseData.php");
             var featureGroup = L.featureGroup([pointer, circle]).addTo(map)
         }
 
-        map.fitBounds(featureGroup.getBounds())
-
         pointer.on("move", function(e) {
             questionCircles.forEach(function(circle) {
                 var d = map.distance(e.latlng, circle[1].getLatLng());
@@ -225,7 +222,7 @@ include("./dataaccess/courseData.php");
                 });
                 if(isInside) {
                     console.log(circle[0])
-                    circle[1].setPopupContent(`<a onclick='changeUrl(<?php echo 4 ?>,` + circle[0] + `)' type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">` + 'Beantwoord vraag! ' + circle[0] + "</button>")
+                    circle[1].setPopupContent(`<a onclick='changeUrl(` + circle[0] + `)' type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#exampleModal">` + 'Beantwoord vraag! ' + "</button>")
                     circle[1].openPopup()
                 } else {
                     circle[1].setPopupContent("Kom dichterbij om mij tezien!")
