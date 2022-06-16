@@ -37,7 +37,7 @@ include("./dataaccess/questionData.php");
 
                             $sessionRouteId = $_SESSION["routeId"];
                             $sessionTeamId = $_SESSION["teamId"];
-                          
+
                             foreach (getRouteName($sessionRouteId) as $route) {
 
                                 echo $route->routeName;
@@ -151,12 +151,12 @@ include("./dataaccess/questionData.php");
                                                     $answerCount = 1;
 
                                                     foreach (getQuestionAnswer($getQuestionId) as $answers) {
-                                                        echo "<input type=\"radio\" value=\"{$answerCount}\" name=\"radio_btn\">";
+                                                        echo "<input type=\"radio\" value=\"{$answers->answerId}\" name=\"radio_btn\">";
                                                         echo "<label for=\"{$answerCount}\">{$answers->answer}</label>";
                                                         echo "<br>";
 
                                                         if ($answers->isCorrect != null) {
-                                                            $correctAnswer = $answerCount;
+                                                            $correctAnswer = $answers->answerId;
                                                         }
 
                                                         $answerCount++;
