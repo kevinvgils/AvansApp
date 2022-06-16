@@ -28,7 +28,6 @@ include("./dataaccess/questionData.php");
     ?>
     <main>
         <div class="wrap">
-
             <div class="item">
                 <div class="itemWrap">
                     <div class="itemHeader">
@@ -36,7 +35,10 @@ include("./dataaccess/questionData.php");
                             <?php
 
                             $sessionRouteId = $_SESSION["routeId"];
-                            foreach (getRouteById($sessionRouteId) as $route) {
+                            $sessionTeamId = $_SESSION["teamId"];
+                          
+                            foreach (getRouteName($sessionRouteId) as $route) {
+
                                 echo $route->routeName;
                             }
                             ?>
@@ -49,13 +51,19 @@ include("./dataaccess/questionData.php");
                             <?php
                             $sessionRouteId = $_SESSION["routeId"];
                             $questionCount = 1;
-
                             foreach (getGlobalQuestion($sessionRouteId) as $questions) {
-                                echo $questionCount++ . ". ";
+                                if (checkIfAnswered($questions->questionId, $sessionTeamId) == true) {
+                                    echo $questionCount++ . ". ";
                             ?> <a onclick='changeUrl(<?php echo $sessionRouteId ?>, <?php echo $questions->questionId ?>)' data-toggle='modal' data-target='#myModal'><?php echo $questions->question ?></a>
                             <?php
-                                echo "<br/>";
+                                    echo "<br/>";
+                                } else {
+                                    echo $questionCount++ . ". ";
+                                    echo $questions->question;
+                                    echo "<br/>";
+                                }
                             }
+
 
                             ?>
                         </p>
@@ -76,9 +84,9 @@ include("./dataaccess/questionData.php");
                             ?>
                         </p>
                         <div class="buttonWrap">
-                                <!-- start knop waar routeId word megegeven -->
-                                <div class="button stopButton" onclick="stopAlert()">Stoppen</div>
-                                <script>
+                            <!-- start knop waar routeId word megegeven -->
+                            <div class="button stopButton" onclick="stopAlert()">Stoppen</div>
+                            <script>
                                 function stopAlert() {
                                     let text = "Weet u zeker dat u de route wilt stoppen?";
                                     if (confirm(text) == true) {
@@ -86,16 +94,12 @@ include("./dataaccess/questionData.php");
                                     } else {
                                         window.location.href = "./questionoverview.php";
                                     }
-                                    }
-                                </script>
+                                }
+                            </script>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
-
 
             <!-- Modal -->
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -107,13 +111,11 @@ include("./dataaccess/questionData.php");
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-
-                        <form method="POST" onsubmit="return validateForm()">
+                        <form method="POST" onsubmit="return validateForm()" enctype="multipart/form-data">
                             <div class="modal-body">
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-12 border-right col-md-6 media-full-width">
-
 
                                             <?php
                                             $sessionRouteId = $_SESSION["routeId"];
@@ -121,13 +123,13 @@ include("./dataaccess/questionData.php");
 
                                             foreach (getQuestionDetails($getQuestionId, $sessionRouteId) as $questions) {
                                                 echo $questions->question;
-                                                echo "<br/><br/><strong>Bescrhijving: </strong><br/>";
+                                                echo "<br/><br/><strong>Beschrijving : </strong><br/>";
                                                 echo $questions->description;
                                                 echo "<br/><br/>";
-                                                if(!$questions->videoUrl == null){
+                                                if (!$questions->videoUrl == null) {
                                                     echo "<iframe src='$questions->videoUrl' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
                                                 }
-                                                
+
                                                 if (!$questions->image == null) {
                                                     $url = "data:image/jpeg;base64," . base64_encode($questions->image) ?>
 
@@ -137,36 +139,55 @@ include("./dataaccess/questionData.php");
 
                                                 <?php } ?>
 
-
-
-
                                         </div>
                                         <div class="col-12 col-md-6 answers">
-                                            <p><strong>Antwoord mogelijkheden</strong></p>
+                                            <?php
+
+                                                $questionType = $questions->questionType;
+
+                                                if ($questions->questionType == 0) {
+
+                                                    $answerCount = 1;
+
+                                                    foreach (getQuestionAnswer($getQuestionId) as $answers) {
+                                                        echo "<input type=\"radio\" value=\"{$answerCount}\" name=\"radio_btn\">";
+                                                        echo "<label for=\"{$answerCount}\">{$answers->answer}</label>";
+                                                        echo "<br>";
+
+                                                        if ($answers->isCorrect != null) {
+                                                            $correctAnswer = $answerCount;
+                                                        }
+
+                                                        $answerCount++;
+                                                    }
+                                                } elseif ($questions->questionType == 1) {
+                                            ?>
+                                                <textarea id="txtQuestionAnswer" name="txtQuestionAnswer" rows="4" cols="50" wrap="hard" maxlength="255"></textarea> <?php
+                                                                                                                                                                    } elseif ($questions->questionType == 2) {
+                                                                                                                                                                        ?>
+                                                <label>Afbeelding uploaden</label>
+                                                <input type="file" class="form-control-file" id="picture" name="picture">
+
+                                            <?php
+                                                                                                                                                                    } elseif ($questions->questionType == 3) {
+                                            ?>
+                                                <label>Video uploaden</label>
+                                                <input type="file" class="form-control-file" id="video" name="video">
                                         <?php
-                                                $questionId = $questions->questionId;
-
-                                                foreach (getQuestionAnswer($questionId) as $answers) {
-                                                    echo $answers->answer;
-                                                    echo "<br/>";
-                                                }
-                                            }
-                                            echo "<br/>";
-
-
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                                echo "<br/>";
                                         ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" name="addQuestion" class="btn submit-btn">Submit</button>
+                                <button type="submit" name="btnAnswerQuestion" class="btn submit-btn">Submit</button>
                             </div>
                         </form>
                     </div>
                 </div>
-
-
             </div>
     </main>
 </body>
@@ -179,11 +200,36 @@ include("./dataaccess/questionData.php");
 <!--JS below-->
 
 <!--modal-->
-<script>
-    <?php
+
+
+<?php
+$pictureQuestion = NULL;
+$videoQuestion = NULL;
+if (isset($_POST["btnAnswerQuestion"])) {
+
+    $answer;
+    if ($questionType == 0) {
+        $answer = $_POST["radio_btn"];
+    } elseif ($questionType == 1) {
+        $answer = $_POST["txtQuestionAnswer"];
+    } elseif ($questionType == 2) {
+        $answer = addslashes(file_get_contents($_FILES['picture']['tmp_name']));
+    } elseif ($questionType == 3) {
+        $answer = addslashes(file_get_contents($_FILES['video']['tmp_name']));
+    }
+    answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer);
+
+    if ($questionType == 0) {
+        checkAnswer($answer, $correctAnswer, $getQuestionId, $sessionTeamId);
+    }
+} elseif (checkIfAnswered($questions->questionId, $sessionTeamId) == true) {
+    echo "
+    <script>";
     if (isset($_GET["questionId"])) { ?>
         $('#myModal').modal('show');
-    <?php } ?>
-</script>
+<?php }
+    echo "</script>";
+}
+?>
 
 </html>
