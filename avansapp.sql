@@ -1,21 +1,16 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 15 jun 2022 om 12:38
--- Serverversie: 10.4.24-MariaDB
--- PHP-versie: 8.1.6
+
+-- Generation Time: Jun 16, 2022 at 11:46 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `avansapp`
@@ -24,7 +19,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `answer`
+-- Table structure for table `answer`
 --
 
 CREATE TABLE `answer` (
@@ -35,7 +30,7 @@ CREATE TABLE `answer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Gegevens worden geëxporteerd voor tabel `answer`
+-- Dumping data for table `answer`
 --
 
 INSERT INTO `answer` (`answerId`, `answer`, `questionId`, `isCorrect`) VALUES
@@ -71,7 +66,7 @@ INSERT INTO `answer` (`answerId`, `answer`, `questionId`, `isCorrect`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `course`
+-- Table structure for table `course`
 --
 
 CREATE TABLE `course` (
@@ -80,7 +75,7 @@ CREATE TABLE `course` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Gegevens worden geëxporteerd voor tabel `course`
+-- Dumping data for table `course`
 --
 
 INSERT INTO `course` (`courseId`, `courseName`) VALUES
@@ -90,7 +85,7 @@ INSERT INTO `course` (`courseId`, `courseName`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `question`
+-- Table structure for table `question`
 --
 
 CREATE TABLE `question` (
@@ -106,7 +101,7 @@ CREATE TABLE `question` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Gegevens worden geëxporteerd voor tabel `question`
+-- Dumping data for table `question`
 --
 
 INSERT INTO `question` (`questionId`, `questionType`, `question`, `description`, `image`, `videoUrl`, `longitude`, `latitude`, `routeId`) VALUES
@@ -122,7 +117,7 @@ INSERT INTO `question` (`questionId`, `questionType`, `question`, `description`,
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `route`
+-- Table structure for table `route`
 --
 
 CREATE TABLE `route` (
@@ -135,7 +130,7 @@ CREATE TABLE `route` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Gegevens worden geëxporteerd voor tabel `route`
+-- Dumping data for table `route`
 --
 
 INSERT INTO `route` (`routeId`, `routeName`, `description`, `courseId`, `picture`, `isActive`) VALUES
@@ -145,7 +140,7 @@ INSERT INTO `route` (`routeId`, `routeName`, `description`, `courseId`, `picture
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `team`
+-- Table structure for table `team`
 --
 
 CREATE TABLE `team` (
@@ -160,152 +155,151 @@ CREATE TABLE `team` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Gegevens worden geëxporteerd voor tabel `team`
+-- Dumping data for table `team`
 --
 
-INSERT INTO `team` (`id`, `name`, `members`, `score`, `startTime`, `endTime`, `routeId`) VALUES
-(10, 'De mannen', 'Bryan, Dimitri, Kevin, Mohammed, Thijs, Tim', 30, '2022-06-10 15:50:12', NULL, 1),
-(11, 'De koters', 'Thijs', 0, '2022-06-08 16:48:46', '2022-06-08 17:25:41', 1),
-(12, 'Biermannen', 'Bryan, Dimitri, Kevin, Thijs', 69, '2022-06-10 15:50:12', NULL, 1),
-(13, 'Test team', 'Testuser1, Testuser2, SHEEEESH', 0, '2022-06-08 17:08:58', NULL, 1);
+INSERT INTO `team` (`id`, `name`, `members`, `score`, `startTime`, `endTime`, `routeId`, `isActive`) VALUES
+(10, 'De mannen', 'Bryan, Dimitri, Kevin, Mohammed, Thijs, Tim', 30, '2022-06-10 15:50:12', NULL, 1, 1),
+(11, 'De koters', 'Thijs', 0, '2022-06-08 16:48:46', '2022-06-08 17:25:41', 1, 1),
+(12, 'Biermannen', 'Bryan, Dimitri, Kevin, Thijs', 69, '2022-06-10 15:50:12', NULL, 1, 1),
+(13, 'Test team', 'Testuser1, Testuser2, SHEEEESH', 0, '2022-06-08 17:08:58', NULL, 1, 1);
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `team_questions`
+-- Table structure for table `team_question`
 --
 
-CREATE TABLE `team_questions` (
+CREATE TABLE `team_question` (
   `id` int(11) NOT NULL,
   `teamId` int(11) NOT NULL,
   `questionId` int(11) NOT NULL,
-  `awnser` text NOT NULL,
+  `multipleChoiceAnswer` text DEFAULT NULL,
+  `imageAnswer` longblob DEFAULT NULL,
+  `videoAnswer` longblob DEFAULT NULL,
+  `openAnswer` text DEFAULT NULL,
   `correct` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Indexen voor geëxporteerde tabellen
+-- Indexes for dumped tables
 --
 
 --
--- Indexen voor tabel `answer`
+-- Indexes for table `answer`
 --
 ALTER TABLE `answer`
   ADD PRIMARY KEY (`answerId`),
   ADD KEY `FK_answer_question` (`questionId`);
 
 --
--- Indexen voor tabel `course`
+-- Indexes for table `course`
 --
 ALTER TABLE `course`
   ADD PRIMARY KEY (`courseId`),
   ADD UNIQUE KEY `UQ_course_name` (`courseName`);
 
 --
--- Indexen voor tabel `question`
+-- Indexes for table `question`
 --
 ALTER TABLE `question`
   ADD PRIMARY KEY (`questionId`),
   ADD KEY `FK_question_routeId` (`routeId`);
 
 --
--- Indexen voor tabel `route`
+-- Indexes for table `route`
 --
 ALTER TABLE `route`
   ADD PRIMARY KEY (`routeId`),
   ADD KEY `FK_route_courseId` (`courseId`);
 
 --
--- Indexen voor tabel `team`
+-- Indexes for table `team`
 --
 ALTER TABLE `team`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FK_team_routeId` (`routeId`);
 
 --
--- Indexen voor tabel `team_questions`
+-- Indexes for table `team_question`
 --
-ALTER TABLE `team_questions`
+ALTER TABLE `team_question`
   ADD PRIMARY KEY (`id`),
   ADD KEY `questionRelation` (`questionId`),
   ADD KEY `teamRelation` (`teamId`);
 
 --
--- AUTO_INCREMENT voor geëxporteerde tabellen
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT voor een tabel `answer`
+-- AUTO_INCREMENT for table `answer`
 --
 ALTER TABLE `answer`
   MODIFY `answerId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
--- AUTO_INCREMENT voor een tabel `course`
+-- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
   MODIFY `courseId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT voor een tabel `question`
+-- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
   MODIFY `questionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
--- AUTO_INCREMENT voor een tabel `route`
+-- AUTO_INCREMENT for table `route`
 --
 ALTER TABLE `route`
   MODIFY `routeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT voor een tabel `team`
+-- AUTO_INCREMENT for table `team`
 --
 ALTER TABLE `team`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT voor een tabel `team_questions`
+-- AUTO_INCREMENT for table `team_question`
 --
-ALTER TABLE `team_questions`
+ALTER TABLE `team_question`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Beperkingen voor geëxporteerde tabellen
+-- Constraints for dumped tables
 --
 
 --
--- Beperkingen voor tabel `answer`
+-- Constraints for table `answer`
 --
 ALTER TABLE `answer`
   ADD CONSTRAINT `FK_answer_question` FOREIGN KEY (`questionId`) REFERENCES `question` (`questionId`);
 
 --
--- Beperkingen voor tabel `question`
+-- Constraints for table `question`
 --
 ALTER TABLE `question`
   ADD CONSTRAINT `FK_question_routeId` FOREIGN KEY (`routeId`) REFERENCES `route` (`routeId`);
 
 --
--- Beperkingen voor tabel `route`
+-- Constraints for table `route`
 --
 ALTER TABLE `route`
   ADD CONSTRAINT `FK_route_courseId` FOREIGN KEY (`courseId`) REFERENCES `course` (`courseId`);
 
 --
--- Beperkingen voor tabel `team`
+-- Constraints for table `team`
 --
 ALTER TABLE `team`
   ADD CONSTRAINT `FK_team_routeId` FOREIGN KEY (`routeId`) REFERENCES `route` (`routeId`);
 
 --
--- Beperkingen voor tabel `team_questions`
+-- Constraints for table `team_question`
 --
-ALTER TABLE `team_questions`
+ALTER TABLE `team_question`
   ADD CONSTRAINT `questionRelation` FOREIGN KEY (`questionId`) REFERENCES `question` (`questionId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `teamRelation` FOREIGN KEY (`teamId`) REFERENCES `team` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
