@@ -211,7 +211,7 @@ function answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer)
     if ($questionType == 0) {
         $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `multipleChoiceAnswer`) VALUES ($sessionTeamId, $getQuestionId, $answer)";
     } else if ($questionType == 1) {
-        $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `openAnswer`) VALUES ($sessionTeamId, $getQuestionId, $answer)";
+        $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `openAnswer`) VALUES ($sessionTeamId, $getQuestionId, '$answer')";
     } else if ($questionType == 2) {
         $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `imageAnswer`) VALUES ($sessionTeamId, $getQuestionId, '$answer')";
     } else if ($questionType == 3) {
