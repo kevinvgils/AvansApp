@@ -221,9 +221,10 @@ include("./dataaccess/courseData.php");
                     color: isInside ? "green" : "#f03"
                 });
                 if(isInside) {
-                    console.log(circle[0])
                     circle[1].setPopupContent(`<a onclick='changeUrl(` + circle[0] + `)' type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#exampleModal">` + 'Beantwoord vraag! ' + "</button>")
-                    circle[1].openPopup()
+                    if(!circle[1].isPopupOpen()) {
+                        circle[1].openPopup()
+                    }
                 } else {
                     circle[1].setPopupContent("Kom dichterbij om mij tezien!")
                 }
