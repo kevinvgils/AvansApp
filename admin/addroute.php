@@ -8,9 +8,13 @@ if (isset($_POST["btnOpslaan"])) {
     $routeName = $_POST["txtRouteName"];
     $course = $_POST["dropdowneducation"];
     $desc = $_POST["txtRouteDesc"];
-    $picture = addslashes(file_get_contents($_FILES['picture']['tmp_name']));
-    addRoutes($routeName, $course, $desc, $picture);
 
+    if($_FILES['picture']['tmp_name'] == null){
+        $picture = null;
+    } else {
+        $picture = addslashes(file_get_contents($_FILES['picture']['tmp_name']));
+    }
+    addRoutes($routeName, $course, $desc, $picture);
     header("Location: index.php");
     exit();
 }

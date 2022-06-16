@@ -25,6 +25,7 @@ include("./dataaccess/questionData.php");
     </script>
     <?php include("templates/questionoverviewheader.php");
     session_start();
+    include("../AvansApp/logic/sessionRedirect.php");
     ?>
     <main>
         <div class="wrap">
@@ -47,42 +48,41 @@ include("./dataaccess/questionData.php");
                     </div>
                     <div class="itemContent">
                         <strong>Globale vragen</strong>
-                        <p>
+                        <ol>
                             <?php
                             $sessionRouteId = $_SESSION["routeId"];
-                            $questionCount = 1;
+                            //$questionCount = 1;
                             foreach (getGlobalQuestion($sessionRouteId) as $questions) {
-                                if (checkIfAnswered($questions->questionId, $sessionTeamId) == true) {
-                                    echo $questionCount++ . ". ";
-                            ?> <a onclick='changeUrl(<?php echo $sessionRouteId ?>, <?php echo $questions->questionId ?>)' data-toggle='modal' data-target='#myModal'><?php echo $questions->question ?></a>
-                            <?php
-                                    echo "<br/>";
-                                } else {
-                                    echo $questionCount++ . ". ";
-                                    echo $questions->question;
-                                    echo "<br/>";
+                            ?><li class="questionli">
+                                    <?php
+                                    if (checkIfAnswered($questions->questionId, $sessionTeamId) == true) {
+
+                                    ?> <a onclick='changeUrl(<?php echo $sessionRouteId ?>, <?php echo $questions->questionId ?>)' data-toggle='modal' data-target='#myModal'><?php echo $questions->question ?></a>
+                                <?php
+
+                                    } else {
+                                        echo $questions->question;
+                                        echo " | Beantwoord!";
+                                    }
                                 }
-                            }
 
+                                ?></li>
+                                <?php
+                                ?>
+                        </ol>
 
-                            ?>
-                        </p>
-                        <br>
                         <strong>Locatie vragen</strong>
-                        <p>
+                        <ol>
                             <?php
                             $sessionRouteId = $_SESSION["routeId"];
-                            $questionCount = 1;
-
 
                             foreach (getLocalQuestion($sessionRouteId) as $questions) {
-                                echo $questionCount++ . ". ";
-                                echo $questions->question;
-                                echo "<br/>";
+                            ?><li class="questionli"> <?php echo $questions->question; ?></li>
+                            <?php
                             }
 
                             ?>
-                        </p>
+                        </ol>
                         <div class="buttonWrap">
                             <!-- start knop waar routeId word megegeven -->
                             <div class="button stopButton" onclick="stopAlert()">Stoppen</div>
@@ -162,21 +162,22 @@ include("./dataaccess/questionData.php");
                                                     }
                                                 } elseif ($questions->questionType == 1) {
                                             ?>
-                                                <textarea id="txtQuestionAnswer" name="txtQuestionAnswer" rows="4" cols="50" wrap="hard" maxlength="255"></textarea> <?php
-                                                                                                                                                                    } elseif ($questions->questionType == 2) {
-                                                                                                                                                                        ?>
+                                                <textarea id="txtQuestionAnswer" name="txtQuestionAnswer" rows="4" cols="50" wrap="hard" maxlength="255"></textarea>
+                                            <?php
+                                                } elseif ($questions->questionType == 2) {
+                                            ?>
                                                 <label>Afbeelding uploaden</label>
                                                 <input type="file" class="form-control-file" id="picture" name="picture">
 
                                             <?php
-                                                                                                                                                                    } elseif ($questions->questionType == 3) {
+                                                } elseif ($questions->questionType == 3) {
                                             ?>
                                                 <label>Video uploaden</label>
                                                 <input type="file" class="form-control-file" id="video" name="video">
                                         <?php
-                                                                                                                                                                    }
-                                                                                                                                                                }
-                                                                                                                                                                echo "<br/>";
+                                                }
+                                            }
+                                            echo "<br/>";
                                         ?>
                                         </div>
                                     </div>
@@ -222,9 +223,10 @@ if (isset($_POST["btnAnswerQuestion"])) {
     if ($questionType == 0) {
         checkAnswer($answer, $correctAnswer, $getQuestionId, $sessionTeamId);
     }
+    echo "<meta http-equiv='refresh' content='0'>";
 } elseif (checkIfAnswered($questions->questionId, $sessionTeamId) == true) {
-    echo "
-    <script>";
+
+    echo "<script>";
     if (isset($_GET["questionId"])) { ?>
         $('#myModal').modal('show');
 <?php }
