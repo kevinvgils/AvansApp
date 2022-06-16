@@ -41,7 +41,7 @@ h3 {}
   margin: 0 auto;
 }
 
-.stopButton{
+.stopButton {
   color: white;
 }
 
@@ -121,15 +121,17 @@ header .wrap ul li {
   justify-content: space-between;
   align-items: center;
 }
-.itemWrap .itemHeader p{
+
+.itemWrap .itemHeader p {
   white-space: nowrap;
 }
 
-.flexitem{
+.flexitem {
   display: flex;
   /* align-items: center; */
 }
-.flexitem .img{
+
+.flexitem .img {
   width: 100px;
   height: 100px;
   background-size: cover;
@@ -137,7 +139,8 @@ header .wrap ul li {
   background-position: center center;
   margin-right: 15px;
 }
-.itemWrap .itemContent{
+
+.itemWrap .itemContent {
   color: #000;
   padding: 15px;
   padding-bottom: 50px;
@@ -189,7 +192,7 @@ form input:nth-last-child(2) {
 }
 
 .modal-header {
- background-color: #C3222A;
+  background-color: #C3222A;
 }
 
 .submit-btn {
@@ -197,8 +200,18 @@ form input:nth-last-child(2) {
   background-color: #C3222A;
 }
 
-@media (max-width: 1200px){
-  .wrap{
+@media (max-width: 1200px) {
+  .wrap {
     margin: 0 20px;
+  }
+}
+
+.questionli {
+  margin-left: 17px;
+}
+
+@media (max-width: 1200px) {
+  .questionli {
+    margin-bottom: 2%;
   }
 }

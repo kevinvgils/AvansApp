@@ -22,6 +22,7 @@ include("./dataaccess/questionData.php");
 <body>
     <?php include("templates/mapheader.php");
     session_start();
+    include("../AvansApp/logic/sessionRedirect.php");
     ?>
     <div id="map"></div>
 

@@ -18,20 +18,20 @@ if (isset($_POST["btnOpslaan"])) {
     $teamMembers = $_POST["txtlid1"] . ", " .  $_POST["txtlid2"] . ", " .  $_POST["txtlid3"] . ", " .  $_POST["txtlid4"] . ", " .  $_POST["txtlid5"] . ", " .  $_POST["txtlid6"] . ", " .  $_POST["txtlid7"] . ", " .  $_POST["txtlid8"];
     $somevar = $_GET["id"];
 
-    if(count(checkTeamName($teamName)) == 0) {
+    if (count(checkTeamName($teamName)) == 0) {
         startRoute($teamName, $teamMembers, $somevar, $teammembersarray);
-        foreach(getTeamId($teamName) as $team){
+        foreach (getTeamId($teamName) as $team) {
             $teamId = $team->id;
         }
         session_start();
         $_SESSION['routeId'] = $somevar;
         $_SESSION['teamId'] = $teamId;
-    } else{
-        
-    } 
 
-    // header("Location: map.php");
-    // exit();
+        header("Location: map.php");
+        exit();
+    } else {
+        $_GET['error'] = "Teamnaam bestaat al!";
+    }
 }
 
 ?>
@@ -52,6 +52,7 @@ if (isset($_POST["btnOpslaan"])) {
     <?php include("templates/header.php"); ?>
     <main>
         <?php
+        $error = null;
         $getRouteId = $_GET["id"];
         // query op routeid gebaseert op id uit url
         $query = "SELECT * FROM `route` WHERE `routeId` = " . $getRouteId;
@@ -69,9 +70,9 @@ if (isset($_POST["btnOpslaan"])) {
                             </div>
                             <div class="itemContent">
                                 <form method="POST" class="addRouteForm" enctype="multipart/form-data">
+                                    <?php if (isset($_GET['error'])) { ?><label class="error"><?php echo $_GET['error']; ?></label><?php } ?>
                                     <label>Team naam</label>
                                     <input name="txtTeamName" type="text" placeholder="Team naam..." required>
-
                                     <label>Teamlid 1</label>
                                     <input name="txtlid1" type="text" placeholder="Teamlid 1">
                                     <label>Teamlid 2</label>
