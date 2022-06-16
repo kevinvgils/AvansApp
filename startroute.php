@@ -17,18 +17,21 @@ if (isset($_POST["btnOpslaan"])) {
     );
     $teamMembers = $_POST["txtlid1"] . ", " .  $_POST["txtlid2"] . ", " .  $_POST["txtlid3"] . ", " .  $_POST["txtlid4"] . ", " .  $_POST["txtlid5"] . ", " .  $_POST["txtlid6"] . ", " .  $_POST["txtlid7"] . ", " .  $_POST["txtlid8"];
     $somevar = $_GET["id"];
-    startRoute($teamName, $teamMembers, $somevar, $teammembersarray);
-    
-    foreach(getTeamId($teamName) as $team){
-        $teamId = $team->id;
-    }
 
-    session_start();
-    $_SESSION['routeId'] = $somevar;
-    $_SESSION['teamId'] = $teamId;
+    if(count(checkTeamName($teamName)) == 0) {
+        startRoute($teamName, $teamMembers, $somevar, $teammembersarray);
+        foreach(getTeamId($teamName) as $team){
+            $teamId = $team->id;
+        }
+        session_start();
+        $_SESSION['routeId'] = $somevar;
+        $_SESSION['teamId'] = $teamId;
+    } else{
+        
+    } 
 
-    header("Location: map.php");
-    exit();
+    // header("Location: map.php");
+    // exit();
 }
 
 ?>

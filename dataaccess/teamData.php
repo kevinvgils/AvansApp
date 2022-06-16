@@ -121,3 +121,16 @@ function getAmountStoppedTeams($routeId){
     }
     return $result;
 }
+
+
+function checkTeamName($teamName) {
+    include("databaseconnection.php");
+
+    $query = "SELECT * FROM `team` WHERE `name` = :teamName";
+    $stm = $con->prepare($query);
+    $stm->bindValue(':teamName', $teamName);
+    if ($stm->execute()) {
+        $result = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $result;
+}
