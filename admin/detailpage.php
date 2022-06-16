@@ -55,11 +55,11 @@ include("../logic/editQuestion.php");
                         </div>
                     </div>
                     <div class="col-12 questions">
-                        <div class="header row">
-                            <button type="button" class="btn btn-danger btn-sm mb-1 col-2" data-toggle="modal" data-target="#myModal">
+                        <div class="header">
+                            <button type="button" class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#myModal">
                                 Voeg vraag toe
                             </button>
-                            <p class="large col-10">
+                            <p class="large">
                                 Totaal: <?php echo count(getAllQuestionsForRoute($_GET['id'])); ?> vragen
                             </p>
                         </div>
