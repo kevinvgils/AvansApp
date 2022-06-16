@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 16, 2022 at 11:28 AM
+-- Generation Time: Jun 16, 2022 at 11:46 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.4
 
@@ -166,10 +166,10 @@ INSERT INTO `team` (`id`, `name`, `members`, `score`, `startTime`, `endTime`, `r
 -- --------------------------------------------------------
 
 --
--- Table structure for table `team_questions`
+-- Table structure for table `team_question`
 --
 
-CREATE TABLE `team_questions` (
+CREATE TABLE `team_question` (
   `id` int(11) NOT NULL,
   `teamId` int(11) NOT NULL,
   `questionId` int(11) NOT NULL,
@@ -220,9 +220,9 @@ ALTER TABLE `team`
   ADD KEY `FK_team_routeId` (`routeId`);
 
 --
--- Indexes for table `team_questions`
+-- Indexes for table `team_question`
 --
-ALTER TABLE `team_questions`
+ALTER TABLE `team_question`
   ADD PRIMARY KEY (`id`),
   ADD KEY `questionRelation` (`questionId`),
   ADD KEY `teamRelation` (`teamId`);
@@ -262,9 +262,9 @@ ALTER TABLE `team`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT for table `team_questions`
+-- AUTO_INCREMENT for table `team_question`
 --
-ALTER TABLE `team_questions`
+ALTER TABLE `team_question`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -296,9 +296,9 @@ ALTER TABLE `team`
   ADD CONSTRAINT `FK_team_routeId` FOREIGN KEY (`routeId`) REFERENCES `route` (`routeId`);
 
 --
--- Constraints for table `team_questions`
+-- Constraints for table `team_question`
 --
-ALTER TABLE `team_questions`
+ALTER TABLE `team_question`
   ADD CONSTRAINT `questionRelation` FOREIGN KEY (`questionId`) REFERENCES `question` (`questionId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `teamRelation` FOREIGN KEY (`teamId`) REFERENCES `team` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
