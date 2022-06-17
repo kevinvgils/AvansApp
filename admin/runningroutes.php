@@ -4,6 +4,15 @@ include("../dataaccess/routeData.php");
 include("../dataaccess/teamData.php");
 include("../dataaccess/questionData.php");
 
+if (isset($_POST["button"])) {
+    $id = $_GET['id'];
+    if($_POST["button"] == "Goed"){
+        gradeQuestion($_POST['id'], $_POST['teamId'], 1);
+    } else if($_POST["button"] == "Fout"){
+        gradeQuestion($_POST['id'], $_POST['teamId'], 0);
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +32,7 @@ include("../dataaccess/questionData.php");
     <main>
         <div class="wrap row">
         <?php
-            foreach (getAllFinishedTeamsInRoute($_GET['id']) as $team) { ?>
+            foreach (getAllFinishedTeamsInRoute($_GET['id']) as $team) {?>
                 <div class="col-12 mb-3">
                     <div class="itemWrap">
                         <button type="button" class="collapsible itemHeader">
@@ -38,13 +47,45 @@ include("../dataaccess/questionData.php");
                             </div>
                             <?php
                             $i = 1;
-                            foreach (getAllQuestionsForRoute($_GET['id']) as $question) { ?>
+                            $answers = getAllAnswersForTeam($team->id);
+                            foreach (getAllQuestionsForRoute($_GET['id']) as $question) {
+                                $key = array_search($question->questionId, array_column($answers, 'questionId')); ?>
                                 <div class="fullwidth" style="border-bottom: solid black 1px; margin-bottom: 20px; padding-bottom: 20px;">
-                                    <div class="row">
-                                        <div class="col-9">
-                                            <p class="font-weight-bold">Vraag <?php echo $i . ": " . $question->question;
-                                            $i++; ?></p>
-                                        </div>
+                                    <p <?php 
+                                    if($key === false){}
+                                    else if($answers[$key]->correct === 1){
+                                        var_dump($key);
+                                        echo "style=\"color: green\"";
+                                    } else if($answers[$key]->correct === 0 && $answers[$key]->correct !== NULL){
+                                        var_dump($answers[$key]->correct);
+                                        echo "style=\"color: red\"";
+                                    } else if($answers[$key]->correct === NULL){
+                                        echo "style=\"color: orange\"";
+                                    } ?> class="font-weight-bold">Vraag <?php echo $i . ": " . $question->question;
+                                    $i++; ?></p>
+                                    <?php if($key !== false){ ?>
+                                    <p>Antwoord: 
+                                    <?php 
+                                        if($question->questionType == 1){
+                                            echo $answers[$key]->openAnswer;
+                                        } else if ($question->questionType == 0){
+                                            echo getMultipleChoiseAwnser($answers[$key]->multipleChoiceAnswer)[0]->answer;
+                                        }
+                                    ?></p>
+                                    <?php if($question->questionType == 2){ 
+                                        $img = "data:image/jpeg;base64," . base64_encode($answers[$key]->imageAnswer)?>
+                                        <img src="<?php echo $img; ?>" alt="antwoord afbeelding" width="150" height="150">
+                                    <?php } else if($question->questionType == 3){ ?>
+                                        <p>Video</p>
+                                    <?php } } else { ?>
+                                    <p>Vraag niet beantwoord</p>
+                                    <?php } ?>
+
+                                    <div class="buttonWrap">
+                                        <?php if($answers[$key]->correct === null){ ?>
+                                            <form method="POST" enctype="multipart/form-data"><input type="hidden" name="teamId" value="<?php echo $answers[$key]->teamId; ?>"><input type="hidden" name="id" value="<?php echo $answers[$key]->id; ?>"><input class="button" name="button" type="submit" value="Goed"></form>
+                                            <form method="POST" enctype="multipart/form-data"><input type="hidden" name="teamId" value="<?php echo $answers[$key]->teamId; ?>"><input type="hidden" name="id" value="<?php echo $answers[$key]->id; ?>"><input class="button" name="button" type="submit" value="Fout"></form>
+                                        <?php } ?>
                                     </div>
                                 </div>
                             <?php } ?>
@@ -65,17 +106,52 @@ include("../dataaccess/questionData.php");
                         </button>
                         <div class="collapsible-content">
                             <div class="toptext">
-                                <h5 class="members-text"><strong>Teamleden:</strong> <?php echo $team->members; ?> </h5>
+                                <h5><strong>Teamleden:</strong> <?php echo $team->members; ?> </h5>
                             </div>
                             <?php
                             $i = 1;
-                            foreach (getAllQuestionsForRoute($_GET['id']) as $question) { ?>
+                            $answers2 = getAllAnswersForTeam($team->id);
+                            //var_dump($answers2);
+                            foreach (getAllQuestionsForRoute($_GET['id']) as $question) {
+                                $key = array_search($question->questionId, array_column($answers2, 'questionId')); ?>
                                 <div class="fullwidth" style="border-bottom: solid black 1px; margin-bottom: 20px; padding-bottom: 20px;">
-                                    <div class="row">
-                                        <div class="col-9">
-                                            <p class="font-weight-bold">Vraag <?php echo $i . ": " . $question->question;
-                                            $i++; ?></p>
-                                        </div>
+                                    <p <?php 
+                                    if($key === false){}
+                                    else if($answers2[$key]->correct === 1){
+                                        var_dump($key);
+                                        echo "style=\"color: green\"";
+                                    } else if($answers2[$key]->correct === 0 && $answers2[$key]->correct !== NULL){
+                                        var_dump($answers2[$key]->correct);
+                                        echo "style=\"color: red\"";
+                                    } else if($answers2[$key]->correct === NULL){
+                                        echo "style=\"color: orange\"";
+                                    } ?> class="font-weight-bold">Vraag <?php echo $i . ": " . $question->question;
+                                    $i++; ?></p>
+                                    <?php if($key !== false){ ?>
+                                    <p>Antwoord: 
+                                    <?php 
+                                        if($question->questionType == 1){
+                                            echo $answers2[$key]->openAnswer;
+                                        } else if ($question->questionType == 0){
+                                            echo getMultipleChoiseAwnser($answers2[$key]->multipleChoiceAnswer)[0]->answer;
+                                        }
+                                    ?></p>
+                                    <?php if($question->questionType == 2){ 
+                                        $img = "data:image/jpeg;base64," . base64_encode($answers2[$key]->imageAnswer)?>
+                                        <img src="<?php echo $img; ?>" alt="antwoord afbeelding" width="150" height="150">
+                                    <?php } else if($question->questionType == 3){ ?>
+                                        <p>Video</p>
+                                    <?php } } else { ?>
+                                    <p>Vraag niet beantwoord</p>
+                                    <?php } ?>
+
+                                    <div class="buttonWrap">
+
+                                        <?php
+                                        if($answers2[$key]->correct === null){ ?>
+                                            <form method="POST" enctype="multipart/form-data"><input type="hidden" name="teamId" value="<?php echo $answers2[$key]->teamId; ?>"><input type="hidden" name="id" value="<?php echo $answers2[$key]->id; ?>"><input class="button" name="button" type="submit" value="Goed"></form>
+                                            <form method="POST" enctype="multipart/form-data"><input type="hidden" name="teamId" value="<?php echo $answers2[$key]->teamId; ?>"><input type="hidden" name="id" value="<?php echo $answers2[$key]->id; ?>"><input class="button" name="button" type="submit" value="Fout"></form>
+                                        <?php } ?>
                                     </div>
                                 </div>
                             <?php } ?>
