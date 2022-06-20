@@ -116,6 +116,10 @@ include("../logic/editQuestion.php");
                                     <input type="text" name="question" class="form-control mb-2" value="<?php echo getValueWhenEdit("question"); ?>" required>
                                     <label for="description" class="form-label" >Omschrijving</label>
                                     <textarea type="text" name="description" class="form-control mb-2" required><?php echo getValueWhenEdit("description"); ?></textarea>
+                                    
+                                    <label for="score" class="form-label">Aantal punten</label>
+                                    <input type="number" name="score" class="form-control mb-2" min="1" value="<?php echo getValueWhenEdit("score"); ?>" required>
+                                    
                                     <div class="custom-control custom-checkbox mb-2">
                                         <input type="checkbox" class="custom-control-input" id="latLong" <?php if(checkCoords()){ echo "checked";} ?> onchange="latLongChecked()">
                                         <label class="custom-control-label" for="latLong">Vraag met locatie?</label>
@@ -243,6 +247,7 @@ include("../logic/editQuestion.php");
         $questionType = $_POST["type"];
         $question = $_POST["question"];
         $description = $_POST["description"];
+        $score = $_POST["score"];
         $latitude = $_POST["latitude"];
         $longtitude = $_POST["longtitude"];
         $image = null;
@@ -262,9 +267,9 @@ include("../logic/editQuestion.php");
         );
 
         if(!isEditing()){
-            addQuestionToRoute($routeId, $questionType, $question, $description, $latitude, $longtitude, $image, $videoUrl, $allAnswers);
+            addQuestionToRoute($routeId, $questionType, $question, $description, $score, $latitude, $longtitude, $image, $videoUrl, $allAnswers);
         } else{
-            updateQuestionToRoute($_GET["questionId"], $routeId, $questionType, $question, $description, $latitude, $longtitude, $image, $videoUrl, $allAnswers);
+            updateQuestionToRoute($_GET["questionId"], $routeId, $questionType, $question, $description, $score, $latitude, $longtitude, $image, $videoUrl, $allAnswers);
         }?> 
         <script>
             window.location.replace("detailpage.php?id=<?php echo $routeId; ?>");

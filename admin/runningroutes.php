@@ -3,12 +3,17 @@ include("../dataaccess/databaseconnection.php");
 include("../dataaccess/routeData.php");
 include("../dataaccess/teamData.php");
 include("../dataaccess/questionData.php");
-if (isset($_POST["button"])) {
+
+if (isset($_POST["button"]) && $_POST["button"] != null) {
     $id = $_GET['id'];
-    if ($_POST["button"] == "Goed") {
-        gradeQuestion($_POST['id'], $_POST['teamId'], 1);
-    } else if ($_POST["button"] == "Fout") {
-        gradeQuestion($_POST['id'], $_POST['teamId'], 0);
+    if($_POST["button"] == "Goed"){
+
+        gradeQuestion($_POST['id'], $_POST['teamId'], 1, getQuestionPoints($_POST["questionId"]));
+        
+    } else if($_POST["button"] == "Fout"){
+        if(isQuestionChecked($_POST['teamId'], $_POST["questionId"]) === null){
+            gradeQuestion($_POST['id'], $_POST['teamId'], 0, getQuestionPoints($_POST["questionId"]));
+        }
     }
 }
 
@@ -118,9 +123,9 @@ if (isset($_POST["button"])) {
                                     <?php } ?>
 
                                     <div class="buttonWrap">
-                                        <?php if ($answers[$key]->correct === null) { ?>
-                                            <form method="POST" enctype="multipart/form-data"><input type="hidden" name="teamId" value="<?php echo $answers[$key]->teamId; ?>"><input type="hidden" name="id" value="<?php echo $answers[$key]->id; ?>"><input class="button" name="button" type="submit" value="Goed"></form>
-                                            <form method="POST" enctype="multipart/form-data"><input type="hidden" name="teamId" value="<?php echo $answers[$key]->teamId; ?>"><input type="hidden" name="id" value="<?php echo $answers[$key]->id; ?>"><input class="button" name="button" type="submit" value="Fout"></form>
+                                        <?php if($answers[$key]->correct === null){ ?>
+                                            <form method="POST" enctype="multipart/form-data"><input type="hidden" name="questionId" value="<?php echo $question->questionId; ?>"><input type="hidden" name="teamId" value="<?php echo $answers[$key]->teamId; ?>"><input type="hidden" name="id" value="<?php echo $answers[$key]->id; ?>"><input class="button" name="button" type="submit" value="Goed"></form>
+                                            <form method="POST" enctype="multipart/form-data"><input type="hidden" name="questionId" value="<?php echo $question->questionId; ?>"><input type="hidden" name="teamId" value="<?php echo $answers[$key]->teamId; ?>"><input type="hidden" name="id" value="<?php echo $answers[$key]->id; ?>"><input class="button" name="button" type="submit" value="Fout"></form>
                                         <?php } ?>
                                     </div>
                                 </div>
@@ -184,11 +189,10 @@ if (isset($_POST["button"])) {
                                     <?php } ?>
 
                                     <div class="buttonWrap">
-
                                         <?php
-                                        if ($answers2[$key]->correct === null) { ?>
-                                            <form method="POST" enctype="multipart/form-data"><input type="hidden" name="teamId" value="<?php echo $answers2[$key]->teamId; ?>"><input type="hidden" name="id" value="<?php echo $answers2[$key]->id; ?>"><input class="button" name="button" type="submit" value="Goed"></form>
-                                            <form method="POST" enctype="multipart/form-data"><input type="hidden" name="teamId" value="<?php echo $answers2[$key]->teamId; ?>"><input type="hidden" name="id" value="<?php echo $answers2[$key]->id; ?>"><input class="button" name="button" type="submit" value="Fout"></form>
+                                        if($answers2[$key]->correct === null){ ?>
+                                            <form method="POST" enctype="multipart/form-data"><input type="hidden" name="teamId" value="<?php echo $answers2[$key]->teamId; ?>"><input type="hidden" name="questionId" value="<?php echo $question->questionId; ?>"><input type="hidden" name="id" value="<?php echo $answers2[$key]->id; ?>"><input class="button" name="button" type="submit" value="Goed"></form>
+                                            <form method="POST" enctype="multipart/form-data"><input type="hidden" name="teamId" value="<?php echo $answers2[$key]->teamId; ?>"><input type="hidden" name="questionId" value="<?php echo $question->questionId; ?>"><input type="hidden" name="id" value="<?php echo $answers2[$key]->id; ?>"><input class="button" name="button" type="submit" value="Fout"></form>
                                         <?php } ?>
                                     </div>
                                 </div>
