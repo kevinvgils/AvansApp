@@ -3,6 +3,7 @@ include("../dataaccess/databaseconnection.php");
 include("../dataaccess/routeData.php");
 include("../dataaccess/courseData.php");
 include("../logic/adminRedirect.php");
+include("../logic/editRoute.php");
 
 if (isset($_POST["btnOpslaan"])) {
     $routeName = $_POST["txtRouteName"];
@@ -14,7 +15,12 @@ if (isset($_POST["btnOpslaan"])) {
     } else {
         $picture = addslashes(file_get_contents($_FILES['picture']['tmp_name']));
     }
-    addRoutes($routeName, $course, $desc, $picture);
+    
+    if(isEditing()){
+        updateRoute($_GET["id"], $routeName, $course, $desc, $picture);
+    } else {
+        addRoutes($routeName, $course, $desc, $picture);
+    }
     header("Location: index.php");
     exit();
 }
@@ -40,21 +46,28 @@ if (isset($_POST["btnOpslaan"])) {
             <div class="item">
                 <div class="itemWrap">
                     <div class="itemHeader">
-                        <h3>Route aanmaken</h3>
+                        <h3>Route <?php if(isEditing()){
+                            echo 'aanpassen';
+                        } else{
+                            echo 'aanmaken';
+                        } ?></h3>
                     </div>
                     <div class="itemContent">
                         <form method="POST" class="addRouteForm" enctype="multipart/form-data">
                             <label>Route naam</label>
-                            <input name="txtRouteName" type="text" placeholder="Route naam..." required>
+                            <input value="<?php echo getValueWhenEdit("routeName"); ?>" name="txtRouteName" type="text" placeholder="Route naam..." required>
 
                             <label>Route descriptie</label>
-                            <textarea id="txtRouteDesc" name="txtRouteDesc" rows="4" cols="50"></textarea>
+                            <textarea id="txtRouteDesc" name="txtRouteDesc" rows="4" cols="50"><?php echo getValueWhenEdit("description"); ?></textarea>
 
                             <label>Route opleiding</label>
                             <select name="dropdowneducation">
-                                <?php foreach (getCourses() as $course) {
-                                    echo '<option value=" ' . $course->courseId . ' "> ' . $course->courseName . ' </option>';
-                                } ?>
+                                <?php
+                                $SelectedId = getValueWhenEdit("courseId");
+                                var_dump($SelectedId);
+                                foreach (getCourses() as $course) { ?>
+                                    <option <?php if(checkCourse($SelectedId, $course->courseId)){ echo "selected";} ?> value="<?php echo $course->courseId; ?>"><?php echo $course->courseName; ?></option>';
+                                <?php } ?>
                             </select>
                             <label>Route afbeelding</label>
                             <input type="file" class="form-control-file" id="picture" name="picture">

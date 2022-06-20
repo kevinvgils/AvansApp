@@ -12,6 +12,25 @@ function addRoutes($routeName, $course, $desc, $picture)
 
     $stm->execute();
 }
+function updateRoute($routeId, $routeName, $course, $desc, $picture){
+    include("databaseconnection.php");
+
+    $imageString = "";
+    if($picture != null){
+        $imageString = "`picture`= '$picture',";
+    }
+
+    $query = "UPDATE `route`
+    SET `routeName`=:routeName, `courseId`=:course, $imageString `description`=:description
+    WHERE `routeId`=:routeId";
+    $stm = $con->prepare($query);
+    $stm->bindValue(':routeName', $routeName);
+    $stm->bindValue(':course', $course);
+    $stm->bindValue(':description', $desc);
+    $stm->bindValue(':routeId', $routeId);
+
+    $stm->execute();
+}
 
 function getAllActiveRoutes()
 {
