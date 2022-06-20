@@ -130,7 +130,6 @@ include("./dataaccess/courseData.php");
 
 <script>
     function changeUrl(questionId) {
-        console.log("test")
         window.location.href = "./map.php?questionId=" + questionId;
     }
 
@@ -285,7 +284,7 @@ if (isset($_POST["btnAnswerQuestion"])) {
         checkAnswer($answer, $correctAnswer, $getQuestionId, $sessionTeamId);
     }
     echo "<script>"; ?>
-    window.history.pushState("", "", '/AvansApp/map.php');
+    window.history.pushState("", "", './map.php');
     <?php echo "</script>";
 
     echo "<meta http-equiv='refresh' content='0'>";
