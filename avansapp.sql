@@ -192,7 +192,7 @@ CREATE TABLE `team` (
 INSERT INTO `team` (`id`, `name`, `members`, `score`, `startTime`, `endTime`, `routeId`, `isActive`, `startDate`) VALUES
 (1, 'De Kakkers', 'Baudewijn, Eugene, Reinaut', 20, '2022-06-17 09:28:18', '2022-06-17 09:33:01', 1, 0, '2022-06-20'),
 (2, 'De mannen', 'Kevin, Tim, Thijs, Dimitri, Bryan, Mohammed', 40, '2022-06-17 09:33:41', NULL, 1, 1, '2022-06-20'),
-(8, 'bert', '', 0, '2022-06-20 12:49:21', NULL, 1, 1, '2022-06-20');
+(8, 'bert', '', 0, '2022-06-20 12:49:21', NULL, 1, 1, '2022-06-21');
 
 -- --------------------------------------------------------
 
