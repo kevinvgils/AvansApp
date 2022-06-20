@@ -164,15 +164,10 @@ include("./dataaccess/questionData.php");
                                                 <input type="file" class="form-control-file" id="picture" name="picture">
 
                                             <?php
-                                                } elseif ($questions->questionType == 3) {
-                                            ?>
-                                                <label>Video uploaden</label>
-                                                <input type="file" class="form-control-file" id="video" name="video">
-                                        <?php
-                                                }
+                                                } 
                                             }
                                             echo "<br/>";
-                                        ?>
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
