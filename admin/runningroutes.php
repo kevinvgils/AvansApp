@@ -192,7 +192,7 @@ if (isset($_POST["button"]) && $_POST["button"] != null) {
                                         <?php
                                         if($answers2[$key]->correct === null){ ?>
                                             <form method="POST" enctype="multipart/form-data"><input type="hidden" name="teamId" value="<?php echo $answers2[$key]->teamId; ?>"><input type="hidden" name="questionId" value="<?php echo $question->questionId; ?>"><input type="hidden" name="id" value="<?php echo $answers2[$key]->id; ?>"><input class="button" name="button" type="submit" value="Goed"></form>
-                                            <form method="POST" enctype="multipart/form-data"><input type="hidden" name="teamId" value="<?php echo $answers2[$key]->teamId; ?>"><input type="hidden" name="questionId" value="<?php echo $question->questionId; ?>"><input type="hidden" name="id" value="<?php echo $answers2[$key]->id; ?>"><input type="hidden" name="teamId" value="<?php echo $question->questionId; ?>"><input class="button" name="button" type="submit" value="Fout"></form>
+                                            <form method="POST" enctype="multipart/form-data"><input type="hidden" name="teamId" value="<?php echo $answers2[$key]->teamId; ?>"><input type="hidden" name="questionId" value="<?php echo $question->questionId; ?>"><input type="hidden" name="id" value="<?php echo $answers2[$key]->id; ?>"><input class="button" name="button" type="submit" value="Fout"></form>
                                         <?php } ?>
                                     </div>
                                 </div>
