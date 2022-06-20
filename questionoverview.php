@@ -53,22 +53,15 @@ include("./dataaccess/questionData.php");
                             $sessionRouteId = $_SESSION["routeId"];
                             //$questionCount = 1;
                             foreach (getGlobalQuestion($sessionRouteId) as $questions) {
-                            ?><li class="questionli">
-                                    <?php
-                                    if (checkIfAnswered($questions->questionId, $sessionTeamId) == true) {
-
-                                    ?> <a onclick='changeUrl(<?php echo $sessionRouteId ?>, <?php echo $questions->questionId ?>)' data-toggle='modal' data-target='#myModal'><?php echo $questions->question ?></a>
+                            ?>
                                 <?php
+                                if (checkIfAnswered($questions->questionId, $sessionTeamId) == true) {
 
-                                    } else {
-                                        echo $questions->question;
-                                        echo " | Beantwoord!";
-                                    }
-                                }
+                                ?><li class="questionli"> <a onclick='changeUrl(<?php echo $sessionRouteId ?>, <?php echo $questions->questionId ?>)' data-toggle='modal' data-target='#myModal'><?php echo $questions->question ?></a>
+                                    </li>
+                            <?php }
+                            } ?>
 
-                                ?></li>
-                                <?php
-                                ?>
                         </ol>
 
                         <strong>Locatie vragen</strong>
