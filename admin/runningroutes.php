@@ -37,10 +37,10 @@ if (isset($_POST["button"])) {
             <div class="col-11 mb-4">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Kies je opleiding!
+                        Kies een datum!
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="runningroutes.php?id=<?php echo $id; ?>">Alle teams</a>
+                        <a class="dropdown-item" href="runningroutes.php?id=<?php echo $id; ?>">Alle datums</a>
                         <div class="dropdown-divider"></div>
                         <?php
                         $datearray = [];
