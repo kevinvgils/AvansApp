@@ -49,13 +49,7 @@ if (isset($_POST["button"])) {
                             <?php
                             $date = $team->startDate;
 
-                            if (in_array($date, $datearray)) {
-                            ?>
-                                <script>
-                                    console.log("Goodbye world!");
-                                </script>
-                            <?php
-                            } else {
+                            if (!in_array($date, $datearray)) {
                                 $datearray[] = $date;
                             ?>
                                 <a class="dropdown-item" href="runningroutes.php?id=<?php echo $id; ?>&startTime=<?php echo $date ?>"><?php echo $date; ?></a>
