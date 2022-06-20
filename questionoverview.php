@@ -218,11 +218,16 @@ if (isset($_POST["btnAnswerQuestion"])) {
     } elseif ($questionType == 3) {
         $answer = addslashes(file_get_contents($_FILES['video']['tmp_name']));
     }
-    answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer);
+    answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer);  
+    
+    getQuestionPoints($getQuestionId);
 
     if ($questionType == 0) {
-        checkAnswer($answer, $correctAnswer, $getQuestionId, $sessionTeamId);
+        checkAnswer($answer, $correctAnswer, $getQuestionId, $sessionTeamId, getQuestionPoints($getQuestionId));
+    } else {
+        addPoints($sessionTeamId, getQuestionPoints($getQuestionId));
     }
+
     echo "<meta http-equiv='refresh' content='0'>";
 } elseif (checkIfAnswered($questions->questionId, $sessionTeamId) == true) {
 

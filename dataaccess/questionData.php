@@ -15,15 +15,16 @@ function getAllQuestionsForRoute($routeId)
     return $allQuestions;
 }
 
-function addQuestionToRoute($routeId, $questionType, $question, $description, $latitude, $longitude, $image, $videoUrl, $allAnswers)
+function addQuestionToRoute($routeId, $questionType, $question, $description, $score, $latitude, $longitude, $image, $videoUrl, $allAnswers)
 {
     include("databaseconnection.php");
-    $query = "INSERT INTO `question`(`questionType`, `routeId`, `question`, `description`, `latitude`, `longitude`, `image`, `videoUrl`) VALUES (:questionType, :routeId, :question, :descr, :latitude, :longitude, '$image', :videoUrl)";
+    $query = "INSERT INTO `question`(`questionType`, `routeId`, `question`, `description`, `score`, `latitude`, `longitude`, `image`, `videoUrl`) VALUES (:questionType, :routeId, :question, :descr, :score, :latitude, :longitude, '$image', :videoUrl)";
     $stm = $con->prepare($query);
     $stm->bindValue(':questionType', $questionType);
     $stm->bindValue(':routeId', $routeId);
     $stm->bindValue(':question', $question);
     $stm->bindValue(':descr', $description);
+    $stm->bindValue(':score', $score);
     $stm->bindValue(':latitude', (empty($latitude)) ? null : $latitude);
     $stm->bindValue(':longitude', (empty($longitude)) ? null : $longitude);
     $stm->bindValue(':videoUrl', (empty($videoUrl)) ? null : $videoUrl);
@@ -37,19 +38,20 @@ function addQuestionToRoute($routeId, $questionType, $question, $description, $l
 }
 
 
-function updateQuestionToRoute($questionId, $routeId, $questionType, $question, $description, $latitude, $longitude, $image, $videoUrl, $allAnswers){
+function updateQuestionToRoute($questionId, $routeId, $questionType, $question, $description, $score, $latitude, $longitude, $image, $videoUrl, $allAnswers){
     $imageString = "";
     if($image != null){
         $imageString = "`image`= '$image',";
     }
     include("databaseconnection.php");
     $query = "UPDATE `question`".
-     " SET `questionType`=:questionType, `question`=:question, `description`=:descr, `latitude`=:latitude, `longitude`=:longitude, $imageString `videoUrl`=:videoUrl".
+     " SET `questionType`=:questionType, `question`=:question, `description`=:descr, `score`=:score, `latitude`=:latitude, `longitude`=:longitude, $imageString `videoUrl`=:videoUrl".
      " WHERE `questionId`=:questionId;";
     $stm = $con->prepare($query);
     $stm->bindValue(':questionType', $questionType);
     $stm->bindValue(':question', $question);
     $stm->bindValue(':descr', $description);
+    $stm->bindValue(':score', $score);
     $stm->bindValue(':latitude', (empty($latitude)) ? null : $latitude);
     $stm->bindValue(':longitude', (empty($longitude)) ? null : $longitude);
     $stm->bindValue(':videoUrl', (empty($videoUrl)) ? null : $videoUrl);
@@ -221,9 +223,23 @@ function answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer)
     $stm->execute();
 }
 
-function checkAnswer($answer, $correctAnswer, $questionId, $sessionTeamId)
+function getQuestionPoints($questionId) {
+    include("databaseconnection.php");
+    
+    $query = "SELECT `score` FROM `question` WHERE `questionId` = :questionId";
+    $stm = $con->prepare($query);
+    $stm->bindValue(':questionId', $questionId);
+        if ($stm->execute()) {
+        $score = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    return $score[0]->score;
+}
+
+function checkAnswer($answer, $correctAnswer, $questionId, $sessionTeamId, $score)
 {
     include("databaseconnection.php");
+
 
     if (intval($answer) == intval($correctAnswer)) {
         $query = "UPDATE `team_question` SET `correct` = 1 WHERE `teamId` = :teamId AND `questionId` = :questionId";
@@ -231,7 +247,7 @@ function checkAnswer($answer, $correctAnswer, $questionId, $sessionTeamId)
         $stm->bindValue(':teamId', $sessionTeamId);
         $stm->bindValue(':questionId', $questionId);
         $stm->execute();
-        addPoints($sessionTeamId);
+        addPoints($sessionTeamId, $score);
     } else {
         $query = "UPDATE `team_question` SET `correct` = 0 WHERE `teamId` = :teamId AND `questionId` = :questionId";
         $stm = $con->prepare($query);
@@ -257,7 +273,7 @@ function checkIfAnswered($questionId, $sessionTeamId)
     }
 }
 
-function gradeQuestion($id, $teamId, $isCorrect)
+function gradeQuestion($id, $teamId, $isCorrect, $score)
 {
     include("databaseconnection.php");
     $query = "UPDATE `team_question` SET `correct` = :isCorrect WHERE `id` = :id";
@@ -266,16 +282,41 @@ function gradeQuestion($id, $teamId, $isCorrect)
     $stm->bindValue(':isCorrect', $isCorrect);
     $stm->execute();
 
-    if($isCorrect == 1){
-        addPoints($teamId);
+    if($isCorrect == 0){
+        subtractPoints($teamId, $score);
     }
 }
 
-function addPoints($sessionTeamId)
+function isQuestionChecked($teamId, $questionId){
+    include("databaseconnection.php");
+
+    $query = "SELECT `correct` FROM `team_question` WHERE `teamId` = :teamId AND `questionId` = :questionId";
+    $stm = $con->prepare($query);
+    $stm->bindValue(':teamId', $teamId);
+    $stm->bindValue(':questionId', $questionId);
+    if ($stm->execute()) {
+        $isChecked = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    return $isChecked[0]->correct;
+}
+
+function subtractPoints($sessionTeamId, $score)
 {
     include("databaseconnection.php");
-    $query = "UPDATE `team` SET `score` = score+10 WHERE `id` = :sessionTeamId;";
+    $query = "UPDATE `team` SET `score` = score - :score WHERE `id` = :sessionTeamId;";
     $stm = $con->prepare($query);
+    $stm->bindValue(':score', $score, PDO::PARAM_INT);
+    $stm->bindValue(':sessionTeamId', $sessionTeamId);
+    $stm->execute();
+}
+
+function addPoints($sessionTeamId, $score)
+{
+    include("databaseconnection.php");
+    $query = "UPDATE `team` SET `score` = score + :score WHERE `id` = :sessionTeamId;";
+    $stm = $con->prepare($query);
+    $stm->bindValue(':score', $score);
     $stm->bindValue(':sessionTeamId', $sessionTeamId);
     $stm->execute();
 }
