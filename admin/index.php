@@ -51,7 +51,7 @@ include("../logic/adminRedirect.php");
                                 <p><?php echo $route->description ?> </p>
                                 <div class="buttonWrap">
                                     <a href="runningroutes.php?id=<?php echo $route->routeId; ?>" class="button">Scores</a>
-                                    <a href="/" class="button">Bewerken</a>
+                                    <a href="addroute.php?edit=true&id=<?php echo $route->routeId; ?>" class="button">Bewerken</a>
                                     <a href="../logic/deleteRoute.php?routeId=<?php echo $route->routeId; ?>" class="button">Verwijderen</a>
                                 </div>
                                 </div>

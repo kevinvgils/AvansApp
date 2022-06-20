@@ -18,7 +18,8 @@ function startRoute($teamName, $teamMembers, $somevar, $array)
     $stm->execute();
 }
 
-function getAllTeams() {
+function getAllTeams()
+{
     include("databaseconnection.php");
     $allTeamsQuery = "SELECT * FROM `team`";
     $stm = $con->prepare($allTeamsQuery);
@@ -28,7 +29,8 @@ function getAllTeams() {
     return $allTeams;
 }
 
-function getAllActiveTeamsInRoute($routeId) {
+function getAllActiveTeamsInRoute($routeId)
+{
     include("databaseconnection.php");
     $activeTeamsQuery = "SELECT * FROM `team` WHERE `endTime` IS NULL AND `routeId` = :routeId";
     $stm = $con->prepare($activeTeamsQuery);
@@ -39,7 +41,21 @@ function getAllActiveTeamsInRoute($routeId) {
     return $activeTeams;
 }
 
-function getAllFinishedTeamsInRoute($routeId) {
+function getAllActiveTeamsInRouteWithTime($routeId, $startTime)
+{
+    include("databaseconnection.php");
+    $finishedTeamsQuery = "SELECT * FROM `team` WHERE `endTime` IS NULL AND `routeId` = :routeId AND `startDate` = :startDate";
+    $stm = $con->prepare($finishedTeamsQuery);
+    $stm->bindValue(':routeId', $routeId);
+    $stm->bindValue(':startDate', $startTime);
+    if ($stm->execute()) {
+        $finishedTeams = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $finishedTeams;
+}
+
+function getAllFinishedTeamsInRoute($routeId)
+{
     include("databaseconnection.php");
     $finishedTeamsQuery = "SELECT * FROM `team` WHERE `endTime` IS NOT NULL AND `routeId` = :routeId";
     $stm = $con->prepare($finishedTeamsQuery);
@@ -49,8 +65,21 @@ function getAllFinishedTeamsInRoute($routeId) {
     }
     return $finishedTeams;
 }
+function getAllFinishedTeamsInRouteWithTime($routeId, $startTime)
+{
+    include("databaseconnection.php");
+    $finishedTeamsQuery = "SELECT * FROM `team` WHERE `endTime` IS NOT NULL AND `routeId` = :routeId AND `startDate` = :startDate";
+    $stm = $con->prepare($finishedTeamsQuery);
+    $stm->bindValue(':routeId', $routeId);
+    $stm->bindValue(':startDate', $startTime);
+    if ($stm->execute()) {
+        $finishedTeams = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $finishedTeams;
+}
 
-function getEndTime($teamId) {
+function getEndTime($teamId)
+{
     include("databaseconnection.php");
     $endTimeQuery = "SELECT TIMEDIFF(`endTime`,`startTime`) AS `finalTime` FROM `team` WHERE `id` = :teamId";
     $stm = $con->prepare($endTimeQuery);
@@ -69,10 +98,10 @@ function endRoute($teamId)
     $stm = $con->prepare($query);
     $stm->bindValue(':teamId', $teamId);
     $stm->execute();
-
 }
 
-function getTeamId($teamName){
+function getTeamId($teamName)
+{
     include("databaseconnection.php");
 
     $query = "SELECT `id` FROM `team` WHERE `name` = :name";
@@ -80,13 +109,12 @@ function getTeamId($teamName){
     $stm->bindValue(':name', $teamName);
     if ($stm->execute()) {
         $teamId = $stm->fetchAll(PDO::FETCH_OBJ);
-        
-        
     }
     return $teamId;
 }
 
-function getTeamScore($teamId){
+function getTeamScore($teamId)
+{
     include("databaseconnection.php");
 
     $query = "SELECT * FROM `team` WHERE `id` = :teamId";
@@ -98,7 +126,8 @@ function getTeamScore($teamId){
     return $result;
 }
 
-function getPositionLeaderBoard($routeId){
+function getPositionLeaderBoard($routeId)
+{
     include("databaseconnection.php");
 
     $query = "SELECT * FROM `team` WHERE routeId = :routeId AND `isActive` = 0 ORDER BY `score` DESC";
@@ -110,7 +139,8 @@ function getPositionLeaderBoard($routeId){
     return $result;
 }
 
-function getAmountStoppedTeams($routeId){
+function getAmountStoppedTeams($routeId)
+{
     include("databaseconnection.php");
 
     $query = "SELECT COUNT(*) AS 'Amount' FROM `team` WHERE routeId = :routeId AND isActive = 0";
@@ -123,7 +153,8 @@ function getAmountStoppedTeams($routeId){
 }
 
 
-function checkTeamName($teamName) {
+function checkTeamName($teamName)
+{
     include("databaseconnection.php");
 
     $query = "SELECT * FROM `team` WHERE `name` = :teamName";
