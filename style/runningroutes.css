@@ -24,17 +24,23 @@
   margin-left: auto;
 }
 
-.active,
+.active .collapsible,
 .collapsible:hover {
   background-color: #78161b;
 }
 
+.active .collapsible-content {
+  transform: scale(100%, 100%);
+  display: block;
+}
+
 .collapsible-content {
   padding: 0 15px;
-  max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease-out;
+  transition: 0.3s ease-out;
   background-color: #fff;
+  transform: scale(0, 100%);
+  display: none;
 }
 .collapsible-content .fullwidth{
   position: relative;
