@@ -77,9 +77,10 @@ include("./dataaccess/questionData.php");
                             $sessionRouteId = $_SESSION["routeId"];
 
                             foreach (getLocalQuestion($sessionRouteId) as $questions) {
+                                if (checkIfAnswered($questions->questionId, $sessionTeamId) == true) {
                             ?><li class="questionli"> <?php echo $questions->question; ?></li>
                             <?php
-                            }
+                            }}
 
                             ?>
                         </ol>
