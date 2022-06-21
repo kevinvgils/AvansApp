@@ -15,6 +15,12 @@ include("../logic/editQuestion.php");
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../style/style.css">
     <link rel="stylesheet" href="../style/detail.css">
+
+    <!-- leaflet css  -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+
     <title>AvansApp</title>
 </head>
 
@@ -125,6 +131,64 @@ include("../logic/editQuestion.php");
                                         <label class="custom-control-label" for="latLong">Vraag met locatie?</label>
                                     </div>
                                     <div id="latLongDiv" class="row mb-2" <?php if(checkCoords()){ echo "style='display: flex;'"; } ?>>
+                                            <!-- MAP -->
+                                            <div id="map">
+                                                <script>
+                                                    //Avans coords
+                                                    var coordAvansB = 51.5856651;
+                                                    var coordAvansL = 4.7922393;
+
+                                                    var avansIcon = L.icon({
+                                                        iconUrl: "../img/LogoRed.png",
+
+                                                        iconSize: [40, 30], // size of the icon
+                                                        //shadowSize:   [50, 64], // size of the shadow
+                                                        //iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+                                                        //shadowAnchor: [4, 62], // the same for the shadow
+                                                        //popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+                                                    });
+
+                                                    // Map initialization 
+                                                    var map = L.map('map', {
+                                                        minZoom: 13,
+                                                        maxZoom: 16,
+                                                    }).setView([51.5856651, 4.7922393], 13);
+
+                                                    //Markers toevoegen (met de aangemaakte variable cord)
+                                                    var markerAvans = L.marker([coordAvansB, coordAvansL], {
+                                                            icon: avansIcon
+                                                        })
+                                                        .addTo(map)
+                                                        .bindPopup("Avans startpunt");
+
+                                                    //osm layer
+                                                    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                                    });
+                                                    osm.addTo(map);
+
+                                                    //cords klik popup
+                                                    var popup = L.popup();
+
+                                                    function onMapClick(e) {
+                                                        popup
+                                                            .setLatLng(e.latlng)
+                                                            .setContent("Coördinaat ingevuld!")
+                                                            .openOn(map);
+
+                                                        coordLat = e.latlng.lat;
+                                                        coordLng = e.latlng.lng;
+
+
+                                                        var longInput = $('#long');
+                                                        var latInput = $('#lat');
+                                                        longInput.val(coordLat);
+                                                        latInput.val(coordLng);
+                                                    }
+                                                    map.on('click', onMapClick);
+                                                </script>
+                                            </div>
+                                            <!-- MAP -->
                                         <div class="col-6">
                                             <label for="longtitude" class="form-label">Lengtegraad</label>
                                             <input type="text" id="long" name="longtitude" class="form-control" value="<?php echo getValueWhenEdit("longitude"); ?>">
@@ -238,6 +302,13 @@ include("../logic/editQuestion.php");
     $('#myModal').on('shown.bs.modal', function() {
         $('#myInput').trigger('focus')
     })
+
+
+    $('#myModal').on('shown.bs.modal', function() {
+        setTimeout(function() {
+            map.invalidateSize();
+        }, 10);
+    });
 </script>
 
 <?php
