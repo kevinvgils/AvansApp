@@ -3,6 +3,7 @@ include("./dataaccess/databaseconnection.php");
 include("./dataaccess/questionData.php");
 include("./dataaccess/routeData.php");
 include("./dataaccess/courseData.php");
+include("./dataaccess/teamData.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,6 +29,12 @@ include("./dataaccess/courseData.php");
     include("../AvansApp/logic/sessionRedirect.php");
     $sessionRouteId = $_SESSION["routeId"];
     $sessionTeamId = $_SESSION["teamId"];
+    foreach (getAllFinishedTeamsInRoute($sessionRouteId) as $team) {
+        if ($team->id === $sessionTeamId) {
+            header("Location: index.php");
+            exit();
+        }
+    }
     ?>
     <div id="map"></div>
 
@@ -35,94 +42,94 @@ include("./dataaccess/courseData.php");
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-white">Vraag details</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form method="POST" action="" enctype="multipart/form-data">
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12 border-right col-md-6 media-full-width">
+                <div class="modal-header">
+                    <h5 class="modal-title text-white">Vraag details</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-12 border-right col-md-6 media-full-width">
 
-                                <?php
-                                $sessionRouteId = $_SESSION["routeId"];
-                                $getQuestionId = $_GET["questionId"];
+                                    <?php
+                                    $sessionRouteId = $_SESSION["routeId"];
+                                    $getQuestionId = $_GET["questionId"];
 
-                                foreach (getQuestionDetails($getQuestionId, $sessionRouteId) as $questions) {
-                                    echo $questions->question;
-                                    echo "<br/><br/><strong>Beschrijving : </strong><br/>";
-                                    echo $questions->description;
-                                    echo "<br/><br/>";
-                                    if (!$questions->videoUrl == null) {
-                                        echo "<iframe src='$questions->videoUrl' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
-                                    }
-
-                                    if (!$questions->image == null) {
-                                        $url = "data:image/jpeg;base64," . base64_encode($questions->image) ?>
-
-
-                                        <div class="img" style="background-image:url('<?php echo $url ?>')"></div>
-
-
-                                    <?php } ?>
-
-                            </div>
-                            <div class="col-12 col-md-6 answers">
-                                <?php
-
-                                    $questionType = $questions->questionType;
-
-                                    if ($questions->questionType == 0) {
-
-                                        $answerCount = 1;
-
-                                        foreach (getQuestionAnswer($getQuestionId) as $answers) {
-                                            echo "<input type=\"radio\" value=\"{$answers->answerId}\" name=\"radio_btn\">";
-                                            echo "<label for=\"{$answerCount}\">{$answers->answer}</label>";
-                                            echo "<br>";
-
-                                            if ($answers->isCorrect != null) {
-                                                $correctAnswer = $answers->answerId;
-                                            }
-
-                                            $answerCount++;
+                                    foreach (getQuestionDetails($getQuestionId, $sessionRouteId) as $questions) {
+                                        echo $questions->question;
+                                        echo "<br/><br/><strong>Beschrijving : </strong><br/>";
+                                        echo $questions->description;
+                                        echo "<br/><br/>";
+                                        if (!$questions->videoUrl == null) {
+                                            echo "<iframe src='$questions->videoUrl' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
                                         }
-                                    } elseif ($questions->questionType == 1) {
-                                ?>
-                                    <textarea id="txtQuestionAnswer" name="txtQuestionAnswer" rows="4" cols="50" wrap="hard" maxlength="255"></textarea>
-                                <?php
-                                    } elseif ($questions->questionType == 2) {
-                                ?>
-                                    <label>Afbeelding uploaden</label>
-                                    <input type="file" class="form-control-file" id="picture" name="picture">
 
+                                        if (!$questions->image == null) {
+                                            $url = "data:image/jpeg;base64," . base64_encode($questions->image) ?>
+
+
+                                            <div class="img" style="background-image:url('<?php echo $url ?>')"></div>
+
+
+                                        <?php } ?>
+
+                                </div>
+                                <div class="col-12 col-md-6 answers">
+                                    <?php
+
+                                        $questionType = $questions->questionType;
+
+                                        if ($questions->questionType == 0) {
+
+                                            $answerCount = 1;
+
+                                            foreach (getQuestionAnswer($getQuestionId) as $answers) {
+                                                echo "<input type=\"radio\" value=\"{$answers->answerId}\" name=\"radio_btn\">";
+                                                echo "<label for=\"{$answerCount}\">{$answers->answer}</label>";
+                                                echo "<br>";
+
+                                                if ($answers->isCorrect != null) {
+                                                    $correctAnswer = $answers->answerId;
+                                                }
+
+                                                $answerCount++;
+                                            }
+                                        } elseif ($questions->questionType == 1) {
+                                    ?>
+                                        <textarea id="txtQuestionAnswer" name="txtQuestionAnswer" rows="4" cols="50" wrap="hard" maxlength="255"></textarea>
+                                    <?php
+                                        } elseif ($questions->questionType == 2) {
+                                    ?>
+                                        <label>Afbeelding uploaden</label>
+                                        <input type="file" class="form-control-file" id="picture" name="picture">
+
+                                    <?php
+                                        } elseif ($questions->questionType == 3) {
+                                    ?>
+                                        <label>Video uploaden</label>
+                                        <input type="file" class="form-control-file" id="video" name="video">
                                 <?php
-                                    } elseif ($questions->questionType == 3) {
-                                ?>
-                                    <label>Video uploaden</label>
-                                    <input type="file" class="form-control-file" id="video" name="video">
-                            <?php
+                                        }
                                     }
-                                }
-                                echo "<br/>";
-                            ?>
+                                    echo "<br/>";
+                                ?>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" name="btnAnswerQuestion" class="btn submit-btn">Submit</button>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <button type="submit" name="btnAnswerQuestion" class="btn submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 
 </html>
@@ -177,19 +184,19 @@ include("./dataaccess/courseData.php");
         $i = 1;
         if (checkIfAnswered($questionMarker->questionId, $sessionTeamId) == true) {
     ?>
-        var toPush<?php echo $i?> = new Array();
-        toPush<?php echo $i?>[0] = <?php echo $questionMarker->questionId ?>;
-        toPush<?php echo $i?>[1] = L.circle([<?php echo $questionMarker->longitude ?>, <?php echo $questionMarker->latitude ?>], {
-                color: '#c7002b',
-                fillColor: '#f03',
-                fillOpacity: 0.5,
-                radius: 40
-            })
-            .addTo(map)
-            .bindPopup("Kom dichterbij om mij tezien!");
-        questionCircles.push(toPush<?php echo $i?>);
+            var toPush<?php echo $i ?> = new Array();
+            toPush<?php echo $i ?>[0] = <?php echo $questionMarker->questionId ?>;
+            toPush<?php echo $i ?>[1] = L.circle([<?php echo $questionMarker->longitude ?>, <?php echo $questionMarker->latitude ?>], {
+                    color: '#c7002b',
+                    fillColor: '#f03',
+                    fillOpacity: 0.5,
+                    radius: 40
+                })
+                .addTo(map)
+                .bindPopup("Kom dichterbij om mij tezien!");
+            questionCircles.push(toPush<?php echo $i ?>);
 
-    <?php $i++; 
+    <?php $i++;
         }
     }
     ?>
@@ -244,9 +251,9 @@ include("./dataaccess/courseData.php");
                     fillColor: isInside ? "green" : "#f03",
                     color: isInside ? "green" : "#f03"
                 });
-                if(isInside) {
+                if (isInside) {
                     circle[1].setPopupContent(`<a onclick='changeUrl(` + circle[0] + `)' type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#exampleModal">` + 'Beantwoord vraag! ' + "</button>")
-                    if(!circle[1].isPopupOpen()) {
+                    if (!circle[1].isPopupOpen()) {
                         circle[1].openPopup()
                     }
                 } else {
