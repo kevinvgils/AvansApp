@@ -128,3 +128,11 @@ function selectOnlyThis(id) {
     }
     document.getElementById(id).checked = true;
 }
+
+var element = document.getElementById('selectQuestionType');
+var event = new Event('change');
+element.dispatchEvent(event);
+
+var element = document.getElementById('awnserCount');
+var event = new Event('change');
+element.dispatchEvent(event);

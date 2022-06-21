@@ -231,28 +231,24 @@ include("../logic/editQuestion.php");
                                                 <input type="text" class="form-control" id="videoUrl" name="videoUrl" aria-describedby="basic-addon3">
                                             </div>
                                         </div>
-
-                                        <label class="image" for="image" <?php if ($toSelect == 1) {
-                                                                                echo "style='display: block;'";
-                                                                            } ?>>Afbeelding</label>
-                                        <input type="file" id="file" accept="image/*" class="form-control-file image" name="file" 
-                                        <?php if ($toSelect == 1) {
-                                                                                                                                        echo "style='display: block;'";
-                                                                                                                                    } ?>>
-                                    </div>
-                                    <div class="col-6 mb-3">
-                                        <label>Vraag type</label>
-                                        <select id="selectQuestionType" class="mb-2 custom-select" name="type" onchange="showMultipleChoiceFields(this)">
-                                            <?php $type = getValueWhenEdit("questionType"); ?>
-                                            <option <?php if ($type == 0) {
-                                                        echo "selected";
-                                                    } ?> value="0">Meerkeuzevraag</option>
-                                            <option <?php if ($type == 1) {
-                                                        echo "selected";
-                                                    } ?> value="1">Openvraag</option>
-                                            <option <?php if ($type == 2) {
-                                                        echo "selected";
-                                                    } ?> value="2">Afbeeldingsvraag</option>
+                                    <label class="image" for="image" <?php if($toSelect == 1){ echo "style='display: block;'"; } ?>>Afbeelding</label>
+                                    <input type="file" id="file" accept="image/*" class="form-control-file image" name="file" <?php if($toSelect == 1){ echo "style='display: block;'"; } ?>>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label>Vraag type</label>
+                                    <select id="selectQuestionType" value="<?php echo $type; ?>" class="mb-2 custom-select" name="type" onchange="showMultipleChoiceFields(this)">
+                                        <?php $type = getValueWhenEdit("questionType"); ?>
+                                        <option <?php if($type == 0){ echo "selected"; } ?> value="0">Meerkeuzevraag</option>
+                                        <option <?php if($type == 1){ echo "selected"; } ?> value="1">Openvraag</option>
+                                        <option <?php if($type == 2){ echo "selected"; } ?> value="2">Afbeeldingsvraag</option>
+                                    </select>
+                                    <div id="multipleChoice" <?php if(getValueWhenEdit("questionType") != 0 && isEditing()){ echo "style='display: none;'";} ?>>
+                                        <label>Aantal antwoord mogelijkheden</label>
+                                        <?php $count = awnserCount() ?>
+                                        <select id="awnserCount" value="<?php echo $count; ?>" class="mb-2 custom-select" onchange="showAnswerFields(this)">
+                                            <option <?php if($count == 2){ echo "selected"; } ?> value="2">2</option>
+                                            <option <?php if($count == 3){ echo "selected"; } ?> value="3">3</option>
+                                            <option <?php if($count == 4){ echo "selected"; } ?> value="4">4</option>
                                         </select>
                                         <div id="multipleChoice" <?php if (getValueWhenEdit("questionType") != 0 && isEditing()) {
                                                                         echo "style='display: none;'";
