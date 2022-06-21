@@ -212,7 +212,7 @@ include("./dataaccess/teamData.php");
     } else {
         setInterval(() => {
             navigator.geolocation.getCurrentPosition(getPosition)
-        }, 5000);
+        }, 3000);
     }
 
     var pointer, circle;
@@ -241,6 +241,8 @@ include("./dataaccess/teamData.php");
             })
 
             var featureGroup = L.featureGroup([pointer, circle]).addTo(map)
+
+            
         }
 
         pointer.on("move", function(e) {
@@ -261,6 +263,7 @@ include("./dataaccess/teamData.php");
                 }
             });
         });
+        map.fitBounds(featureGroup.getBounds())  
     }
 
     <?php
