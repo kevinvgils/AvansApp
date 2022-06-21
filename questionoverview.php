@@ -53,22 +53,15 @@ include("./dataaccess/questionData.php");
                             $sessionRouteId = $_SESSION["routeId"];
                             //$questionCount = 1;
                             foreach (getGlobalQuestion($sessionRouteId) as $questions) {
-                            ?><li class="questionli">
-                                    <?php
-                                    if (checkIfAnswered($questions->questionId, $sessionTeamId) == true) {
-
-                                    ?> <a onclick='changeUrl(<?php echo $sessionRouteId ?>, <?php echo $questions->questionId ?>)' data-toggle='modal' data-target='#myModal'><?php echo $questions->question ?></a>
+                            ?>
                                 <?php
+                                if (checkIfAnswered($questions->questionId, $sessionTeamId) == true) {
 
-                                    } else {
-                                        echo $questions->question;
-                                        echo " | Beantwoord!";
-                                    }
-                                }
+                                ?><li class="questionli"> <a onclick='changeUrl(<?php echo $sessionRouteId ?>, <?php echo $questions->questionId ?>)' data-toggle='modal' data-target='#myModal'><?php echo $questions->question ?></a>
+                                    </li>
+                            <?php }
+                            } ?>
 
-                                ?></li>
-                                <?php
-                                ?>
                         </ol>
 
                         <strong>Locatie vragen</strong>
@@ -77,9 +70,10 @@ include("./dataaccess/questionData.php");
                             $sessionRouteId = $_SESSION["routeId"];
 
                             foreach (getLocalQuestion($sessionRouteId) as $questions) {
+                                if (checkIfAnswered($questions->questionId, $sessionTeamId) == true) {
                             ?><li class="questionli"> <?php echo $questions->question; ?></li>
                             <?php
-                            }
+                            }}
 
                             ?>
                         </ol>
@@ -170,15 +164,10 @@ include("./dataaccess/questionData.php");
                                                 <input type="file" class="form-control-file" id="picture" name="picture">
 
                                             <?php
-                                                } elseif ($questions->questionType == 3) {
-                                            ?>
-                                                <label>Video uploaden</label>
-                                                <input type="file" class="form-control-file" id="video" name="video">
-                                        <?php
-                                                }
+                                                } 
                                             }
                                             echo "<br/>";
-                                        ?>
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
@@ -218,11 +207,16 @@ if (isset($_POST["btnAnswerQuestion"])) {
     } elseif ($questionType == 3) {
         $answer = addslashes(file_get_contents($_FILES['video']['tmp_name']));
     }
-    answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer);
+    answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer);  
+    
+    getQuestionPoints($getQuestionId);
 
     if ($questionType == 0) {
-        checkAnswer($answer, $correctAnswer, $getQuestionId, $sessionTeamId);
+        checkAnswer($answer, $correctAnswer, $getQuestionId, $sessionTeamId, getQuestionPoints($getQuestionId));
+    } else {
+        addPoints($sessionTeamId, getQuestionPoints($getQuestionId));
     }
+
     echo "<meta http-equiv='refresh' content='0'>";
 } elseif (checkIfAnswered($questions->questionId, $sessionTeamId) == true) {
 
