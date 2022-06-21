@@ -76,7 +76,7 @@ if (isset($_POST["btnOpslaan"])) {
                                     <label>Team naam</label>
                                     <input name="txtTeamName" type="text" placeholder="Team naam..." required>
                                     <label>Aantal teamleden</label>
-                                    <select class="mb-2 custom-select" onchange="showTeamFields(this)">
+                                    <select class="mb-2 inputbox" onchange="showTeamFields(this)">
                                         <option selected value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
