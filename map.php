@@ -281,7 +281,7 @@ if (isset($_POST["btnAnswerQuestion"])) {
     answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer);
 
     if ($questionType == 0) {
-        checkAnswer($answer, $correctAnswer, $getQuestionId, $sessionTeamId);
+        checkAnswer($answer, $correctAnswer, $getQuestionId, $sessionTeamId, getQuestionPoints($getQuestionId));
     }
     echo "<script>"; ?>
     window.history.pushState("", "", './map.php');
