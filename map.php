@@ -26,6 +26,8 @@ include("./dataaccess/courseData.php");
     <?php include("templates/mapheader.php");
     session_start();
     include("../AvansApp/logic/sessionRedirect.php");
+    $sessionRouteId = $_SESSION["routeId"];
+    $sessionTeamId = $_SESSION["teamId"];
     ?>
     <div id="map"></div>
 
@@ -39,54 +41,82 @@ include("./dataaccess/courseData.php");
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12 border-right col-md-6 media-full-width">
+            <form method="POST" action="" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12 border-right col-md-6 media-full-width">
+
+                                <?php
+                                $sessionRouteId = $_SESSION["routeId"];
+                                $getQuestionId = $_GET["questionId"];
+
+                                foreach (getQuestionDetails($getQuestionId, $sessionRouteId) as $questions) {
+                                    echo $questions->question;
+                                    echo "<br/><br/><strong>Beschrijving : </strong><br/>";
+                                    echo $questions->description;
+                                    echo "<br/><br/>";
+                                    if (!$questions->videoUrl == null) {
+                                        echo "<iframe src='$questions->videoUrl' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
+                                    }
+
+                                    if (!$questions->image == null) {
+                                        $url = "data:image/jpeg;base64," . base64_encode($questions->image) ?>
+
+
+                                        <div class="img" style="background-image:url('<?php echo $url ?>')"></div>
+
+
+                                    <?php } ?>
+
+                            </div>
+                            <div class="col-12 col-md-6 answers">
+                                <?php
+
+                                    $questionType = $questions->questionType;
+
+                                    if ($questions->questionType == 0) {
+
+                                        $answerCount = 1;
+
+                                        foreach (getQuestionAnswer($getQuestionId) as $answers) {
+                                            echo "<input type=\"radio\" value=\"{$answers->answerId}\" name=\"radio_btn\">";
+                                            echo "<label for=\"{$answerCount}\">{$answers->answer}</label>";
+                                            echo "<br>";
+
+                                            if ($answers->isCorrect != null) {
+                                                $correctAnswer = $answers->answerId;
+                                            }
+
+                                            $answerCount++;
+                                        }
+                                    } elseif ($questions->questionType == 1) {
+                                ?>
+                                    <textarea id="txtQuestionAnswer" name="txtQuestionAnswer" rows="4" cols="50" wrap="hard" maxlength="255"></textarea>
+                                <?php
+                                    } elseif ($questions->questionType == 2) {
+                                ?>
+                                    <label>Afbeelding uploaden</label>
+                                    <input type="file" class="form-control-file" id="picture" name="picture">
+
+                                <?php
+                                    } elseif ($questions->questionType == 3) {
+                                ?>
+                                    <label>Video uploaden</label>
+                                    <input type="file" class="form-control-file" id="video" name="video">
                             <?php
-                            $sessionRouteId = $_SESSION["routeId"];
-                            $getQuestionId = $_GET["questionId"];
-
-                            foreach (getQuestionDetails($getQuestionId, $sessionRouteId) as $questions) {
-                                echo $questions->question;
-                                echo "<br/><br/><strong>Beschrijving: </strong><br/>";
-                                echo $questions->description;
-                                echo "<br/><br/>";
-                                if(!$questions->videoUrl == null){
-                                    echo "<iframe src='$questions->videoUrl' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
+                                    }
                                 }
-                                
-                                if (!$questions->image == null) {
-                                    $url = "data:image/jpeg;base64," . base64_encode($questions->image) ?>
-
-
-                                    <div class="img" style="background-image:url('<?php echo $url ?>')"></div>
-
-
-                                <?php } ?>
-                        </div>
-                        <div class="col-12 col-md-6 answers">
-                            <p><strong>Antwoord mogelijkheden</strong></p>
-                        <?php
-                                $questionId = $questions->questionId;
-
-                                foreach (getQuestionAnswer($questionId) as $answers) {
-                                    echo $answers->answer;
-                                    echo "<br/>";
-                                }
-                            }
-                            echo "<br/>";
-
-
-                        ?>
+                                echo "<br/>";
+                            ?>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" name="btnAnswerQuestion" class="btn submit-btn">Submit</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -100,18 +130,8 @@ include("./dataaccess/courseData.php");
 
 <script>
     function changeUrl(questionId) {
-        console.log("test")
         window.location.href = "./map.php?questionId=" + questionId;
     }
-
-    <?php
-    if (isset($_GET["questionId"])) { ?>
-        $('#exampleModal').modal('show');
-    <?php } ?>
-
-    $('#exampleModal').on('hidden.bs.modal', function () {
-        window.history.pushState("", "", '/AvansApp/map.php');
-    })
 
     //Test cords
     var coordAvansB = 51.5856651;
@@ -155,6 +175,7 @@ include("./dataaccess/courseData.php");
 
     foreach (getLocationCheck($getRouteId) as $questionMarker) {
         $i = 1;
+        if (checkIfAnswered($questionMarker->questionId, $sessionTeamId) == true) {
     ?>
         var toPush<?php echo $i?> = new Array();
         toPush<?php echo $i?>[0] = <?php echo $questionMarker->questionId ?>;
@@ -168,7 +189,9 @@ include("./dataaccess/courseData.php");
             .bindPopup("Kom dichterbij om mij tezien!");
         questionCircles.push(toPush<?php echo $i?>);
 
-    <?php $i++; }
+    <?php $i++; 
+        }
+    }
     ?>
 
     //osm layer
@@ -232,4 +255,46 @@ include("./dataaccess/courseData.php");
             });
         });
     }
+
+    <?php
+    if (isset($_GET["questionId"])) { ?>
+        $('#exampleModal').modal('show');
+    <?php } ?>
 </script>
+
+
+<?php
+$pictureQuestion = NULL;
+$videoQuestion = NULL;
+if (isset($_POST["btnAnswerQuestion"])) {
+
+    $answer;
+    if ($questionType == 0) {
+        $answer = $_POST["radio_btn"];
+    } elseif ($questionType == 1) {
+        $answer = $_POST["txtQuestionAnswer"];
+    } elseif ($questionType == 2) {
+        $answer = addslashes(file_get_contents($_FILES['picture']['tmp_name']));
+    } elseif ($questionType == 3) {
+        $answer = addslashes(file_get_contents($_FILES['video']['tmp_name']));
+    }
+    answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer);
+
+    if ($questionType == 0) {
+        checkAnswer($answer, $correctAnswer, $getQuestionId, $sessionTeamId);
+    }
+    echo "<script>"; ?>
+    window.history.pushState("", "", './map.php');
+    <?php echo "</script>";
+
+    echo "<meta http-equiv='refresh' content='0'>";
+} elseif (checkIfAnswered($questions->questionId, $sessionTeamId) == true) {
+
+    echo "<script>";
+    if (isset($_GET["questionId"])) { ?>
+        $('#myModal').modal('show');
+<?php }
+    echo "</script>";
+}
+?>
+?>
