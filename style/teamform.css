@@ -1,0 +1,40 @@
+#team2Div {
+    display: none;
+}
+
+#team3Div {
+    display: none;
+}
+
+#team4Div {
+    display: none;
+}
+
+#team5Div {
+    display: none;
+}
+
+#team6Div {
+    display: none;
+}
+
+#team7Div {
+    display: none;
+}
+
+#team8Div {
+    display: none;
+}
+
+.team label {
+    margin-top: 5px;
+}
+
+.input-group input {
+    width: 100%;
+}
+
+.startbutton {
+    border: none;
+    margin-left: 15px;
+}
