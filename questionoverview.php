@@ -3,6 +3,7 @@ include("./dataaccess/databaseconnection.php");
 include("./dataaccess/routeData.php");
 include("./dataaccess/courseData.php");
 include("./dataaccess/questionData.php");
+include("./dataaccess/teamData.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,6 +27,14 @@ include("./dataaccess/questionData.php");
     <?php include("templates/questionoverviewheader.php");
     session_start();
     include("../AvansApp/logic/sessionRedirect.php");
+    $sessionRouteId = $_SESSION["routeId"];
+    $sessionTeamId = $_SESSION["teamId"];
+    foreach (getAllFinishedTeamsInRoute($sessionRouteId) as $team) {
+        if ($team->id === $sessionTeamId) {
+            header("Location: index.php");
+            exit();
+        }
+    }
     ?>
     <main>
         <div class="wrap">
@@ -73,7 +82,8 @@ include("./dataaccess/questionData.php");
                                 if (checkIfAnswered($questions->questionId, $sessionTeamId) == true) {
                             ?><li class="questionli"> <?php echo $questions->question; ?></li>
                             <?php
-                            }}
+                                }
+                            }
 
                             ?>
                         </ol>
@@ -163,11 +173,11 @@ include("./dataaccess/questionData.php");
                                                 <label>Afbeelding uploaden</label>
                                                 <input type="file" class="form-control-file" id="picture" name="picture">
 
-                                            <?php
-                                                } 
+                                        <?php
+                                                }
                                             }
                                             echo "<br/>";
-                                            ?>
+                                        ?>
                                         </div>
                                     </div>
                                 </div>
@@ -207,8 +217,8 @@ if (isset($_POST["btnAnswerQuestion"])) {
     } elseif ($questionType == 3) {
         $answer = addslashes(file_get_contents($_FILES['video']['tmp_name']));
     }
-    answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer);  
-    
+    answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer);
+
     getQuestionPoints($getQuestionId);
 
     if ($questionType == 0) {
