@@ -280,8 +280,12 @@ if (isset($_POST["btnAnswerQuestion"])) {
     }
     answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer);
 
+    getQuestionPoints($getQuestionId);
+
     if ($questionType == 0) {
-        checkAnswer($answer, $correctAnswer, $getQuestionId, $sessionTeamId);
+        checkAnswer($answer, $correctAnswer, $getQuestionId, $sessionTeamId, getQuestionPoints($getQuestionId));
+    } else {
+        addPoints($sessionTeamId, getQuestionPoints($getQuestionId));
     }
     echo "<script>"; ?>
     window.history.pushState("", "", './map.php');
