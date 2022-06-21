@@ -37,7 +37,6 @@
 .collapsible-content {
   padding: 0 15px;
   overflow: hidden;
-  transition: 0.3s ease-out;
   background-color: #fff;
   transform: scale(0, 100%);
   display: none;

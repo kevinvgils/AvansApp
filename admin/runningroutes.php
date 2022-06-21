@@ -34,7 +34,7 @@ if (isset($_POST["button"])) {
         <?php
             foreach (getAllFinishedTeamsInRoute($_GET['id']) as $team) {?>
                 <div class="col-12 mb-3">
-                    <div class="itemWrap">
+                    <div class="itemWrap <?php if (isset($_POST['teamId']) && $team->id == $_POST['teamId']) { echo "active"; }?>">
                         <button type="button" class="collapsible itemHeader">
                             <img src="../img/down-arrow.png" alt="Down Arrow" width="30" height="30">
                             <h3 class="collapsible-text"><?php echo $team->name; ?> | Voltooid</h3>
@@ -97,7 +97,7 @@ if (isset($_POST["button"])) {
             <?php
             foreach (getAllActiveTeamsInRoute($_GET['id']) as $team) { ?>
                 <div class="col-12 mb-3">
-                    <div class="itemWrap">
+                    <div class="itemWrap <?php if (isset($_POST['teamId']) && $team->id == $_POST['teamId']) { echo "active"; }?>">
                         <button type="button" class="collapsible itemHeader">
                             <img src="../img/down-arrow.png" alt="Down Arrow" width="30" height="30">
                             <h3 class="collapsible-text"><?php echo $team->name; ?> | </h3>
