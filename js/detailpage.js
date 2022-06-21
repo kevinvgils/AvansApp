@@ -109,6 +109,10 @@ function latLongChecked() {
         document.getElementById("latLongDiv").style.display = 'flex';
         document.getElementById("lat").required = true;
         document.getElementById("long").required = true;
+
+        setTimeout(function() {
+            map.invalidateSize();
+        }, 10);
     } else {
         document.getElementById("latLongDiv").style.display = 'none';
         document.getElementById("lat").value = null;
