@@ -72,7 +72,7 @@ if (isset($_POST["button"]) && $_POST["button"] != null) {
 
             foreach ((empty($startTime)) ? getAllFinishedTeamsInRoute($_GET['id']) : getAllFinishedTeamsInRouteWithTime($_GET['id'], $startTime) as $team) { ?>
                 <div class="col-12 mb-3">
-                    <div class="itemWrap">
+                    <div class="itemWrap <?php if (isset($_POST['teamId']) && $team->id == $_POST['teamId']) { echo "active"; }?>">
                         <button type="button" class="collapsible itemHeader">
                             <img src="../img/down-arrow.png" alt="Down Arrow" width="30" height="30">
                             <h3 class="collapsible-text"><?php echo $team->name; ?> | Voltooid</h3>
@@ -139,7 +139,7 @@ if (isset($_POST["button"]) && $_POST["button"] != null) {
 
             foreach ((empty($startTime)) ? getAllActiveTeamsInRoute($_GET['id']) : getAllActiveTeamsInRouteWithTime($_GET['id'], $startTime) as $team) { ?>
                 <div class="col-12 mb-3">
-                    <div class="itemWrap">
+                    <div class="itemWrap <?php if (isset($_POST['teamId']) && $team->id == $_POST['teamId']) { echo "active"; }?>">
                         <button type="button" class="collapsible itemHeader">
                             <img src="../img/down-arrow.png" alt="Down Arrow" width="30" height="30">
                             <h3 class="collapsible-text"><?php echo $team->name; ?> | </h3>
@@ -216,13 +216,7 @@ if (isset($_POST["button"]) && $_POST["button"] != null) {
 
     for (i = 0; i < coll.length; i++) {
         coll[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-            }
+            this.parentElement.classList.toggle("active");
         });
     }
 </script>
