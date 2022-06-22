@@ -24,7 +24,7 @@ include("../logic/adminRedirect.php");
         <div class="wrap row">
             <div class="col-12 mb-3">
                 <a class="button px-3 py-1" href="addroute.php">
-                    Add route
+                    Route toevoegen
                 </a>
             </div>
             <?php

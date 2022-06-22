@@ -23,54 +23,57 @@ endRoute($teamId);
 
 <body>
     <?php include("templates/header.php"); ?>
-    <main>                            
+    <main>
         <?php
-            foreach(getTeamScore($teamId) as $team){      
+        foreach (getTeamScore($teamId) as $team) {
         ?>
-        <div class="wrap">
-            <div class="item mobilecentered">
-                <div class="itemWrap">
+            <div class="wrap">
+                <div class="item mobilecentered">
+                    <div class="itemWrap">
                         <div class="itemHeader">
-                            <h3>Eind score: <?php echo $team->name; ?></h3>
+                            <h3>Eindscore: <?php echo $team->name; ?></h3>
                         </div>
 
                         <div class="itemContent">
-                            <?php 
-                            
+                            <?php
+
                             $teamName = $team->name;
                             $sTime = strtotime($team->startTime);
                             $eTime = strtotime($team->endTime);
-                            $totalTime = ($eTime-$sTime) / 60;
-                            
-                            ?> <p>Score: <strong id="teamScore"></strong><p/><?php
-                            echo "Begintijd: ";
-                            echo date('H:i:s', strtotime($team->startTime));
-                            echo "<br/> Eindtijd: ";
-                            echo date('H:i:s', strtotime($team->endTime));
-                            echo "<br/>";
-                            echo "Totale tijd: ";
-                            echo number_format($totalTime, 2, '.', ',');
-                            echo " min <br/>";
-                            }
+                            $totalTime = ($eTime - $sTime) / 60;
 
-                            $position = 0;
-                            foreach(getPositionLeaderBoard($routeId) as $leaderboard){
-                                
-                                $position++;
-                                if($teamName == $leaderboard->name){
-                                   
-                                echo "Plek ";    
-                                echo $position;
-                                echo " van de ";
-                                }
-                            }
+                            ?> <p>Score: <strong id="teamScore"></strong>
+                                <p /><?php
+                                        echo "Begintijd: ";
+                                        echo date('H:i:s', strtotime($team->startTime));
+                                        echo "<br/> Eindtijd: ";
+                                        echo date('H:i:s', strtotime($team->endTime));
+                                        echo "<br/>";
+                                        echo "Totale tijd: ";
+                                        foreach (getEndTime($team->id) as $time) {
+                                            echo $time->finalTime;
+                                        }
+                                        echo "<br/>";
+                                    }
 
-                            foreach(getAmountStoppedTeams($routeId) as $AmountOfTeams){
-                                echo $AmountOfTeams->Amount;
-                                echo " teams";
-                            }
-                            
-                            ?>  
+                                    $position = 0;
+                                    foreach (getPositionLeaderBoard($routeId) as $leaderboard) {
+
+                                        $position++;
+                                        if ($teamName == $leaderboard->name) {
+
+                                            echo "Plek ";
+                                            echo $position;
+                                            echo " van de ";
+                                        }
+                                    }
+
+                                    foreach (getAmountStoppedTeams($routeId) as $AmountOfTeams) {
+                                        echo $AmountOfTeams->Amount;
+                                        echo " teams";
+                                    }
+
+                                        ?>
                         </div>
                     </div>
                 </div>
@@ -80,17 +83,17 @@ endRoute($teamId);
 
 <script>
     function animateValue(obj, start, end, duration) {
-    let startTimestamp = null;
-    const step = (timestamp) => {
-        if (!startTimestamp) startTimestamp = timestamp;
-        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        obj.innerHTML = Math.floor(progress * (end - start) + start);
-        if (progress < 1) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            obj.innerHTML = Math.floor(progress * (end - start) + start);
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }
+        };
         window.requestAnimationFrame(step);
-        }
-    };
-    window.requestAnimationFrame(step);
-}
+    }
 
     const obj = document.getElementById("teamScore");
     animateValue(obj, 0, <?php echo $team->score; ?>, 2500);

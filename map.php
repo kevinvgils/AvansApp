@@ -193,7 +193,7 @@ include("./dataaccess/teamData.php");
                     radius: 40
                 })
                 .addTo(map)
-                .bindPopup("Kom dichterbij om mij tezien!");
+                .bindPopup("Kom dichterbij om mij te zien!");
             questionCircles.push(toPush<?php echo $i ?>);
 
     <?php $i++;
@@ -259,7 +259,7 @@ include("./dataaccess/teamData.php");
                         circle[1].openPopup()
                     }
                 } else {
-                    circle[1].setPopupContent("Kom dichterbij om mij tezien!")
+                    circle[1].setPopupContent("Kom dichterbij om mij te zien!")
                 }
             });
         });
