@@ -104,7 +104,7 @@ include("./dataaccess/teamData.php");
                                         } elseif ($questions->questionType == 2) {
                                     ?>
                                         <label>Afbeelding uploaden</label>
-                                        <input type="file" class="form-control-file" id="picture" name="picture">
+                                        <input type="file" accept="image/*" class="form-control-file" id="picture" name="picture">
 
                                     <?php
                                         } elseif ($questions->questionType == 3) {
