@@ -28,6 +28,17 @@ function getAllTeams()
     }
     return $allTeams;
 }
+function getAllTeamsByRoute($routeId)
+{
+    include("databaseconnection.php");
+    $allTeamsQuery = "SELECT * FROM `team` WHERE `routeId` = :routeId";
+    $stm = $con->prepare($allTeamsQuery);
+    $stm->bindValue(':routeId', $routeId);
+    if ($stm->execute()) {
+        $allTeams = $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $allTeams;
+}
 
 function getAllActiveTeamsInRoute($routeId)
 {

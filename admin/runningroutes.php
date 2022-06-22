@@ -49,7 +49,7 @@ if (isset($_POST["button"]) && $_POST["button"] != null) {
                         <div class="dropdown-divider"></div>
                         <?php
                         $datearray = [];
-                        foreach (getAllTeams() as $team) { ?>
+                        foreach (getAllTeamsByRoute($id) as $team) { ?>
 
                             <?php
                             $date = $team->startDate;
