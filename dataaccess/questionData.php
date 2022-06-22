@@ -213,7 +213,7 @@ function answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer)
     if ($questionType == 0) {
         $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `multipleChoiceAnswer`) VALUES (:teamId, :questionId, :answer)";
     } else if ($questionType == 1) {
-        $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `openAnswer`) VALUES (:teamId, :questionId, ':answer')";
+        $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `openAnswer`) VALUES (:teamId, :questionId, :answer)";
     } else if ($questionType == 2) {
         $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `imageAnswer`) VALUES (:teamId, :questionId, '$answer')";
     }

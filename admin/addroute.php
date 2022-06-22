@@ -70,7 +70,7 @@ if (isset($_POST["btnOpslaan"])) {
                                 <?php } ?>
                             </select>
                             <label>Route afbeelding</label>
-                            <input type="file" class="form-control-file" id="picture" name="picture">
+                            <input type="file" accept="image/*" class="form-control-file" id="picture" name="picture">
                             <input type="submit" name="btnOpslaan" value="Route opslaan" class="button buttonWrap">
                         </form>
                     </div>
