@@ -211,13 +211,18 @@ function answerQuestion($sessionTeamId, $getQuestionId, $questionType, $answer)
 
     $query = "";
     if ($questionType == 0) {
-        $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `multipleChoiceAnswer`) VALUES ($sessionTeamId, $getQuestionId, $answer)";
+        $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `multipleChoiceAnswer`) VALUES (:teamId, :questionId, :answer)";
     } else if ($questionType == 1) {
-        $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `openAnswer`) VALUES ($sessionTeamId, $getQuestionId, '$answer')";
+        $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `openAnswer`) VALUES (:teamId, :questionId, ':answer')";
     } else if ($questionType == 2) {
-        $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `imageAnswer`) VALUES ($sessionTeamId, $getQuestionId, '$answer')";
+        $query = "INSERT INTO `team_question`(`teamId`, `questionId`, `imageAnswer`) VALUES (:teamId, :questionId, '$answer')";
     }
     $stm = $con->prepare($query);
+    $stm->bindValue(':teamId', $sessionTeamId);
+    $stm->bindValue(':questionId', $getQuestionId);
+    if($questionType != 2) {
+        $stm->bindValue(':answer', $answer);
+    }
     $stm->execute();
 }
 

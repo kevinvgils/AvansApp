@@ -32,8 +32,9 @@ include("../logic/editQuestion.php");
             // variable id ophalen uit url
             $somevar = $_GET["id"];
             // query op routeid gebaseert op id uit url
-            $query = "SELECT * FROM `route` WHERE `routeId` = " . $somevar;
+            $query = "SELECT * FROM `route` WHERE `routeId` = :routeId";
             $stm = $con->prepare($query);
+            $stm->bindValue(':routeId', $somevar);
             if ($stm->execute()) {
                 $result = $stm->fetchAll(PDO::FETCH_OBJ);
                 foreach ($result as $route) {
