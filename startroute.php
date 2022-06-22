@@ -45,6 +45,8 @@ if (isset($_POST["btnOpslaan"])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/addRoute.css">
+    <link rel="stylesheet" href="style/teamform.css">
+
     <title>AvansApp</title>
 </head>
 
@@ -73,28 +75,71 @@ if (isset($_POST["btnOpslaan"])) {
                                     <?php if (isset($_GET['error'])) { ?><label class="error"><?php echo $_GET['error']; ?></label><?php } ?>
                                     <label>Team naam</label>
                                     <input name="txtTeamName" type="text" placeholder="Team naam..." required>
-                                    <label>Teamlid 1</label>
-                                    <input name="txtlid1" type="text" placeholder="Teamlid 1">
-                                    <label>Teamlid 2</label>
-                                    <input name="txtlid2" type="text" placeholder="Teamlid 2">
-                                    <label>Teamlid 3</label>
-                                    <input name="txtlid3" type="text" placeholder="Teamlid 3">
-                                    <label>Teamlid 4</label>
-                                    <input name="txtlid4" type="text" placeholder="Teamlid 4">
-                                    <label>Teamlid 5</label>
-                                    <input name="txtlid5" type="text" placeholder="Teamlid 5">
-                                    <label>Teamlid 6</label>
-                                    <input name="txtlid6" type="text" placeholder="Teamlid 6">
-                                    <label>Teamlid 7</label>
-                                    <input name="txtlid7" type="text" placeholder="Teamlid 7">
-                                    <label>Teamlid 8</label>
-                                    <input name="txtlid8" type="text" placeholder="Teamlid 8">
-
-                                    <input type="submit" name="btnOpslaan" value="Route starten" class="button buttonWrap">
-                                </form>
+                                    <label>Aantal teamleden</label>
+                                    <select class="mb-2 inputbox" onchange="showTeamFields(this)">
+                                        <option selected value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                    </select>
+                                    <div class="team">
+                                        <label for="txtlid1">Teamlid 1</label>
+                                        <div class="input-group mb-2">
+                                            <input name="txtlid1" id="team1Txt" type="text" placeholder="Teamlid 1" required>
+                                        </div>
+                                    </div>
+                                    <div id="team2Div" class="team">
+                                        <label for="txtlid2">Teamlid 2</label>
+                                        <div class="input-group mb-2">
+                                            <input name="txtlid2" id="team2Txt" type="text" placeholder="Teamlid 2" required>
+                                        </div>
+                                    </div>
+                                    <div id="team3Div" class="team">
+                                        <label for="txtlid3">Teamlid 3</label>
+                                        <div class="input-group mb-2">
+                                            <input name="txtlid3" id="team3Txt" type="text" placeholder="Teamlid 3" required>
+                                        </div>
+                                    </div>
+                                    <div id="team4Div" class="team">
+                                        <label for="txtlid4">Teamlid 4</label>
+                                        <div class="input-group mb-2">
+                                            <input name="txtlid4" id="team4Txt" type="text" placeholder="Teamlid 4" required>
+                                        </div>
+                                    </div>
+                                    <div id="team5Div" class="team">
+                                        <label for="txtlid5">Teamlid 5</label>
+                                        <div class="input-group mb-2">
+                                            <input name="txtlid5" id="team5Txt" type="text" placeholder="Teamlid 5" required>
+                                        </div>
+                                    </div>
+                                    <div id="team6Div" class="team">
+                                        <label for="txtlid6">Teamlid 6</label>
+                                        <div class="input-group mb-2">
+                                            <input name="txtlid6" id="team6Txt" type="text" placeholder="Teamlid 6" required>
+                                        </div>
+                                    </div>
+                                    <div id="team7Div" class="team">
+                                        <label for="txtlid7">Teamlid 7</label>
+                                        <div class="input-group mb-2">
+                                            <input name="txtlid7" id="team7Txt" type="text" placeholder="Teamlid 7" required>
+                                        </div>
+                                    </div>
+                                    <div id="team8Div" class="team">
+                                        <label for="txtlid8">Teamlid 8</label>
+                                        <div class="input-group mb-2">
+                                            <input name="txtlid8" id="team8Txt" type="text" placeholder="Teamlid 8" required>
+                                        </div>
+                                    </div>
                             </div>
+                            <input type="submit" name="btnOpslaan" value="Route starten" class="button buttonWrap startbutton">
+                            </form>
                         </div>
                     </div>
+                </div>
 
 
                 </div>
@@ -102,5 +147,12 @@ if (isset($_POST["btnOpslaan"])) {
         } ?>
     </main>
 </body>
+
+<!-- JS code -->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="./js/startroute.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+<!--JS below-->
 
 </html>
