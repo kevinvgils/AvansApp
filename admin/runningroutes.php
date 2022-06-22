@@ -95,16 +95,16 @@ if (isset($_POST["button"]) && $_POST["button"] != null) {
                                 <div class="fullwidth" style="border-bottom: solid black 1px; margin-bottom: 20px; padding-bottom: 20px;">
                                     <p <?php
                                         if ($key === false) {
-                                        } else if ($answers[$key]->correct === 1) {
-                                            var_dump($key);
+                                        } else if ($answers[$key]->correct == 1) {
                                             echo "style=\"color: green\"";
-                                        } else if ($answers[$key]->correct === 0 && $answers[$key]->correct !== NULL) {
+                                        } else if ($answers[$key]->correct == 0 && $answers[$key]->correct !== NULL) {
                                             var_dump($answers[$key]->correct);
                                             echo "style=\"color: red\"";
                                         } else if ($answers[$key]->correct === NULL) {
                                             echo "style=\"color: orange\"";
-                                        } ?> class="font-weight-bold">Vraag <?php echo $i . ": " . $question->question;
-                                                                            $i++; ?></p>
+                                        } else{
+                                            var_dump($answers[$key]->correct); 
+                                        } ?> class="font-weight-bold">Vraag <?php echo $i . ": " . $question->question; $i++; ?></p>
                                     <?php if ($key !== false) { ?>
                                         <p>Antwoord:
                                             <?php
@@ -164,16 +164,15 @@ if (isset($_POST["button"]) && $_POST["button"] != null) {
                                 <div class="fullwidth" style="border-bottom: solid black 1px; margin-bottom: 20px; padding-bottom: 20px;">
                                     <p <?php
                                         if ($key === false) {
-                                        } else if ($answers2[$key]->correct === 1) {
-                                            var_dump($key);
+                                        } else if ($answers2[$key]->correct == 1) {
                                             echo "style=\"color: green\"";
-                                        } else if ($answers2[$key]->correct === 0 && $answers2[$key]->correct !== NULL) {
-                                            var_dump($answers2[$key]->correct);
+                                        } else if ($answers2[$key]->correct == 0 && $answers2[$key]->correct !== NULL) {
                                             echo "style=\"color: red\"";
                                         } else if ($answers2[$key]->correct === NULL) {
                                             echo "style=\"color: orange\"";
-                                        } ?> class="font-weight-bold">Vraag <?php echo $i . ": " . $question->question;
-                                                                            $i++; ?></p>
+                                        } else{
+                                            var_dump($answers2[$key]->correct);
+                                        } ?> class="font-weight-bold">Vraag <?php echo $i . ": " . $question->question; $i++; ?></p>
                                     <?php if ($key !== false) { ?>
                                         <p>Antwoord:
                                             <?php

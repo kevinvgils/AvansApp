@@ -2,7 +2,7 @@
 include("../dataaccess/databaseconnection.php");
 include("../dataaccess/routeData.php");
 include("../dataaccess/questionData.php");
-include("../dataaccess/coursedata.php");
+include("../dataaccess/courseData.php");
 include("../logic/editQuestion.php");
 ?>
 <!DOCTYPE html>
