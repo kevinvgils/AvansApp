@@ -88,6 +88,7 @@ if (isset($_POST["button"]) && $_POST["button"] != null) {
                             <?php
                             $i = 1;
                             $answers = getAllAnswersForTeam($team->id);
+                            if($answers != null){
                             foreach (getAllQuestionsForRoute($_GET['id']) as $question) {
                                 $key = array_search($question->questionId, array_column($answers, 'questionId')); ?>
                                 <div class="fullwidth" style="border-bottom: solid black 1px; margin-bottom: 20px; padding-bottom: 20px;">
@@ -117,19 +118,21 @@ if (isset($_POST["button"]) && $_POST["button"] != null) {
                                             <img src="<?php echo $img; ?>" alt="antwoord afbeelding" width="150" height="150">
                                         <?php } else if ($question->questionType == 3) { ?>
                                             <p>Video</p>
-                                        <?php }
-                                    } else { ?>
-                                        <p>Vraag niet beantwoord</p>
-                                    <?php } ?>
-
-                                    <div class="buttonWrap">
+                                        <?php } ?> <div class="buttonWrap">
                                         <?php if($answers[$key]->correct === null){ ?>
                                             <form method="POST" enctype="multipart/form-data"><input type="hidden" name="questionId" value="<?php echo $question->questionId; ?>"><input type="hidden" name="teamId" value="<?php echo $answers[$key]->teamId; ?>"><input type="hidden" name="id" value="<?php echo $answers[$key]->id; ?>"><input class="button" name="button" type="submit" value="Goed"></form>
                                             <form method="POST" enctype="multipart/form-data"><input type="hidden" name="questionId" value="<?php echo $question->questionId; ?>"><input type="hidden" name="teamId" value="<?php echo $answers[$key]->teamId; ?>"><input type="hidden" name="id" value="<?php echo $answers[$key]->id; ?>"><input class="button" name="button" type="submit" value="Fout"></form>
                                         <?php } ?>
-                                    </div>
+                                    </div> <?php
+                                    } else { ?>
+                                        <p>Vraag niet beantwoord</p>
+                                    <?php } ?>
+
+                                    
                                 </div>
-                            <?php } ?>
+                            <?php }}else{
+                                ?> <div class="noResult"><h5><strong>Geen vragen beantwoord</strong></h5></div> <?php
+                            } ?>
                         </div>
                     </div>
                 </div>
@@ -153,6 +156,7 @@ if (isset($_POST["button"]) && $_POST["button"] != null) {
                             <?php
                             $i = 1;
                             $answers2 = getAllAnswersForTeam($team->id);
+                            if($answers2 != null){
                             //var_dump($answers2);
                             foreach (getAllQuestionsForRoute($_GET['id']) as $question) {
                                 $key = array_search($question->questionId, array_column($answers2, 'questionId')); ?>
@@ -183,20 +187,22 @@ if (isset($_POST["button"]) && $_POST["button"] != null) {
                                             <img src="<?php echo $img; ?>" alt="antwoord afbeelding" width="150" height="150">
                                         <?php } else if ($question->questionType == 3) { ?>
                                             <p>Video</p>
-                                        <?php }
-                                    } else { ?>
-                                        <p>Vraag niet beantwoord</p>
-                                    <?php } ?>
-
-                                    <div class="buttonWrap">
+                                        <?php } ?> <div class="buttonWrap">
                                         <?php
                                         if($answers2[$key]->correct === null){ ?>
                                             <form method="POST" enctype="multipart/form-data"><input type="hidden" name="teamId" value="<?php echo $answers2[$key]->teamId; ?>"><input type="hidden" name="questionId" value="<?php echo $question->questionId; ?>"><input type="hidden" name="id" value="<?php echo $answers2[$key]->id; ?>"><input class="button" name="button" type="submit" value="Goed"></form>
                                             <form method="POST" enctype="multipart/form-data"><input type="hidden" name="teamId" value="<?php echo $answers2[$key]->teamId; ?>"><input type="hidden" name="questionId" value="<?php echo $question->questionId; ?>"><input type="hidden" name="id" value="<?php echo $answers2[$key]->id; ?>"><input class="button" name="button" type="submit" value="Fout"></form>
                                         <?php } ?>
-                                    </div>
+                                    </div> <?php
+                                    } else { ?>
+                                        <p>Vraag niet beantwoord</p>
+                                    <?php } ?>
+
+                                    
                                 </div>
-                            <?php } ?>
+                            <?php }}else{
+                               ?> <div class="noResult"><h5><strong>Geen vragen beantwoord</strong></h5></div><?php
+                            } ?>
                         </div>
                     </div>
                 </div>

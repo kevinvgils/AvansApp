@@ -94,19 +94,23 @@ header .wrap ul li {
 .item {
   margin-bottom: 50px;
 }
+
 .itemWrap {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 7px;
   height: 100%;
   position: relative;
 }
+
 .itemWrap a:hover {
   color: #fff;
   text-decoration: none;
 }
+
 .itemWrap a:hover h3 {
   text-decoration: underline;
 }
+
 .itemWrap .itemHeader {
   border-radius: 7px 7px 0px 0px;
   padding: 5px 15px;
@@ -122,7 +126,7 @@ header .wrap ul li {
   white-space: nowrap;
 }
 
-.flexitem{
+.flexitem {
   display: flex;
 }
 
@@ -141,6 +145,7 @@ header .wrap ul li {
   padding-bottom: 50px;
   height: 100%;
 }
+
 .buttonWrap {
   position: absolute;
   bottom: 15px;
@@ -148,6 +153,7 @@ header .wrap ul li {
   display: flex;
   justify-content: space-between;
 }
+
 .buttonWrap .button {
   margin-left: 10px;
 }
@@ -173,30 +179,36 @@ form input:nth-last-child(2) {
 .questions {
   margin-bottom: 20px;
 }
-  .questions .header{
-    border-bottom: 1px solid #000;
-    margin-left: 0px;
-    display: flex;
-  }
+
+.questions .header {
+  border-bottom: 1px solid #000;
+  margin-left: 0px;
+  display: flex;
+}
+
 .modal-header {
 
- background-color: #C3222A !important;
+  background-color: #C3222A !important;
 }
+
 .modal-content {
   border-radius: 6px;
 }
+
 .submit-btn {
   color: white;
   background-color: #C3222A;
 }
-.btn{
+
+.btn {
   background-color: #C3222A;
   border-color: #C3222A;
   box-shadow: 0px 4px 4px rgb(0 0 0 / 25%) !important;
   border-radius: 7px;
   padding: 3px 10px;
 }
-.btn:hover{
+
+.btn:hover {
   background-color: #78161b;
 }
 
