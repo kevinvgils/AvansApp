@@ -284,7 +284,7 @@ include("../logic/editQuestion.php");
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" name="addQuestion" class="btn btn-danger">Submit</button>
+                        <button type="submit" name="addQuestion" class="btn btn-danger">Opslaan</button>
                     </div>
                 </form>
             </div>

@@ -121,7 +121,7 @@ include("./dataaccess/teamData.php");
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" name="btnAnswerQuestion" class="btn submit-btn">Submit</button>
+                        <button type="submit" name="btnAnswerQuestion" class="btn submit-btn">Opslaan</button>
                     </div>
                 </form>
             </div>
@@ -193,7 +193,7 @@ include("./dataaccess/teamData.php");
                     radius: 40
                 })
                 .addTo(map)
-                .bindPopup("Kom dichterbij om mij tezien!");
+                .bindPopup("Kom dichterbij om mij te zien!");
             questionCircles.push(toPush<?php echo $i ?>);
 
     <?php $i++;
@@ -259,7 +259,7 @@ include("./dataaccess/teamData.php");
                         circle[1].openPopup()
                     }
                 } else {
-                    circle[1].setPopupContent("Kom dichterbij om mij tezien!")
+                    circle[1].setPopupContent("Kom dichterbij om mij te zien!")
                 }
             });
         });
