@@ -29,7 +29,7 @@ if (isset($_POST["inloggen"])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../style/style.css">
     <link rel="stylesheet" href="../style/addRoute.css">
-    <title>AvansApp</title>
+    <title>AvansApp | Admin</title>
 </head>
 <body>
     <?php include("templates/header.php"); ?>
