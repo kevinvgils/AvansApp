@@ -99,7 +99,7 @@ include("./dataaccess/teamData.php");
                                             }
                                         } elseif ($questions->questionType == 1) {
                                     ?>
-                                        <textarea id="txtQuestionAnswer" name="txtQuestionAnswer" rows="4" cols="50" wrap="hard" maxlength="255"></textarea>
+                                        <textarea style="width: inherit" id="txtQuestionAnswer" name="txtQuestionAnswer" rows="4" cols="50" wrap="hard" maxlength="255"></textarea>
                                     <?php
                                         } elseif ($questions->questionType == 2) {
                                     ?>

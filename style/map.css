@@ -8,3 +8,19 @@ body {
     height: calc(100vh - 75px);
     margin-top: -50px;
 }
+
+.answers label{
+    margin-left: 5px;
+  }
+
+@media (max-width: 768px) {
+    .border-right {
+        border: none !important;
+    }
+
+    .answers {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #dee2e6;
+    }
+}
