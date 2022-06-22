@@ -110,7 +110,7 @@ include("../logic/editQuestion.php");
                 <div class="modal-content">
                 <div class="modal-header bg-danger">
                     <h5 class="modal-title text-white">Voeg een vraag toe</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close text-white" onclick="document.location.href='detailpage.php?id=<?php echo $somevar ?>'" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
