@@ -121,7 +121,7 @@ include("./dataaccess/teamData.php");
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" name="btnAnswerQuestion" class="btn submit-btn">Submit</button>
+                        <button type="submit" name="btnAnswerQuestion" class="btn submit-btn">Opslaan</button>
                     </div>
                 </form>
             </div>
