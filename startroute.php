@@ -95,43 +95,43 @@ if (isset($_POST["btnOpslaan"])) {
                                     <div id="team2Div" class="team">
                                         <label for="txtlid2">Teamlid 2</label>
                                         <div class="input-group mb-2">
-                                            <input name="txtlid2" id="team2Txt" type="text" placeholder="Teamlid 2" required>
+                                            <input name="txtlid2" id="team2Txt" type="text" placeholder="Teamlid 2">
                                         </div>
                                     </div>
                                     <div id="team3Div" class="team">
                                         <label for="txtlid3">Teamlid 3</label>
                                         <div class="input-group mb-2">
-                                            <input name="txtlid3" id="team3Txt" type="text" placeholder="Teamlid 3" required>
+                                            <input name="txtlid3" id="team3Txt" type="text" placeholder="Teamlid 3">
                                         </div>
                                     </div>
                                     <div id="team4Div" class="team">
                                         <label for="txtlid4">Teamlid 4</label>
                                         <div class="input-group mb-2">
-                                            <input name="txtlid4" id="team4Txt" type="text" placeholder="Teamlid 4" required>
+                                            <input name="txtlid4" id="team4Txt" type="text" placeholder="Teamlid 4">
                                         </div>
                                     </div>
                                     <div id="team5Div" class="team">
                                         <label for="txtlid5">Teamlid 5</label>
                                         <div class="input-group mb-2">
-                                            <input name="txtlid5" id="team5Txt" type="text" placeholder="Teamlid 5" required>
+                                            <input name="txtlid5" id="team5Txt" type="text" placeholder="Teamlid 5">
                                         </div>
                                     </div>
                                     <div id="team6Div" class="team">
                                         <label for="txtlid6">Teamlid 6</label>
                                         <div class="input-group mb-2">
-                                            <input name="txtlid6" id="team6Txt" type="text" placeholder="Teamlid 6" required>
+                                            <input name="txtlid6" id="team6Txt" type="text" placeholder="Teamlid 6">
                                         </div>
                                     </div>
                                     <div id="team7Div" class="team">
                                         <label for="txtlid7">Teamlid 7</label>
                                         <div class="input-group mb-2">
-                                            <input name="txtlid7" id="team7Txt" type="text" placeholder="Teamlid 7" required>
+                                            <input name="txtlid7" id="team7Txt" type="text" placeholder="Teamlid 7">
                                         </div>
                                     </div>
                                     <div id="team8Div" class="team">
                                         <label for="txtlid8">Teamlid 8</label>
                                         <div class="input-group mb-2">
-                                            <input name="txtlid8" id="team8Txt" type="text" placeholder="Teamlid 8" required>
+                                            <input name="txtlid8" id="team8Txt" type="text" placeholder="Teamlid 8">
                                         </div>
                                     </div>
                             </div>
